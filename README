@@ -1,0 +1,20 @@
+Noyes is a signal processing library.  It currently has just enough signal
+processing to produce features suitable for speech recognition.
+
+Pronunciation:  Typically pronounced the same as 'noise'.  But "NO!... YES!" is
+considered acceptable if you yell it loudly enough or at least with sufficient
+conviction to make people think you have truly changed your mind.
+
+Noyes is implemented entirely in Ruby.  It's also implemented entirely in Java.
+The Java version has Ruby bindings too.  So you can have Java's speed from
+Ruby.  All versions share the same unit tests, which are written in Ruby.  The
+design goal is to have signal processing routines that are so simple and so
+disentangled from the overall system that anyone could extract any of the
+routines and use them elsewhere with little trouble.  Benchmarks are included.
+
+Requirements:
+  Almost any version of ruby & rake.
+  Java, if you want to use the Java version.
+
+For usage information:
+  rake -T

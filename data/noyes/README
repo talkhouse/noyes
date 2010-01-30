@@ -1,0 +1,2 @@
+All the results here are 8Khz examples.  noise.flac was transformed into
+intermediate 8Khz results using noyes_dump_8k.sh.

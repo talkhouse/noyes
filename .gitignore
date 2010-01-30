@@ -1,0 +1,8 @@
+.DS_Store
+*.swp
+*.swo
+*#
+build
+out
+ship
+.tags
