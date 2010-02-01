@@ -131,7 +131,7 @@ begin
     s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << Dir['lib/*.rb']
     s.test_files = []
     s.require_paths = ['lib/ruby_impl', 'lib/common', 'lib']
-    s.extra_rdoc_files = ['README', 'doc/syntax.rb']
+    s.extra_rdoc_files = ['README', 'doc/syntax.rb', 'COPYING']
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
