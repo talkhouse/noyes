@@ -1,6 +1,8 @@
 .DS_Store
 *.swp
 *.swo
+*.gemspec
+pkg
 *#
 build
 out
