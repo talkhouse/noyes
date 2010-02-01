@@ -93,24 +93,30 @@ module BenchTask
   namespace :bench do
     desc "Benchmark ruby implementation using ruby."
     task :ruby do
+      puts "Benchmarking Ruby implemenation."
       SRC.each do |src|
-        sh "ruby -Ilib/common:lib/ruby #{src}"
+        sh "ruby -Ilib:lib/common:lib/ruby_impl #{src}"
       end
     end
     desc "Benchmark ruby implementation using jruby."
     task :jruby do
+      puts "Benchmarking JRuby implemenation."
       SRC.each do |src|
-        sh "jruby -Ilib/common:lib/ruby #{src}"
+        sh "jruby -Ilib:lib/common:lib/ruby_impl #{src}"
       end
     end
-    desc "Benchmark java implementation."
+    desc "Benchmark Java implementation."
     task :java do
       SRC.each do |src|
-        sh "jruby -Ilib/common:lib/java:ship -rjava -rjavaimpl.jar #{src}"
+        puts "Benchmarking java implemenation."
+        sh "jruby -Ilib:lib/common:lib/java_impl:ship -rjava -rjavaimpl.jar #{src}"
       end
     end
   end
 end
+
+desc 'Benchmark all implementations.'
+task :bench => ['bench:ruby', 'bench:java', 'bench:jruby']
 
 begin
   require 'jeweler'

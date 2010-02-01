@@ -1,9 +1,10 @@
 require 'benchmark'
-require 'signal'
+require 'noyes'
 include Signal
 
-Benchmark.bm do |x|
-  data = IO.read('data/nlis/mic.raw').unpack 'G*'
+Benchmark.bm do |b|
+  packed = IO.read 'data/noyes/raw.dat'
+  data = packed.unpack('n*').map {|x| to_signed_short(x).to_f}
   preemphasizer = Preemphasizer.new 0.97
   segmenter = Segmenter.new 1130, 441 
   hamming_windower = HammingWindow.new 1130
@@ -13,14 +14,14 @@ Benchmark.bm do |x|
   live_cmn = LiveCMN.new
   ddf = DoubleDeltaFilter.new
   
-  x.report("preemphasizer")             {data >>= preemphasizer}
-  x.report("segmenter")                 {data >>= segmenter}
-  x.report("hamming_windower")          {data >>= hamming_windower}
-  x.report("power_spectrum_filter")     {data >>= power_spectrum_filter}
-  x.report("mel_filter")                {data >>= mel_filter}
-  x.report("log")                       {data = log_compress data}
-  x.report("discrete_cosine_transform") {data >>= discrete_cosine_transform}
-  x.report("live_cmn")                  {data >>= live_cmn}
-  x.report("ddf")                       {data >>= ddf}
+  b.report("preemphasizer")             {data >>= preemphasizer}
+  b.report("segmenter")                 {data >>= segmenter}
+  b.report("hamming_windower")          {data >>= hamming_windower}
+  b.report("power_spectrum_filter")     {data >>= power_spectrum_filter}
+  b.report("mel_filter")                {data >>= mel_filter}
+  b.report("log")                       {data = log_compress data}
+  b.report("discrete_cosine_transform") {data >>= discrete_cosine_transform}
+  b.report("live_cmn")                  {data >>= live_cmn}
+  b.report("ddf")                       {data >>= ddf}
 end
 
