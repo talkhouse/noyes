@@ -12,9 +12,21 @@ design goal is to have signal processing routines that are so simple and so
 disentangled from the overall system that anyone could extract any of the
 routines and use them elsewhere with little trouble.  Benchmarks are included.
 
+This library places an emphasis on expressiveness without sacrificing ultimate
+performance.  It does so by supporting multiple implementations each with Ruby
+bindings.  The pure Ruby version, while not fast, is often adequate for
+development and is the best place to add new routines.    
+
+For examples of how to link with different implementations see the test section
+of the Rakefile.  At present only the pure Ruby implementation is exposed via
+the gem.
+
 Requirements:
   Almost any version of ruby & rake.
   Java, if you want to use the Java version.
+
+  Some of the utility scripts may use sox, but
+  none of the core routines use it.
 
 For usage information:
   rake -T
