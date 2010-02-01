@@ -1,4 +1,4 @@
-require 'signal'
+require 'noyes'
 include Signal
 
 TMAGIC = '1.0 talkhouse'

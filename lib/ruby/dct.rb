@@ -1,4 +1,4 @@
-require 'math_ext'
+require 'noyes_math'
 
 class DCT 
   include Math

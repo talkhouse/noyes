@@ -1,4 +1,4 @@
-require 'math_ext'
+require 'noyes_math'
 module Signal
   class MelFilter  
     include Math

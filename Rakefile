@@ -18,9 +18,6 @@ def make_jar objs, lang
   file jar => 'ship' do
     sh "jar -cf #{jar} -C build/#{lang}/ ."
   end
-  
-  objs.each {|obj| file jar => obj}
-  objtrunc = objs.map {|obj| obj.sub /^build\/duby\//, ''}
 end
 
 module JavaBuild
@@ -36,21 +33,7 @@ module JavaBuild
   make_jar OBJ, 'java'
 end
 
-module DubyBuild
-  SRC = Dir['lib/duby/**/*.duby']
-  OBJ = SRC.map {|s| s.pathmap "%{^lib,build}X.class"}
-  SRC.zip(OBJ).each do |src, obj|
-    file obj => src do
-      ensure_dir obj
-    sh "pwd"
-      sh "cd lib/duby; dubyc #{src.sub /^lib\/duby\//, ''}"
-      mv src.sub(/duby$/, 'class'), obj
-    end
-  end
-  make_jar OBJ, 'duby'
-end
-
-task :build => JavaBuild::OBJ + DubyBuild::OBJ
+task :build => JavaBuild::OBJ
 task :default => :build
 
 module Tags
@@ -64,19 +47,15 @@ end
 namespace :test do
   desc 'Test ruby implementation under jruby'
   task :jruby do
-    sh "jruby -Ilib/common:lib/ruby:test test/ts_all.rb"
+    sh "jruby Ilib/ruby:test test/ts_all.rb"
   end
   desc 'Test java implementation'
   task :java => :jar do
-    sh "jruby -Ilib/common:lib/java:ship:test -rjava -rjavaimpl.jar test/ts_all.rb"
-  end
-  desc 'Thoroughly test java implementation'
-  task :alljava => :jar do
-    sh "jruby -Ilib/common:lib/java:ship:test -rjava -rjavaimpl.jar test/tc_s4.rb"
+    sh "jruby -Ilib:lib/java:lib/common:test:ship -rjava -rjavaimpl.jar test/ts_all.rb"
   end
   desc 'Test ruby implementation under default ruby'
   task :ruby do
-    sh "ruby -Ilib/common:lib/ruby:test test/ts_all.rb"
+    sh "ruby -Ilib:lib/ruby:lib/common:test test/ts_all.rb"
   end
 end
 
@@ -123,4 +102,23 @@ module BenchTask
       end
     end
   end
+end
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = "noyes"
+    s.summary = "A signal processing library"
+    s.description = "Currently sufficient to create basic features for speech recognition"
+    s.email = "joe@talkhouse.com"
+    s.homepage = "http://github.com/talkhouse/noise"
+    s.authors = ["Joe Woelfel"]
+    s.files = Dir['lib/ruby/*rb'] + Dir['lib/common/*.rb'] << Dir['lib/*.rb']
+    s.test_files = []
+    s.require_paths = ['lib/ruby', 'lib/common', 'lib']
+    s.extra_rdoc_files = ['README', 'doc/syntax.rb']
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler not available. Install it with: gem install jeweler"
 end
