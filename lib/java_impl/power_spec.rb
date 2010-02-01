@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class PowerSpectrumFilter
     def initialize nfft
       @ps = Java::talkhouse.PowerSpec.new nfft

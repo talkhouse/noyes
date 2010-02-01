@@ -1,5 +1,5 @@
 include Java
-module Signal
+module Noyes
   class Segmenter
     def initialize win_size, win_shift
       @seg = Java::talkhouse.Segmenter.new win_size, win_shift

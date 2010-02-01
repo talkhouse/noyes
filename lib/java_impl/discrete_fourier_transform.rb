@@ -1,5 +1,5 @@
 require 'complex'
-module Signal
+module Noyes
   def dft data, size
     data = data.to_java :double
     x = Java::talkhouse::DiscreteFourierTransform.apply data, size

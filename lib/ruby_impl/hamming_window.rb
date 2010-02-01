@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class HammingWindow
     include Math
     def initialize window_size

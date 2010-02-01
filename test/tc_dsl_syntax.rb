@@ -2,7 +2,7 @@ require 'test/unit'
 require 'noyes'
 
 class TestFrontEnd < Test::Unit::TestCase
-  include Signal
+  include Noyes
   def test_tiny
     data = (1..32).to_a
     segmenter = Segmenter.new 4, 2

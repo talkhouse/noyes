@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class DoubleDeltaFilter
     def initialize
       @previous = nil

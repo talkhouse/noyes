@@ -1,7 +1,7 @@
 require 'discrete_fourier_transform'
-module Signal
+module Noyes
   class PowerSpectrumFilter
-    include Signal
+    include Noyes
     def initialize nfft
       @nfft = nfft
     end

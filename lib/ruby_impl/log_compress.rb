@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class LogCompressor
     def initialize log_zero = -0.00001
       @log_zero = log_zero

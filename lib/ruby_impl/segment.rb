@@ -4,7 +4,7 @@
 # arrays for example.  This is good for speed.  Typically, we'd want a window
 # size of 410 samples.  This corresponds to a 25.625 millisecond window in a
 # 16khz audio stream.
-module Signal
+module Noyes
   class Segmenter
     def initialize winsz, winshift
       @winsz = winsz; @winshift = winshift

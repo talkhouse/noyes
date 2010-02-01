@@ -7,7 +7,7 @@ require 'log_compress'
 require 'tu_extensions.rb'
 
 class TestLogCompress < Test::Unit::TestCase
-  include Signal
+  include Noyes
   def test_log_compress
     y = [[1,2,3],[4,5,6]]
     compressor = LogCompressor.new

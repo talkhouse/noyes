@@ -3,7 +3,7 @@ require 'mel_filter'
 require 'tu_extensions.rb'
 
 class TestMelFilter < Test::Unit::TestCase
-  include Signal
+  include Noyes
     def test_to_mel
       1000.step 20000, 1000 do |linear_freq|
         mel_freq = MelFilter.to_mel linear_freq

@@ -4,7 +4,7 @@ require 'segment'
 
 class TestHammingWindow < Test::Unit::TestCase
   include Math
-  include Signal
+  include Noyes
   def test_unity_segment
     ham = HammingWindow.new 10
     res = ham << [[1,1,1,1,1,1,1,1,1,1]]

@@ -4,7 +4,7 @@ require 'segment'
 require 'hamming_window'
 
 class TestPowerSpec < Test::Unit::TestCase
-  include Signal
+  include Noyes
     def test_power_spec
     data = (1..32).to_a
     seg = Segmenter.new 4, 2

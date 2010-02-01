@@ -3,7 +3,7 @@ require 'noyes'
 require 'tu_extensions.rb'
 
 class TestIncremental < Test::Unit::TestCase
-  include Signal
+  include Noyes
   DD = 'data/noyes'
   def setup
     @nfilt = 32

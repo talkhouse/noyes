@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class LogCompressor
     def initialize log_zero = -0.00001
       @compressor = Java::talkhouse.LogCompressor.new log_zero

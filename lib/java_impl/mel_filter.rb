@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class MelFilter
     def initialize srate, nfft, nfilt, lowerf, upperf
       @jmf = Java::talkhouse.MelFilter.new srate, nfft, nfilt, lowerf, upperf

@@ -1,5 +1,5 @@
 include Java
-module Signal
+module Noyes
   class HammingWindow
     def initialize window_size
       @hw = Java::talkhouse.HammingWindow.new window_size

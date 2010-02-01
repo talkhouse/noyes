@@ -3,7 +3,7 @@ require 'test/tu_extensions.rb'
 require 'noyes'
 
 class TestDelta < Test::Unit::TestCase
-  include Signal
+  include Noyes
   # Velocity and change should always be zero for unchanging data.
   def test_flatline
     double_delta_filter = DoubleDeltaFilter.new

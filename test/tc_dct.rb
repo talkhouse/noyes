@@ -2,7 +2,7 @@ require 'test/unit'
 require 'dct'
 
 class TestDCT < Test::Unit::TestCase
-  include Signal
+  include Noyes
   def test_dct
     l = [[-0.549531548230654, -0.550656706154242, -0.551802382907952,
           -0.553541428429674, -0.555638433069421, -0.558584981788539, -0.562023027212511,

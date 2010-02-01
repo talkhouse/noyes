@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class DCT
     def initialize order, ncol
       @jdct = Java::talkhouse.DiscreteCosineTransform.new order, ncol

@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class Filter
     def initialize weights
       @weights = weights

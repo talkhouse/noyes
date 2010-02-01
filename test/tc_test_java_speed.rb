@@ -3,7 +3,7 @@ require 'segment'
 require 'hamming_window'
 
 class TestRubySpeed < Test::Unit::TestCase
-  include Signal
+  include Noyes
   def test_hamming_window
     seg = Segmenter.new
     ham = HammingWindow.new 10

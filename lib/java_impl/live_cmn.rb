@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class LiveCMN
     def initialize dimensions=13, mean=45.0, window_size=100, shift=160
       @j_filt = Java::talkhouse.LiveCMN.new 13, 45.0, 100, 160

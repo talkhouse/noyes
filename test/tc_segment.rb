@@ -3,7 +3,7 @@ require 'segment'
 require 'tu_extensions.rb'
 
 class TestSegment < Test::Unit::TestCase
-  include Signal
+  include Noyes
   def test_ruby_array
     seg = Segmenter.new 4, 2
     data = (1..14).to_a

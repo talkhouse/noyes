@@ -1,6 +1,6 @@
 require 'complex'
 
-module Signal
+module Noyes
   include Math
 
   def dft data,size

@@ -1,5 +1,5 @@
 require 'noyes'
-include Signal
+include Noyes
 
 TMAGIC = '1.0 talkhouse'
 TSTART = [0].pack('N')

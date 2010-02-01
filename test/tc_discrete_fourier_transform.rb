@@ -4,7 +4,7 @@ require 'segment'
 
 class TestDiscreteFourierTransform < Test::Unit::TestCase
   include Math
-  include Signal
+  include Noyes
   def test_impulse
     data = [1] + Array.new(409, 0)
     res = dft data, 512 

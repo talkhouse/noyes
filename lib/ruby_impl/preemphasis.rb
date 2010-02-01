@@ -1,4 +1,4 @@
-module Signal
+module Noyes
   class Preemphasizer
     include Math
     def initialize factor=0.97

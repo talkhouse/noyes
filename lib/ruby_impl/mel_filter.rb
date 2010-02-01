@@ -1,5 +1,5 @@
 require 'noyes_math'
-module Signal
+module Noyes
   class MelFilter  
     include Math
     def initialize srate, nfft, nfilt, lowerf, upperf

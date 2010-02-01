@@ -3,7 +3,7 @@ require 'noyes'
 require 'tu_extensions.rb'
 
 class TestFrontEnd8k < Test::Unit::TestCase
-  include Signal
+  include Noyes
   DD = 'data/noyes'
   def test_noyes
     nfilt = 32
