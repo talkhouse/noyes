@@ -58,6 +58,10 @@ namespace :test do
   task :ruby do
     sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
   end
+  desc 'Quick test of the Ruby implemenation.'
+  task :quick do
+    sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_fast.rb"
+  end
 end
 
 desc 'Test all implementations.'
