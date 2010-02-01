@@ -47,15 +47,16 @@ end
 namespace :test do
   desc 'Test ruby implementation under jruby'
   task :jruby do
-    sh "jruby -Ilib:lib/common:test:lib/ruby test/ts_all.rb"
+    sh "jruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
   end
   desc 'Test java implementation'
   task :java => :jar do
-    sh "jruby -Ilib:lib/common:test:lib/java:ship -rjava -rjavaimpl.jar test/ts_all.rb"
+    include_path = '-Ilib:lib/common:test:lib/java_impl:ship'
+    sh "jruby #{include_path} -rjava -rjavaimpl.jar test/ts_all.rb"
   end
   desc 'Test ruby implementation under default ruby'
   task :ruby do
-    sh "ruby -Ilib:lib/common:test:lib/ruby test/ts_all.rb"
+    sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
   end
 end
 
@@ -116,9 +117,9 @@ begin
     s.email = "joe@talkhouse.com"
     s.homepage = "http://github.com/talkhouse/noise"
     s.authors = ["Joe Woelfel"]
-    s.files = Dir['lib/ruby/*rb'] + Dir['lib/common/*.rb'] << Dir['lib/*.rb']
+    s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << Dir['lib/*.rb']
     s.test_files = []
-    s.require_paths = ['lib/ruby', 'lib/common', 'lib']
+    s.require_paths = ['lib/ruby_impl', 'lib/common', 'lib']
     s.extra_rdoc_files = ['README', 'doc/syntax.rb']
   end
   Jeweler::GemcutterTasks.new
