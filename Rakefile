@@ -2,7 +2,8 @@ require 'rake/clean'
 require 'rake/testtask' 
 require 'fileutils'
 
-CLEAN.include('build', 'ship')
+CLEAN.include 'build'
+CLOBBER.include 'pkg', 'ship', 'noyes.gemspec'
 directory 'ship'
 
 def ensure_dir file
@@ -25,7 +26,6 @@ module JavaBuild
   OBJ = SRC.map {|s| s.pathmap "%{^lib,build}X.class"}
   SRC.zip(OBJ).each do |src, obj|
     file obj => src do
-      puts "object  = #{obj}"
       ensure_dir obj
       sh "javac -source 1.5 -Xlint -d build/java_impl #{SRC.join ' '}"
     end
