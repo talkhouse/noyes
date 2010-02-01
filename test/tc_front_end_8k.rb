@@ -39,7 +39,6 @@ class TestFrontEnd8k < Test::Unit::TestCase
 
     power_spectrum_filter = PowerSpectrumFilter.new nfft
     pow = power_spectrum_filter << ham
-    #puts "power spectrum dimensions #{pow.size} #{pow[0].size}"
     ex_pow = IO.read("#{DD}/pow.dat").unpack 'g*'
     pow_flat = pow.flatten
     assert_m ex_pow, pow_flat, 2
@@ -52,18 +51,16 @@ class TestFrontEnd8k < Test::Unit::TestCase
 
     compressor = LogCompressor.new
     log_mel = compressor << mel
-    #puts "log mel dimensions #{log_mel.size} #{log_mel[0].size}"
 
     discrete_cosine_transform = DCT.new 13, nfilt
     dct = discrete_cosine_transform << log_mel
-    #puts "dct dimensions #{dct.size} #{dct[0].size}"
     ex_dct = IO.read("#{DD}/dct.dat").unpack 'g*'
     dct_flat = dct.flatten
     assert_m ex_dct, dct_flat, 2
     
     live_cmn = LiveCMN.new
     cmn = live_cmn << dct
-    #puts "cmn dimensions = #{cmn.size} x #{cmn[0].size}"
+    puts "cmn dimensions = #{cmn.size} x #{cmn[0].size}"
     ex_cmn = IO.read("#{DD}/cmn.dat").unpack 'g*'
     cmn_flat = cmn.flatten
     assert_m ex_cmn, cmn_flat, 2
@@ -71,7 +68,7 @@ class TestFrontEnd8k < Test::Unit::TestCase
     ddf = DoubleDeltaFilter.new
     dd = ddf << cmn
     dd += ddf.final_estimate
-    #puts "dd dimensions = #{dd.size} x #{dd[0].size} x #{dd[0][0].size}"
+    puts "dd dimensions = #{dd.size} x #{dd[0].size} x #{dd[0][0].size}"
     ex_dd = IO.read("#{DD}/dd.dat").unpack 'g*'
     dd_flat = dd.flatten
     assert_m ex_dd, dd_flat, 2
