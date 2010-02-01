@@ -47,17 +47,20 @@ end
 namespace :test do
   desc 'Test ruby implementation under jruby'
   task :jruby do
-    sh "jruby Ilib/ruby:test test/ts_all.rb"
+    sh "jruby -Ilib:lib/common:test:lib/ruby test/ts_all.rb"
   end
   desc 'Test java implementation'
   task :java => :jar do
-    sh "jruby -Ilib:lib/java:lib/common:test:ship -rjava -rjavaimpl.jar test/ts_all.rb"
+    sh "jruby -Ilib:lib/common:test:lib/java:ship -rjava -rjavaimpl.jar test/ts_all.rb"
   end
   desc 'Test ruby implementation under default ruby'
   task :ruby do
-    sh "ruby -Ilib:lib/ruby:lib/common:test test/ts_all.rb"
+    sh "ruby -Ilib:lib/common:test:lib/ruby test/ts_all.rb"
   end
 end
+
+desc 'Test all implementations.'
+task :test  => ['test:ruby', 'test:java', 'test:jruby']
 
 namespace :wc do
   desc 'Number of lines, words, and bytes of Java code'

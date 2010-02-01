@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'signal'
+require 'noyes'
 require 'tu_extensions.rb'
 
 class TestIncremental < Test::Unit::TestCase

@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'test/tu_extensions.rb'
-require 'signal'
+require 'noyes'
 
 class TestDelta < Test::Unit::TestCase
   include Signal

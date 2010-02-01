@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'signal'
+require 'noyes'
 
 class TestFrontEnd < Test::Unit::TestCase
   include Signal
