@@ -1,13 +1,9 @@
-# Segments an array of data into an array of arrays.  Since the inner array
-# used to hold a segment is created with the [] slice operator it would
-# typically be of the same type as the input array.  So Java arrays remain Java
-# arrays for example.  This is good for speed.  Typically, we'd want a window
-# size of 410 samples.  This corresponds to a 25.625 millisecond window in a
-# 16khz audio stream.
 module Noyes
+  # Segments an array of data into an array of arrays.  Inner arrays are the
+  # size of the window.
   class Segmenter
-    def initialize winsz, winshift
-      @winsz = winsz; @winshift = winshift
+    def initialize window_size, shift
+      @winsz = window_size; @winshift = shift
       @overflow = nil
     end    
   

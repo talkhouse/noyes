@@ -1,5 +1,8 @@
 require 'noyes_math'
 module Noyes
+  # Mel filter takes an m x n matrix.  The inner array becomes equal to the
+  # number of mel filter banks (nfilt).  The dimensionality of the outer array
+  # remains unchanged.
   class MelFilter  
     include Math
     def initialize srate, nfft, nfilt, lowerf, upperf

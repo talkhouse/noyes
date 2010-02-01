@@ -1,5 +1,8 @@
 require 'discrete_fourier_transform'
 module Noyes
+  # The square of the DFT.  You must specify the number of ffts.  The power
+  # spectrum returns an array of arrays where each inner array is of length
+  # nfft/2 + 1.  The length of the outer array does not change.
   class PowerSpectrumFilter
     include Noyes
     def initialize nfft

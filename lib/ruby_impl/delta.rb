@@ -1,4 +1,6 @@
 module Noyes
+  # Takes an m x n array and makes an m x 3 x n array.  The original inner
+  # array is duplicated followed by its delta and it's double delta.
   class DoubleDeltaFilter
     def initialize
       @previous = nil
