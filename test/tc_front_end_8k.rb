@@ -50,7 +50,8 @@ class TestFrontEnd8k < Test::Unit::TestCase
     mel_flat = mel.flatten
     assert_m ex_mel, mel_flat, 2
 
-    log_mel = log_compress mel
+    compressor = LogCompressor.new
+    log_mel = compressor << mel
     #puts "log mel dimensions #{log_mel.size} #{log_mel[0].size}"
 
     discrete_cosine_transform = DCT.new 13, nfilt

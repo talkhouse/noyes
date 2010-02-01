@@ -21,6 +21,7 @@ class TestIncremental < Test::Unit::TestCase
     @hamming_windower = HammingWindow.new @frame_size
     @power_spectrum_filter = PowerSpectrumFilter.new @nfft
     @mel_filter = MelFilter.new @freq, @nfft, @nfilt, @min_freq, @max_freq
+    @compressor = LogCompressor.new
     @discrete_cosine_transform = DCT.new 13, @nfilt
     @live_cmn = LiveCMN.new
     @ddf = DoubleDeltaFilter.new
@@ -56,7 +57,7 @@ class TestIncremental < Test::Unit::TestCase
         ham = @hamming_windower << seg
         pow = @power_spectrum_filter << ham
         mel = @mel_filter << pow
-        log_mel = log_compress mel
+        log_mel = @compressor << mel
         dct = @discrete_cosine_transform << log_mel
         cmn = @live_cmn << dct
         dd += @ddf << cmn

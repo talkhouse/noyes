@@ -33,6 +33,7 @@ def send_incremental_features file, to_server, from_server
   hamming_windower = HammingWindow.new frame_size
   power_spectrum_filter = PowerSpectrumFilter.new nfft
   mel_filter = MelFilter.new freq, nfft, nfilt, min_freq, max_freq
+  compressor = LogCompressor.new
   discrete_cosine_transform = DCT.new 13, nfilt
   live_cmn = LiveCMN.new
   pcm = file2pcm file
@@ -45,7 +46,7 @@ def send_incremental_features file, to_server, from_server
     data >>= hamming_windower
     data >>= power_spectrum_filter
     data >>= mel_filter
-    data = log_compress data
+    data >>= compressor
     data >>= discrete_cosine_transform
     data >>= live_cmn
     to_server.write TCEPSTRA

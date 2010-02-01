@@ -16,24 +16,25 @@ def make_jar objs, lang
   task :default => :jar
   objtrunc = objs.map {|obj| obj.sub /^build\/#{lang}\//, ''}
   file jar => 'ship' do
-    sh "jar -cf #{jar} -C build/#{lang}/ ."
+    sh "jar -cf #{jar} -C build/#{lang}_impl/ ."
   end
 end
 
 module JavaBuild
-  SRC = Dir['lib/java/**/*.java']
+  SRC = Dir['lib/java_impl/**/*.java']
   OBJ = SRC.map {|s| s.pathmap "%{^lib,build}X.class"}
   SRC.zip(OBJ).each do |src, obj|
     file obj => src do
       puts "object  = #{obj}"
       ensure_dir obj
-      sh "javac -source 1.5 -Xlint -d build/java #{SRC.join ' '}"
+      sh "javac -source 1.5 -Xlint -d build/java_impl #{SRC.join ' '}"
     end
   end
   make_jar OBJ, 'java'
+  file 'ship/javaimpl.jar' => OBJ
 end
 
-task :build => JavaBuild::OBJ
+task :build => 'ship/javaimpl.jar'
 task :default => :build
 
 module Tags

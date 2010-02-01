@@ -34,18 +34,20 @@ class TestFrontEnd < Test::Unit::TestCase
     pow = PowerSpectrumFilter.new 512
     mel = MelFilter.new 16000, 2048, 40, 100, 6400
     del = DoubleDeltaFilter.new 
+    log = LogCompressor.new
     data = (1..(6*512)).to_a
     seg1 = seg << data
     ham1 = ham << seg1
     pow1 = pow << ham1
     mel1 = mel << pow1
-    log1 = log_compress mel1
+    log1 = log << mel1
     del1 = del << log1
     seg2 = Segmenter.new 4, 512
     ham2 = HammingWindow.new 4
     pow2 = PowerSpectrumFilter.new 512
     mel2 = MelFilter.new 16000, 2048, 40, 100, 6400
     del2 = DoubleDeltaFilter.new 
+    log2 = LogCompressor.new
     data = (1..(6*512)).to_a
     data >>= seg2
     assert seg1 == data
@@ -55,7 +57,7 @@ class TestFrontEnd < Test::Unit::TestCase
     assert pow1 == data
     data >>= mel2
     assert mel1 == data
-    data = log_compress data
+    data = log2 << data
     assert log1 == data
     data >>= del2
     assert del1 == data
