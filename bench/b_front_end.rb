@@ -1,6 +1,6 @@
 require 'benchmark'
 require 'noyes'
-include Signal
+include Noyes
 
 Benchmark.bm do |b|
   packed = IO.read 'data/noyes/raw.dat'
@@ -10,6 +10,7 @@ Benchmark.bm do |b|
   hamming_windower = HammingWindow.new 1130
   power_spectrum_filter = PowerSpectrumFilter.new 2048
   mel_filter = MelFilter.new 44100, 2048, 40, 130, 6800
+  compressor = LogCompressor.new
   discrete_cosine_transform = DCT.new 13, 40
   live_cmn = LiveCMN.new
   ddf = DoubleDeltaFilter.new
@@ -19,7 +20,7 @@ Benchmark.bm do |b|
   b.report("hamming_windower")          {data >>= hamming_windower}
   b.report("power_spectrum_filter")     {data >>= power_spectrum_filter}
   b.report("mel_filter")                {data >>= mel_filter}
-  b.report("log")                       {data = log_compress data}
+  b.report("log")                       {data >>= compressor}
   b.report("discrete_cosine_transform") {data >>= discrete_cosine_transform}
   b.report("live_cmn")                  {data >>= live_cmn}
   b.report("ddf")                       {data >>= ddf}
