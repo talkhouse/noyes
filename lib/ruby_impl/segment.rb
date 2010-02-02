@@ -15,14 +15,14 @@ module Noyes
       else
         @overflow = nil 
       end
-      x = []
-      i = 0
-      while i+@winsz <= data.length
-        x << data[i,@winsz]
-        i += @winshift
+      segments = []
+      offset = 0
+      while offset + @winsz <= data.length
+        segments << data[offset, @winsz]
+        offset += @winshift
       end
-      @overflow = data[i..-1]
-      x
+      @overflow = data[offset..-1]
+      segments
     end
   end
 end
