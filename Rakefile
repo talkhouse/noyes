@@ -74,15 +74,15 @@ task :test  => ['test:ruby', 'test:java', 'test:jruby']
 namespace :wc do
   desc 'Number of lines, words, and bytes of Java code'
   task :java do
-    sh "wc #{Dir['lib/java/**/*.java'].join ' '}"
+    sh "wc #{Dir['lib/java_impl/**/*.java'].join ' '}"
   end
   desc 'Number of lines, words, and bytes of Ruby code'
   task :ruby do
-    sh "wc #{Dir['lib/ruby/**/*.rb'].join ' '}"
+    sh "wc #{Dir['lib/ruby_impl/**/*.rb'].join ' '}"
   end
   desc 'Number of lines, words, and bytes of Ruby wrapper code'
   task :wrap do
-    sh "wc #{Dir['lib/java/**/*.rb'].join ' '}"
+    sh "wc #{Dir['lib/java_impl/**/*.rb'].join ' '}"
   end
   desc 'Number of lines, words, and bytes of all code'
   task :all do
