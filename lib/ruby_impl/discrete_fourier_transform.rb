@@ -4,10 +4,7 @@ module Noyes
   include Math
   # Takes the discrete Fourier transform.
   def dft data,size
-  	vals = Array.new size
-  	data.size.times {|i| vals[i] = Complex(data[i],0)}
-  	(data.size).upto(size-1) {|i| vals[i] = Complex(0,0)}
-  
+    vals = Array.new(size) {|i| i < data.size ? Complex(data[i],0) : Complex(0,0)}
   	j=0
   	size.times do |i|
   		vals[j],vals[i] = vals[i],vals[j] if i<j
