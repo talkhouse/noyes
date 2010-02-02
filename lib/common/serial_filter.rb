@@ -1,4 +1,4 @@
-module Noyes
+module NoyesFilterDSL
   class SerialFilter
     attr_reader :filters
     def initialize filters = []

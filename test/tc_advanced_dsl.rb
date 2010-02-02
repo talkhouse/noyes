@@ -15,6 +15,7 @@ end
 
 class TestAdvancedDsl < Test::Unit::TestCase
   include Noyes
+  include NoyesFilterDSL
   def test_error_with_unfilter_like_object
     # A filter is anything that produces a result via the << operator.
     assert_raise(RuntimeError) {SerialFilter.new + 3.2}
@@ -91,5 +92,18 @@ class TestAdvancedDsl < Test::Unit::TestCase
     data = [[1,2,3,4],[1,2,3,4]]
     result = parallel_sf << data
     assert [[3,4,5,6],[2,3,4,5]], result
+  end
+  def test_preemphasizer_dsl
+    # Notice I'm just using one preemphasizer.  That's because preemphasizers
+    # don't save state.  I'd need to make two if I were to use a segmenter, for
+    # example.
+    pre = Preemphasizer.new
+    parallel_pre = pre | pre
+    large_array = (0..100).to_a
+    small_array = (0..50).to_a
+    data = [large_array, small_array]
+    result = parallel_pre << data
+    expected = [pre << large_array, pre << small_array]
+    assert expected, result
   end
 end

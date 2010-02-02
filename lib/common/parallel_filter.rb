@@ -1,4 +1,4 @@
-module Noyes
+module NoyesFilterDSL
   class ParallelFilter
     attr_reader :filters
     def initialize filters=[]
