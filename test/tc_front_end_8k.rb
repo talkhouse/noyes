@@ -60,7 +60,7 @@ class TestFrontEnd8k < Test::Unit::TestCase
     
     live_cmn = LiveCMN.new
     cmn = live_cmn << dct
-    puts "cmn dimensions = #{cmn.size} x #{cmn[0].size}"
+    #puts "cmn dimensions = #{cmn.size} x #{cmn[0].size}"
     ex_cmn = IO.read("#{DD}/cmn.dat").unpack 'g*'
     cmn_flat = cmn.flatten
     assert_m ex_cmn, cmn_flat, 2
@@ -68,7 +68,7 @@ class TestFrontEnd8k < Test::Unit::TestCase
     ddf = DoubleDeltaFilter.new
     dd = ddf << cmn
     dd += ddf.final_estimate
-    puts "dd dimensions = #{dd.size} x #{dd[0].size} x #{dd[0][0].size}"
+    #puts "dd dimensions = #{dd.size} x #{dd[0].size} x #{dd[0][0].size}"
     ex_dd = IO.read("#{DD}/dd.dat").unpack 'g*'
     dd_flat = dd.flatten
     assert_m ex_dd, dd_flat, 2
