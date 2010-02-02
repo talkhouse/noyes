@@ -6,7 +6,6 @@ module Noyes
       @winsz = window_size; @winshift = shift
       @overflow = nil
     end    
-  
     def << data
       data = @overflow + data if @overflow
       if data.size < @winsz + @winshift * 5
