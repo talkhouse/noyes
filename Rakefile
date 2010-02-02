@@ -48,18 +48,21 @@ end
 namespace :test do
   desc 'Test ruby implementation under jruby'
   task :jruby do
+    puts "Testing JRuby implementation."
     sh "jruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
   end
   desc 'Test java implementation'
   task :java => :jar do
+    puts "Testing Java implementation."
     include_path = '-Ilib:lib/common:test:lib/java_impl:ship'
     sh "jruby #{include_path} -rjava -rjavaimpl.jar test/ts_all.rb"
   end
   desc 'Test ruby implementation under default ruby'
   task :ruby do
+    puts "Testing Ruby implementation."
     sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
   end
-  desc 'Quick test of the Ruby implemenation.'
+  desc 'Quick test of the Ruby implementation.'
   task :quick do
     sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_fast.rb"
   end
@@ -94,14 +97,14 @@ module BenchTask
   namespace :bench do
     desc "Benchmark ruby implementation using ruby."
     task :ruby do
-      puts "Benchmarking Ruby implemenation."
+      puts "Benchmarking Ruby implementation."
       SRC.each do |src|
         sh "ruby -Ilib:lib/common:lib/ruby_impl #{src}"
       end
     end
     desc "Benchmark ruby implementation using jruby."
     task :jruby do
-      puts "Benchmarking JRuby implemenation."
+      puts "Benchmarking JRuby implementation."
       SRC.each do |src|
         sh "jruby -Ilib:lib/common:lib/ruby_impl #{src}"
       end
@@ -109,7 +112,7 @@ module BenchTask
     desc "Benchmark Java implementation."
     task :java do
       SRC.each do |src|
-        puts "Benchmarking java implemenation."
+        puts "Benchmarking java implementation."
         sh "jruby -Ilib:lib/common:lib/java_impl:ship -rjava -rjavaimpl.jar #{src}"
       end
     end
