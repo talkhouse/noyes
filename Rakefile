@@ -129,7 +129,7 @@ begin
     s.summary = "A signal processing library"
     s.description = "Currently sufficient to create basic features for speech recognition"
     s.email = "joe@talkhouse.com"
-    s.homepage = "http://github.com/talkhouse/noise"
+    s.homepage = "http://github.com/talkhouse/noyes"
     s.authors = ["Joe Woelfel"]
     s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << Dir['lib/*.rb']
     s.test_files = []
