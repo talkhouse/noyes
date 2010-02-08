@@ -1,11 +1,9 @@
+require 'java_filter'
 module Noyes
   class LogCompressor
+    include JavaFilter
     def initialize log_zero = -0.00001
-      @compressor = Java::talkhouse.LogCompressor.new log_zero
-    end
-    def << mspec
-      x = @compressor.apply mspec.to_java Java::double[]
-      x.map{|a|a.to_a}
+      @filter = Java::talkhouse.LogCompressor.new log_zero
     end
   end
 end

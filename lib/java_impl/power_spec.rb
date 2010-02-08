@@ -1,10 +1,10 @@
+require 'java_filter'
+
 module Noyes
   class PowerSpectrumFilter
+    include JavaFilter
     def initialize nfft
-      @ps = Java::talkhouse.PowerSpec.new nfft
-    end
-    def << data
-      @ps.apply(data.to_java Java::double[]).to_a
+      @filter = Java::talkhouse.PowerSpec.new nfft
     end
   end
 end
