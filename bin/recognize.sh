@@ -1,8 +1,9 @@
 #!/usr/bin/env jruby
 # vim: set filetype=ruby :
 ROOT = File.dirname(File.dirname(__FILE__))
-$: << "#{ROOT}/lib/ruby"
+$: << "#{ROOT}/lib"
 $: << "#{ROOT}/lib/common"
+$: << "#{ROOT}/lib/ruby_impl"
 require 'socket'
 require 'send_incrementally'
 
