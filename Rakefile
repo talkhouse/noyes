@@ -46,29 +46,55 @@ task :tags do
 end
 
 namespace :test do
-  desc 'Test ruby implementation under jruby'
-  task :jruby do
-    puts "Testing JRuby implementation."
-    sh "jruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
+  description = 'Full Ruby implementation test.'
+  desc description
+  task :ruby do
+    puts description
+    sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
   end
-  desc 'Test java implementation'
+  description = 'Full Java implementation test.'
+  desc description
   task :java => :jar do
     puts "Testing Java implementation."
     include_path = '-Ilib:lib/common:test:lib/java_impl:ship'
     sh "jruby #{include_path} -rjava -rjavaimpl.jar test/ts_all.rb"
   end
-  desc 'Test ruby implementation under default ruby'
-  task :ruby do
-    puts "Testing Ruby implementation."
-    sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
+  description = 'Full JRuby implementation test.'
+  desc description
+  task :jruby do
+    puts "Testing JRuby implementation."
+    sh "jruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
   end
-  desc 'Quick test of the Ruby implementation.'
-  task :quick do
-    sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_fast.rb"
+  namespace :ruby do
+    description = 'Fast (but less thorough) Ruby implementation test.'
+    desc description
+    task :fast do
+      puts description
+      sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_fast.rb"
+    end
   end
+  namespace :jruby do
+    description = 'Fast (but less thorough) Ruby implementation test.'
+    desc description
+    task :fast do
+      puts description
+      sh "jruby -Ilib:lib/common:test:lib/ruby_impl test/ts_fast.rb"
+    end
+  end
+  namespace :java do
+    description = 'Fast (but less thorough) Java implementation test.'
+    desc description
+    task :fast do
+      puts description
+      include_path = '-Ilib:lib/common:test:lib/java_impl:ship'
+      sh "jruby #{include_path} -rjava -rjavaimpl.jar test/ts_fast.rb"
+    end
+  end
+  desc 'Run fast (but less thorough) tests for all implementations.'
+  task :fast  => ['ruby:fast', 'java:fast', 'jruby:fast']
 end
 
-desc 'Test all implementations.'
+desc 'Run all tests for all implementations.'
 task :test  => ['test:ruby', 'test:java', 'test:jruby']
 
 namespace :wc do
