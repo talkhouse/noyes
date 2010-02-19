@@ -2,6 +2,7 @@
 *.swp
 *.swo
 *.gemspec
+doc
 pkg
 *#
 build
