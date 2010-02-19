@@ -38,7 +38,7 @@ task :build => 'ship/javaimpl.jar'
 task :default => :build
 
 module Tags
-  FILES = FileList['doc/**/*.txt', 'lib/**/*.rb']
+  FILES = FileList['lib/**/*.rb']
 end
 
 task :tags do
@@ -160,7 +160,7 @@ begin
     s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << Dir['lib/*.rb']
     s.test_files = []
     s.require_paths = ['lib/ruby_impl', 'lib/common', 'lib']
-    s.extra_rdoc_files = ['README', 'doc/overview.rdoc', 'COPYING']
+    s.extra_rdoc_files = ['README', 'overview.rdoc', 'COPYING']
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
