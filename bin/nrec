@@ -20,9 +20,9 @@ optparse = OptionParser.new do |opt|
     exit
   end
 end
-
 optparse.parse!
-# Choose implementation
+
+# Must set implementation specific library path before requiring libraries.
 case options[:implementation]
 when :java
   $: << "#{ROOT}/lib/java_impl"
@@ -31,7 +31,6 @@ when :java
 when :ruby
   $: << "#{ROOT}/lib/ruby_impl"
 end
-
 require 'socket'
 require 'send_incrementally'
 
@@ -44,6 +43,5 @@ end
 ARGV.each do |file|
   puts "recognizing file #{file}" if options[:verbose]
   result = recognize file
-  puts
-  puts "#{result}"
+  puts "\n#{result}"
 end
