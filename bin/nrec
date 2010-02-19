@@ -4,19 +4,31 @@ ROOT = File.dirname(File.dirname(__FILE__))
 $: << "#{ROOT}/lib"
 $: << "#{ROOT}/lib/common"
 
-if ARGV.size < 2 || ARGV[0] == '-h'
-  puts 'Usage:  recognize <implementation> <file> [file] [file] ...'
-  puts 'Examples:\n  nrec -j arizona.ogg # Use java implementation'
-  puts '  nrec -r arizona.ogg # Use pure ruby implementation'
+require 'optparse'
+options = {}
+optparse = OptionParser.new do |opt|
+  opt.banner = 'Usage: nrec [options] file1 file2 ...'
+  opt.on '-v', '--verbose', 'Output more information' do 
+    options[:verbose] = true
+  end
+  options[:implementation] = :ruby
+  opt.on '-j', '--java', 'Use java implementation' do
+    options[:implementation] = :java
+  end
+  opt.on( '-h', '--help', 'Display this screen' ) do
+    puts opt
+    exit
+  end
 end
 
+optparse.parse!
 # Choose implementation
-implementation = ARGV.shift
-if implementation == '-j'
+case options[:implementation]
+when :java
   $: << "#{ROOT}/lib/java_impl"
   $: << "#{ROOT}/ship"
   require 'javaimpl.jar'
-elsif implementation == '-r'
+when :ruby
   $: << "#{ROOT}/lib/ruby_impl"
 end
 
@@ -30,7 +42,8 @@ def recognize file, node='174.129.244.159', port=2348
 end
 
 ARGV.each do |file|
-  print "recognizing #{file}"
+  puts "recognizing file #{file}" if options[:verbose]
   result = recognize file
-  puts "\n            #{result}"
+  puts
+  puts "#{result}"
 end
