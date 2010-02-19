@@ -12,7 +12,7 @@ module NoyesFilterDSL
       offset = -1
       @filters.map {|f| f << data[offset+=1]}
     end
-    def + other
+    def & other
       raise "Parameter does not respond to <<." unless other.respond_to? :<<
       if other.kind_of?(ParallelFilter) && filters.size != other.filters.size
         raise "Parallel filters must have equal dimensions %d vs %d " %

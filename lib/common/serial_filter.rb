@@ -8,7 +8,7 @@ module NoyesFilterDSL
       @filters.each {|f| data >>= f}
       data
     end
-    def + other
+    def & other
       raise "Parameter does not respond to <<." unless other.respond_to? :<<
       if other.kind_of? SerialFilter
         return SerialFilter.new(@filters.clone + other.filters.clone)
