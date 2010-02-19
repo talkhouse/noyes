@@ -3,14 +3,34 @@
 ROOT = File.dirname(File.dirname(__FILE__))
 $: << "#{ROOT}/lib"
 $: << "#{ROOT}/lib/common"
-$: << "#{ROOT}/lib/ruby_impl"
+
+if ARGV.size < 2 || ARGV[0] == '-h'
+  puts 'Usage:  recognize <implementation> <file> [file] [file] ...'
+  puts 'Examples:\n  nrec -j arizona.ogg # Use java implementation'
+  puts '  nrec -r arizona.ogg # Use pure ruby implementation'
+end
+
+# Choose implementation
+implementation = ARGV.shift
+if implementation == '-j'
+  $: << "#{ROOT}/lib/java_impl"
+  $: << "#{ROOT}/ship"
+  require 'javaimpl.jar'
+elsif implementation == '-r'
+  $: << "#{ROOT}/lib/ruby_impl"
+end
+
 require 'socket'
 require 'send_incrementally'
 
-def recognize file, node='localhost', port=2318
+def recognize file, node='174.129.244.159', port=2348
   TCPSocket.open(node, port) do |client|
     send_incremental_features file, client, client
   end
 end
 
-puts recognize ARGV[0]
+ARGV.each do |file|
+  print "recognizing #{file}"
+  result = recognize file
+  puts "\n            #{result}"
+end
