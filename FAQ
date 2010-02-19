@@ -1,0 +1,34 @@
+Q:
+  Does this contain a pure Ruby implementation?
+A:
+  Yes.
+
+Q:
+  Does this contain a pure Java implementation?
+A:
+  Yes.
+
+Q:
+  How do I use the Java implementation from JRuby?
+A: 
+  # Note that '$:' is the library path.
+  $: << "#{ROOT}/lib"
+  $: << "#{ROOT}/lib/common"
+  $: << "#{ROOT}/lib/java_impl"
+  $: << "#{ROOT}/ship"
+  require 'javaimpl.jar'
+
+Q:
+  How do I use the pure ruby implementation?
+A:
+  $: << "#{ROOT}/lib"
+  $: << "#{ROOT}/lib/common"
+  $: << "#{ROOT}/lib/ruby_impl"
+
+Q:
+  Is there are recognizer I can use with this front end?
+A:
+  Yes, the include command line programs nrec, and jnrec send the data
+  to a recognizer running on somewhere on the cloud.  Currently it
+  recognizes the names of NFL teams.  You can get audio data from
+  http://github.com/talkhouse/audiodata/tree/master/nfl/
