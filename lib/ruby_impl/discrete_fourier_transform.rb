@@ -3,7 +3,7 @@ require 'complex'
 module Noyes
   include Math
   # Takes the discrete Fourier transform.
-  def dft data,size
+  def self.dft data,size
     vals = Array.new(size) {|i| i < data.size ? Complex(data[i],0) : Complex(0,0)}
   	j=0
   	size.times do |i|

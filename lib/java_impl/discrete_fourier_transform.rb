@@ -1,6 +1,6 @@
 require 'complex'
 module Noyes
-  def dft data, size
+  def self.dft data, size
     data = data.to_java :double
     x = Java::talkhouse::DiscreteFourierTransform.apply data, size
     x[0].zip(x[1]).map {|r, i| Complex(r,i)}
