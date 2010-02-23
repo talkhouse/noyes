@@ -153,11 +153,12 @@ begin
   Jeweler::Tasks.new do |s|
     s.name = "noyes"
     s.summary = "A signal processing library"
-    s.description = "Currently sufficient to create basic features for speech recognition"
+    s.description = "Currently sufficient to create features for speech recognition"
     s.email = "joe@talkhouse.com"
     s.homepage = "http://github.com/talkhouse/noyes"
     s.authors = ["Joe Woelfel"]
-    s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << Dir['lib/*.rb']
+    s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << 
+        Dir['lib/*.rb'] << Dir['ship/*.jar']
     s.test_files = []
     s.require_paths = ['lib/ruby_impl', 'lib/common', 'lib']
     s.extra_rdoc_files = ['README', 'FAQ', 'COPYING']
