@@ -1,6 +1,6 @@
-require 'java_filter'
+require 'java_impl/java_filter'
 
-module Noyes
+module NoyesJava
   class PowerSpectrumFilter
     include JavaFilter
     def initialize nfft

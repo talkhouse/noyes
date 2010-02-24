@@ -1,7 +1,4 @@
-require 'test/unit'
-require 'hamming_window'
-
-class TestRubySpeed < Test::Unit::TestCase
+module TestRubySpeed
   def test_speed
     seg = Segmenter.new
     ham = HammingWindow.new 10
@@ -14,6 +11,6 @@ class TestRubySpeed < Test::Unit::TestCase
       
     finish = Time.new
     total = finish - start
-    assert total < 10, "Segmenter is too slow"
+    assert_true total < 10, "Segmenter is too slow"
   end
 end

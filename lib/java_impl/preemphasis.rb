@@ -1,4 +1,4 @@
-module Noyes
+module NoyesJava
   class Preemphasizer
     include Math
     def initialize factor=0.97

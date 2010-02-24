@@ -1,5 +1,6 @@
-require 'java_filter'
-module Noyes
+require 'java_impl/java_filter'
+
+module NoyesJava
   class DCT
     include JavaFilter
     def initialize order, ncol

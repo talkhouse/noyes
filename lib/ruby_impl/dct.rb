@@ -1,4 +1,4 @@
-require 'noyes_math'
+require 'common/noyes_math'
 
 module Noyes
   # Takes the discrete cosing transform.  Converts a n x m matrix to an n x order

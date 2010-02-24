@@ -1,6 +1,6 @@
-require 'java_filter'
+require 'java_impl/java_filter'
 
-module Noyes
+module NoyesJava
   class LiveCMN
     include JavaFilter
     def initialize dimensions=13, mean=45.0, window_size=100, shift=160

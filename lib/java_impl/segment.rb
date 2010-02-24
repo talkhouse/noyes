@@ -1,4 +1,4 @@
-module Noyes
+module NoyesJava
   class Segmenter
     def initialize win_size, win_shift
       @filter = Java::talkhouse.Segmenter.new win_size, win_shift

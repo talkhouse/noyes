@@ -50,35 +50,34 @@ namespace :test do
   desc description
   task :ruby do
     puts description
-    sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
+    sh "ruby -Ilib:test test/ts_all_ruby.rb"
   end
   description = 'Full Java implementation test.'
   desc description
   task :java => :jar do
     puts "Testing Java implementation."
-    include_path = '-Ilib:lib/common:test:lib/java_impl:ship'
-    sh "jruby #{include_path} -rjava -rjavaimpl.jar test/ts_all.rb"
+    sh "jruby -Ilib:test:ship -rjava -rjavaimpl.jar test/ts_all_java.rb"
   end
   description = 'Full JRuby implementation test.'
   desc description
   task :jruby do
     puts "Testing JRuby implementation."
-    sh "jruby -Ilib:lib/common:test:lib/ruby_impl test/ts_all.rb"
+    sh "jruby -Ilib:test test/ts_all_ruby.rb"
   end
   namespace :ruby do
     description = 'Fast (but less thorough) Ruby implementation test.'
     desc description
     task :fast do
       puts description
-      sh "ruby -Ilib:lib/common:test:lib/ruby_impl test/ts_fast.rb"
+      sh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :jruby do
-    description = 'Fast (but less thorough) Ruby implementation test.'
+    description = 'Fast (but less thorough) JRuby implementation test.'
     desc description
     task :fast do
       puts description
-      sh "jruby -Ilib:lib/common:test:lib/ruby_impl test/ts_fast.rb"
+      sh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :java do
@@ -86,8 +85,7 @@ namespace :test do
     desc description
     task :fast do
       puts description
-      include_path = '-Ilib:lib/common:test:lib/java_impl:ship'
-      sh "jruby #{include_path} -rjava -rjavaimpl.jar test/ts_fast.rb"
+      sh "jruby -Ilib:test:ship -rjava -rjavaimpl.jar test/ts_fast_java.rb"
     end
   end
   desc 'Run fast (but less thorough) tests for all implementations.'

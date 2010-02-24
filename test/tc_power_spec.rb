@@ -1,10 +1,4 @@
-require 'test/unit'
-require 'power_spec'
-require 'segment'
-require 'hamming_window'
-
-class TestPowerSpec < Test::Unit::TestCase
-  include Noyes
+module TestPowerSpec
     def test_power_spec
     data = (1..32).to_a
     seg = Segmenter.new 4, 2

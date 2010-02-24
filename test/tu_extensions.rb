@@ -41,3 +41,19 @@ module Test::Unit::Assertions
     end
   end
 end
+
+# meta programming magic that creates test cases
+# as combinations of implementing modules and 
+# modules
+def make_test impl_mod, test_mod
+  test_unit = <<-STRING
+    module Test#{test_mod}
+      include #{impl_mod}
+    end
+    class #{impl_mod}#{test_mod} < Test::Unit::TestCase
+      include Test#{test_mod}
+    end
+    STRING
+  eval test_unit
+end
+

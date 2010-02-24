@@ -1,19 +1,16 @@
-require 'test/unit'
-require 'noyes'
-
-class IncrementFilter
-  def << data
-    data.map {|x| x+1}
+module TestAdvancedDsl
+  class IncrementFilter
+    def << data
+      data.map {|x| x+1}
+    end
   end
-end
 
-class DataDoublingFilter
-  def << data
-    [data.clone, data.clone]
+  class DataDoublingFilter
+    def << data
+      [data.clone, data.clone]
+    end
   end
-end
 
-class TestAdvancedDsl < Test::Unit::TestCase
   include Noyes
   include NoyesFilterDSL
   def test_error_with_unfilter_like_object

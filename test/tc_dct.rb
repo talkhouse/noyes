@@ -1,7 +1,4 @@
-require 'test/unit'
-require 'dct'
-
-class TestDCT < Test::Unit::TestCase
+module TestDCT
   include Noyes
   def test_dct
     l = [[-0.549531548230654, -0.550656706154242, -0.551802382907952,

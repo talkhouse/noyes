@@ -1,8 +1,4 @@
-require 'test/unit'
-require 'test/tu_extensions.rb'
-require 'noyes'
-
-class TestDelta < Test::Unit::TestCase
+module TestDelta
   include Noyes
   # Velocity and change should always be zero for unchanging data.
   def test_flatline

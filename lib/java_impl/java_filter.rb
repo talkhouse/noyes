@@ -1,4 +1,4 @@
-module Noyes
+module NoyesJava
   module JavaFilter
     def << data
       java_matrix = @filter.apply data.to_java Java::double[]

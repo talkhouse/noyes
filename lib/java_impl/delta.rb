@@ -1,6 +1,6 @@
-require 'filter'
+require 'java_impl/java_filter'
 
-module Noyes
+module NoyesJava
   class DoubleDeltaFilter
     include JavaFilter
     def initialize

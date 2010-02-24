@@ -1,10 +1,5 @@
-require 'test/unit'
-require 'hamming_window'
-require 'segment'
-
-class TestHammingWindow < Test::Unit::TestCase
+module TestHammingWindow
   include Math
-  include Noyes
   def test_unity_segment
     ham = HammingWindow.new 10
     res = ham << [[1,1,1,1,1,1,1,1,1,1]]

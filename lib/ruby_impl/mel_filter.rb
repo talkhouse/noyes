@@ -1,4 +1,5 @@
-require 'noyes_math'
+require 'common/noyes_math'
+
 module Noyes
   # Mel filter takes an m x n matrix.  The inner array becomes equal to the
   # number of mel filter banks (nfilt).  The dimensionality of the outer array

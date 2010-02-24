@@ -1,9 +1,4 @@
-require 'test/unit'
-require 'noyes'
-require 'tu_extensions.rb'
-
-class TestIncremental < Test::Unit::TestCase
-  include Noyes
+module TestIncremental
   DD = 'data/noyes'
   def setup
     @nfilt = 32

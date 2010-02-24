@@ -1,9 +1,4 @@
-require 'test/unit'
-require 'segment'
-require 'hamming_window'
-
-class TestRubySpeed < Test::Unit::TestCase
-  include Noyes
+module TestRubySpeed
   def test_hamming_window
     seg = Segmenter.new
     ham = HammingWindow.new 10

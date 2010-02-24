@@ -1,9 +1,4 @@
-require 'test/unit'
-require 'noyes'
-require 'tu_extensions.rb'
-
-class TestFrontEnd8k < Test::Unit::TestCase
-  include Noyes
+module TestFrontEnd8k
   DD = 'data/noyes'
   def test_noyes
     nfilt = 32

@@ -1,8 +1,4 @@
-require 'test/unit'
-require 'noyes'
-
-class TestFrontEnd < Test::Unit::TestCase
-  include Noyes
+module TestDSL
   def test_tiny
     data = (1..32).to_a
     segmenter = Segmenter.new 4, 2

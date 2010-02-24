@@ -1,9 +1,6 @@
-require 'test/unit'
 require 'stringio'
-require 'send_incrementally'
-require 'tu_extensions.rb'
-
-class TestIncrementalSend < Test::Unit::TestCase
+require 'common/send_incrementally'
+module TestIncrementalSend
   def test_send
     file = "data/noyes/noyes.flac"
     to_server = StringIO.new 'wb'

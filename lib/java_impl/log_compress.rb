@@ -1,5 +1,6 @@
-require 'java_filter'
-module Noyes
+require 'java_impl/java_filter'
+
+module NoyesJava
   class LogCompressor
     include JavaFilter
     def initialize log_zero = -0.00001

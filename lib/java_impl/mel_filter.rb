@@ -1,5 +1,6 @@
-require 'java_filter'
-module Noyes
+require 'java_impl/java_filter'
+
+module NoyesJava
   class MelFilter
     include JavaFilter
     def initialize srate, nfft, nfilt, lowerf, upperf

@@ -1,4 +1,4 @@
-require 'discrete_fourier_transform'
+require 'ruby_impl/discrete_fourier_transform'
 module Noyes
   # The square of the DFT.  You must specify the number of ffts.  The power
   # spectrum returns an array of arrays where each inner array is of length

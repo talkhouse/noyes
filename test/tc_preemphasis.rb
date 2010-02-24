@@ -1,7 +1,4 @@
-require 'test/unit'
-require 'preemphasis'
-class TestPreemphasis < Test::Unit::TestCase
-  include Noyes
+module TestPreemphasis
   def test_preemphasizer
     data = [1.0, 2.0, 3.0, 4.0]
     expected = [1.0, 1.03, 1.06, 1.09]

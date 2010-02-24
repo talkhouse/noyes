@@ -1,31 +1,40 @@
 #!/usr/bin/env ruby
 # vim: set filetype=ruby :
 ROOT = File.dirname(File.dirname(__FILE__))
-$: << "#{ROOT}/lib"
-$: << "#{ROOT}/lib/common"
+$: << "#{ROOT}/lib" << "#{ROOT}/ship"
 
 require 'optparse'
 options = {}
-optparse = OptionParser.new do |opt|
+OptionParser.new do |opt|
   opt.banner = 'Usage: nrec [options] file1 file2 ...'
-  opt.banner += "\n  nrec uses the environment\'s ruby interpreter."
-  opt.banner += "\n  Use jnrec if you want to use jruby or java implementations."
   opt.on '-v', '--verbose', 'Output more information' do 
     options[:verbose] = true
   end
   options[:implementation] = :ruby
+  opt.on '-j', '--java', 'Use java implementation' do
+    options[:implementation] = :java
+  end
   opt.on( '-h', '--help', 'Display this screen' ) do
     puts opt
     exit
   end
-end
-optparse.parse!
+end.parse!
 
-# jnrec has the option of using a fast java implementation.  Alas, nrec only
-# has the pure ruby implementation available, which is slow.
-$: << "#{ROOT}/lib/ruby_impl"
+# Must set implementation specific library path before requiring libraries.
+case options[:implementation]
+when :java
+  if RUBY_PLATFORM != 'java'
+    puts "You must use jnrec instead of nrec if you want to use the -j option."
+    exit
+  end
+  require 'noyes_java'
+  require 'javaimpl.jar'
+  include NoyesJava
+when :ruby
+  require 'noyes'
+  include Noyes
+end
 require 'socket'
-require 'send_incrementally'
 
 def recognize file, node='174.129.244.159', port=2348
   TCPSocket.open(node, port) do |client|
