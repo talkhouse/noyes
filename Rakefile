@@ -147,9 +147,9 @@ begin
     s.homepage = "http://github.com/talkhouse/noyes"
     s.authors = ["Joe Woelfel"]
     s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << 
-        Dir['lib/*.rb'] << Dir['ship/*.jar']
+        Dir['lib/java_impl/*.rb'] << Dir['lib/*.rb'] << Dir['ship/*.jar']
     s.test_files = []
-    s.require_paths = ['lib/ruby_impl', 'lib/common', 'lib']
+    s.require_paths = ['lib','ship']
     s.extra_rdoc_files = ['README', 'FAQ', 'COPYING']
   end
   Jeweler::GemcutterTasks.new

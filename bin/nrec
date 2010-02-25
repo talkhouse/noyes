@@ -28,7 +28,6 @@ when :java
     exit
   end
   require 'noyes_java'
-  require 'javaimpl.jar'
   include NoyesJava
 when :ruby
   require 'noyes'
