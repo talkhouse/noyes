@@ -11,19 +11,14 @@ A:
 Q:
   How do I use the Java implementation from JRuby?
 A: 
-  # Note that '$:' is the library path.
-  $: << "#{ROOT}/lib"
-  $: << "#{ROOT}/lib/common"
-  $: << "#{ROOT}/lib/java_impl"
-  $: << "#{ROOT}/ship"
-  require 'javaimpl.jar'
+  require 'noyes_java.jar'
+  include NoyesJava
 
 Q:
   How do I use the pure ruby implementation?
 A:
-  $: << "#{ROOT}/lib"
-  $: << "#{ROOT}/lib/common"
-  $: << "#{ROOT}/lib/ruby_impl"
+  require 'noyes'
+  include Noyes
 
 Q:
   Is there are recognizer I can use with this front end?
