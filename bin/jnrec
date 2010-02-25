@@ -1,2 +1,0 @@
-#!/usr/bin/env jruby
-load "#{File.dirname(File.dirname(__FILE__))}/bin/nrec"

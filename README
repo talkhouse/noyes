@@ -125,17 +125,13 @@ filter 2 while stream 2 goes through filters 3, 4, and 5.
 
 == Command Line Utilities
 
-The programs nrec and jnrec will process almost any audio file into speech
+The program nrec will process almost any format of audio file into speech
 features and send the data to a cloud hosted speech recognizer.  The resulting
 transcript will be sent back and printed out.  The nrec program uses whatever
 version of Ruby is on the path of your current environment.  It is compatible
-with both ruby 1.9 and ruby 1.8x.  However, it uses a pure Ruby implementation
-for the signal processing.  As such, it is slow.  Type nrec -h for usage. 
-
-The jnrec program uses whatever jruby it finds on the path of your current
-environment.  It is almost identical to nrec except that it gives you the
-option of using a pure ruby implementation or using a Java implementation.  The
-Java implementation is very fast.  Type jnrec -h for usage.
+with both ruby 1.9, ruby 1.8x, and JRuby.  When run under JRuby it can
+optionally use a Java implementation, which is very fast.  See nrec --help for
+more information.
 
 == Assessing Performance for Wireless Devices
 

@@ -24,12 +24,25 @@ end.parse!
 case options[:implementation]
 when :java
   if RUBY_PLATFORM != 'java'
-    puts "You must use jnrec instead of nrec if you want to use the -j option."
+    puts "The Java implementation is not accessable from Ruby, only JRuby."
+    puts "You'll need to check your environment carefully.  If you've"
+    puts "installed this gem under both ruby and jruby and both are in"
+    puts "your current environment you may have created a conflict."
+    puts "you must make sure the jruby path preceeds the ruby path."
     exit
   end
+  puts "Using Java implementation" if options[:verbose]
   require 'noyes_java'
   include NoyesJava
 when :ruby
+  if options[:verbose]
+    if RUBY_PLATFORM == 'java'
+      puts "Using pure ruby implementation under JRuby #{RUBY_VERSION}."
+    else
+      puts "Using pure ruby implementation under Ruby #{RUBY_VERSION}."
+    end
+  end
+
   require 'noyes'
   include Noyes
 end

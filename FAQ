@@ -23,7 +23,7 @@ A:
 Q:
   Is there are recognizer I can use with this front end?
 A:
-  Yes, the include command line programs nrec, and jnrec send the data
+  Yes, the include command line programs nrec sends the data
   to a recognizer running on somewhere on the cloud.  Currently it
   recognizes the names of NFL teams.  You can get audio data from
   http://github.com/talkhouse/audiodata/tree/master/nfl/
