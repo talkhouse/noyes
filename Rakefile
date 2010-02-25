@@ -115,30 +115,21 @@ namespace :wc do
 end
 
 module BenchTask
-  SRC = Dir['bench/b_*.rb']
-  # For languages that produce java classes in jars
-  JARS = Dir['ship/*.jar']
   namespace :bench do
     desc "Benchmark ruby implementation using ruby."
     task :ruby do
       puts "Benchmarking Ruby implementation."
-      SRC.each do |src|
-        sh "ruby -Ilib:lib/common:lib/ruby_impl #{src}"
-      end
+      sh "ruby -Ilib bench/b_front_end.rb --ruby"
     end
     desc "Benchmark ruby implementation using jruby."
     task :jruby do
       puts "Benchmarking JRuby implementation."
-      SRC.each do |src|
-        sh "jruby -Ilib:lib/common:lib/ruby_impl #{src}"
-      end
+      sh "jruby -Ilib bench/b_front_end.rb --ruby"
     end
     desc "Benchmark Java implementation."
     task :java do
-      SRC.each do |src|
-        puts "Benchmarking java implementation."
-        sh "jruby -Ilib:lib/common:lib/java_impl:ship -rjava -rjavaimpl.jar #{src}"
-      end
+      puts "Benchmarking Java implementation."
+      sh "jruby -Ilib bench/b_front_end.rb --java"
     end
   end
 end
