@@ -56,7 +56,7 @@ namespace :test do
   desc description
   task :java => :jar do
     puts "Testing Java implementation."
-    sh "jruby -Ilib:test:ship -rjava -rjavaimpl.jar test/ts_all_java.rb"
+    sh "jruby -Ilib:test test/ts_all_java.rb"
   end
   description = 'Full JRuby implementation test.'
   desc description
@@ -85,7 +85,7 @@ namespace :test do
     desc description
     task :fast do
       puts description
-      sh "jruby -Ilib:test:ship -rjava -rjavaimpl.jar test/ts_fast_java.rb"
+      sh "jruby -Ilib:test test/ts_fast_java.rb"
     end
   end
   desc 'Run fast (but less thorough) tests for all implementations.'
