@@ -5,6 +5,23 @@ Pronunciation:  Typically pronounced the same as 'noise'.  But "NO!... YES!" is
 considered acceptable if you yell it loudly enough or at least with sufficient
 conviction to make people think you have truly changed your mind.
 
+Noyes is a general purpose signal processing tool that is flexible enough for
+many purposes.  However, it exists because there is a need for low-latency high
+quality speech recognition on portable wireless devices.  The most powerful
+speech recognizers are very large with huge models running on powerful cloud
+based systems.  But transmitting raw audio to these recognizers creates too
+much latency because raw audio uses too much bandwidth.  By sending compressed
+features instead of raw audio the bandwidth can be greatly reduced without
+compromising recognition accuracy.  In some cases the effect of inadequate
+bandwidth on latency can be reduced to zero.
+
+Because hand sets require different implementations the Noyes library is
+designed to quickly and efficiently work with and develop multiple underlying
+implementations.  All implementations are accessible via a high level dynamic
+language that includes a very expressive domain specific language for handling
+signal processing routines.  In addition, all implementations share unit tests
+written in a high level dynamic language.
+
 Noyes is implemented entirely in Ruby.  It's also implemented entirely in Java.
 The Java version has Ruby bindings too.  So you can have Java's speed from
 Ruby.  If you need a pure Java version you can use the generated jar.  There is
@@ -29,7 +46,7 @@ Requirements:
   Java, if you want to use the Java implementation instead of the default pure
   ruby implementation.
 
-  Some of the utility scripts may use sox, but
+  Some of the utility scripts such as nrec and jrec may use sox, but
   none of the core routines use it.
 
 Build instructions
@@ -148,3 +165,11 @@ eliminating much of the latency.  These features in turn may then be compressed
 for further bandwidth reduction.  This method exceeds what is possible with
 alternative methods of audio compression.  Further, it eliminates many of the
 distortion components that may compromise recognition accuracy.
+
+If all you want is a rough feeling of how responsive speech recognition will be
+over your network try speaking an utterance at the same time you enter a
+command to have a prerecorded utterance recognized.  You'll probably be
+surprised by how quickly the network is able to respond.  You may find that the
+Java implementation feels like instant response even though it takes time for
+the JVM to launch.  Ruby 1.9 is actually surprisingly quick on a reasonably
+powerful laptop.
