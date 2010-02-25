@@ -27,3 +27,9 @@ A:
   to a recognizer running on somewhere on the cloud.  Currently it
   recognizes the names of NFL teams.  You can get audio data from
   http://github.com/talkhouse/audiodata/tree/master/nfl/
+
+Q:
+  What does nrec stand for?
+
+A:
+  Noyes Recognizer.
