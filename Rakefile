@@ -12,7 +12,7 @@ def ensure_dir file
 end
 
 def make_jar objs, lang
-  jar = "ship/#{lang}impl.jar" 
+  jar = "ship/noyes.jar" 
   task :jar => jar
   task :default => :jar
   objtrunc = objs.map {|obj| obj.sub /^build\/#{lang}\//, ''}
@@ -31,10 +31,10 @@ module JavaBuild
     end
   end
   make_jar OBJ, 'java'
-  file 'ship/javaimpl.jar' => OBJ
+  file 'ship/noyes.jar' => OBJ
 end
 
-task :build => 'ship/javaimpl.jar'
+task :jar => 'ship/noyes.jar'
 task :default => :build
 
 module Tags
