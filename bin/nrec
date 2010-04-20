@@ -4,7 +4,7 @@ ROOT = File.dirname(File.dirname(__FILE__))
 $: << "#{ROOT}/lib" << "#{ROOT}/ship"
 
 require 'optparse'
-options = {}
+options = {:port => 2348, :address => '174.129.244.159'}
 OptionParser.new do |opt|
   opt.banner = 'Usage: nrec [options] file1 file2 ...'
   opt.on '-v', '--verbose', 'Output more information' do 
@@ -13,6 +13,12 @@ OptionParser.new do |opt|
   options[:implementation] = :ruby
   opt.on '-j', '--java', 'Use java implementation' do
     options[:implementation] = :java
+  end
+  opt.on '-p', '--port [PORT]', 'Port' do |port|
+    options[:port] = port
+  end
+  opt.on '-a', '--address [ADDRESS]', 'Internet Address' do |address|
+    options[:address] = address
   end
   opt.on( '-h', '--help', 'Display this screen' ) do
     puts opt
@@ -48,7 +54,7 @@ when :ruby
 end
 require 'socket'
 
-def recognize file, node='174.129.244.159', port=2348
+def recognize file, node, port
   TCPSocket.open(node, port) do |client|
     send_incremental_features file, client, client
   end
@@ -56,6 +62,6 @@ end
 
 ARGV.each do |file|
   puts "recognizing file #{file}" if options[:verbose]
-  result = recognize file
+  result = recognize file, options[:address], options[:port]
   puts "\n#{result}"
 end
