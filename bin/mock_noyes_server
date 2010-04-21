@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# vim: set filetype=ruby :
+ROOT = File.dirname(File.dirname(__FILE__))
+$: << "#{ROOT}/lib/common"
+
+require 'optparse'
+require 'ostruct'
+require 'mock_noyes_server'
+DEF_PORT = 24902
+options = OpenStruct.new
+options.port = DEF_PORT
+OptionParser.new do |opt|
+  opt.banner = 'Usage: mock_nserv [options]'
+  opt.on '-v', '--verbose', 'Output more information' do 
+    options[:verbose] = true
+  end
+  opt.on '-h', '--help', 'Display this screen' do
+    puts opt
+    exit
+  end
+  opt.on '-p', '--port [PORT]', "Port (Default is #{DEF_PORT})" do |port|
+    options.port = port
+  end
+end.parse!
+
+server = MockNoyesServer.new options
+server.run

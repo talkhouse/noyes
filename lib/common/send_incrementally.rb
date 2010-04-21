@@ -1,12 +1,24 @@
 require 'noyes'
 include Noyes
 
-TMAGIC = '1.0 talkhouse'
-TSTART = [0].pack('N')
-TAUDIO = [1].pack('N')
-TEND = [2].pack('N')
-TDONE = [3].pack('N')
-TCEPSTRA = [4].pack('N')
+require 'noyes_protocol'
+# The following flags are in network byte order (big endian) and are 4 bytes
+# long. 
+#
+# TSTART = 0
+# TAUDIO_16b_8k = 1
+# TEND = 2
+# TDONE = 3
+# 
+# The following is pseudo code for a transmitting audio
+# send TMAGIC     # Magic number
+# send TSTART     # Start of microphone
+# while more audio
+#   send TAUDIO_16b_8k
+#   send length of array (in values, not bytes)
+# end while
+# sent TEND       # microphone is off
+# sent TDONE      # session is finished
 
 # Use sox to convert a file of almost any common type int pcm.
 def file2pcm file
