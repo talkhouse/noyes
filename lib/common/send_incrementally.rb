@@ -5,11 +5,6 @@ require 'noyes_protocol'
 # The following flags are in network byte order (big endian) and are 4 bytes
 # long. 
 #
-# TSTART = 0
-# TAUDIO_16b_8k = 1
-# TEND = 2
-# TDONE = 3
-# 
 # The following is pseudo code for a transmitting audio
 # send TMAGIC     # Magic number
 # send TSTART     # Start of microphone
@@ -66,6 +61,25 @@ def send_incremental_features file, to_server, from_server
     print '.'
     data.each {|cmn| to_server.write cmn.pack('g*')} 
     to_server.flush
+  end
+  to_server.write TEND
+  to_server.write TDONE
+  to_server.flush
+  from_server.read
+end
+
+def send_incremental_pcm file, to_server, from_server, depth, rate
+  raw = `sox #{file} -s -B -r #{rate} -b #{depth} -t raw -` 
+  to_server.write TMAGIC
+  to_server.write TSTART
+  chunk = raw.slice! 0, 1024
+  while chunk.size > 0
+    to_server.write TA16_16
+    to_server.write [chunk.size/2].pack('N')
+    to_server.write chunk
+    print '.'
+    to_server.flush
+    chunk = raw.slice! 0, 1024
   end
   to_server.write TEND
   to_server.write TDONE

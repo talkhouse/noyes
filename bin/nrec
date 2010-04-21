@@ -4,7 +4,8 @@ ROOT = File.dirname(File.dirname(__FILE__))
 $: << "#{ROOT}/lib" << "#{ROOT}/ship"
 
 require 'optparse'
-options = {:port => 2348, :address => '174.129.244.159'}
+options = {:port => 2348, :address => '174.129.244.159',
+           :rate => '16k', :bits => '16'}
 OptionParser.new do |opt|
   opt.banner = 'Usage: nrec [options] file1 file2 ...'
   opt.on '-v', '--verbose', 'Output more information' do 
@@ -17,8 +18,17 @@ OptionParser.new do |opt|
   opt.on '-p', '--port [PORT]', 'Port' do |port|
     options[:port] = port
   end
-  opt.on '-a', '--address [ADDRESS]', 'Internet Address' do |address|
+  opt.on '-a', '--address [ADDRESS]', 'Internet address' do |address|
     options[:address] = address
+  end
+  opt.on '-b', '--bits [BITS]', 'Bit bits' do |bits|
+    options[:bits] = bits
+  end
+  opt.on '-r', '--rate [RATE]', 'Sampling rate' do |rate|
+    options[:rate] = rate
+  end
+  opt.on '--pcm', 'PCM' do
+    options[:pcm] = true
   end
   opt.on( '-h', '--help', 'Display this screen' ) do
     puts opt
@@ -54,14 +64,18 @@ when :ruby
 end
 require 'socket'
 
-def recognize file, node, port
-  TCPSocket.open(node, port) do |client|
-    send_incremental_features file, client, client
+def recognize file, options
+  TCPSocket.open(options[:node], options[:port]) do |client|
+    if options[:pcm]
+      send_incremental_pcm file, client, client, options[:bits], options[:rate]
+    else
+      send_incremental_features file, client, client
+    end
   end
 end
 
 ARGV.each do |file|
   puts "recognizing file #{file}" if options[:verbose]
-  result = recognize file, options[:address], options[:port]
+  result = recognize file, options
   puts "\n#{result}"
 end
