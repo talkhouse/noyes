@@ -56,6 +56,7 @@ class MockNoyesServer
     id = session.data.slice(0,4)
     id = session.data.slice!(0,4) if id == TSTART
       
+    # We just don't really do anything with the cepstra in the mock server.
     cepstra = []
     while id == TCEPSTRA && session.data.size >=8
       cep_count = 13 * session.data.slice(4,4).unpack('N')[0]
@@ -64,6 +65,13 @@ class MockNoyesServer
       cep_count.times do |i|
         cepstra << session.data.slice!(0,4).unpack('g')[0]
       end
+      id = session.data.slice(0,4)
+    end
+    while id == TA16_44 && session.data.size >=8
+      count = session.data.slice(4,4).unpack('N')[0]
+      break unless cep_count * 2 + TA16_44.size + 4 <= session.data.size
+      session.data.slice!(0,8)
+      cepstra.append session.data.slice!(0,cep_count*2).unpack('g*')
       id = session.data.slice(0,4)
     end
     if id == TEND
