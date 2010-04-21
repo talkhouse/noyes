@@ -62,16 +62,14 @@ class MockNoyesServer
       cep_count = 13 * session.data.slice(4,4).unpack('N')[0]
       break unless cep_count * 4 + TCEPSTRA.size + 4 <= session.data.size
       session.data.slice!(0,8)
-      cep_count.times do |i|
-        cepstra << session.data.slice!(0,4).unpack('g')[0]
-      end
+      cepstra.push session.data.slice!(0,cep_count * 4).unpack('g*')
       id = session.data.slice(0,4)
     end
     while id == TA16_44 && session.data.size >=8
       count = session.data.slice(4,4).unpack('N')[0]
       break unless cep_count * 2 + TA16_44.size + 4 <= session.data.size
       session.data.slice!(0,8)
-      cepstra.append session.data.slice!(0,cep_count*2).unpack('g*')
+      cepstra.push session.data.slice!(0,cep_count*2).unpack('g*')
       id = session.data.slice(0,4)
     end
     if id == TEND
