@@ -49,4 +49,7 @@ module Noyes
   class Segmenter
     include NoyesFilterDSL
   end
+  class Compression
+    include NoyesFilterDSL
+  end
 end
