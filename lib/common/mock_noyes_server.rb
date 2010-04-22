@@ -69,10 +69,13 @@ class MockNoyesServer
       count = session.data.slice(4,4).unpack('N')[0]
       break unless count * 2 + TA16_44.size + 4 <= session.data.size
       session.data.slice!(0,8)
-      cepstra.push session.data.slice!(0,count*2).unpack('g*')
+      audio = session.data.slice!(0,count*2).unpack('n*')
+      session.file.write audio.pack 'n*'
       id = session.data.slice(0,4)
     end
     if id == TEND
+      session.file.flush
+      session.file.close
       session.data.slice!(0,4) 
       sock.puts 'new england patriots'
       close_socket sock
