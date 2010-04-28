@@ -35,6 +35,7 @@ class MockNoyesServer
   end
 
   def accept_new_connection
+    puts "accepting new connection"
     newsock = @server_socket.accept
     @descriptors.push newsock
     session = Session.new open("session_#{@file_counter+=1}.raw", 'w')
@@ -43,6 +44,7 @@ class MockNoyesServer
 
   def process_available_data sock
     msg, from = sock.recvfrom 1024
+    return if msg.size == 0
     session = @sessions[sock]
     session.data << msg
 
@@ -50,6 +52,7 @@ class MockNoyesServer
       if session.data =~ /^#{TMAGIC}/
         session.magic = true
         session.data.slice! 0, TMAGIC.size
+        puts "magic! #{msg}"
       end
     end
 
@@ -68,6 +71,7 @@ class MockNoyesServer
     while (id == TA16_44 || id == TA16_16) && session.data.size >=8
       count = session.data.slice(4,4).unpack('N')[0]
       break unless count * 2 + TA16_44.size + 4 <= session.data.size
+      print '.'
       session.data.slice!(0,8)
       audio = session.data.slice!(0,count*2).unpack('n*')
       session.file.write audio.pack 'n*'
@@ -80,10 +84,9 @@ class MockNoyesServer
       sock.puts 'new england patriots'
       close_socket sock
     end
-    session.data.slice!(0,4) if id == TDONE
-    
+    session.data.slice!(0,4) if id == TBYE
   rescue IOError => e
-   p e
+    puts "\nConnection closed"
   end
   def close_socket sock
     @descriptors.delete sock
