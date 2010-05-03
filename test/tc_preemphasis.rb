@@ -15,8 +15,6 @@ module TestPreemphasis
     res1 = preemphasizer << data[0,2]
     res2 = preemphasizer << data[2,4]
     res = res1 + res2
-    expected.zip(res).each do |expected, actual|
-      assert_in_delta expected, actual, 0.0001
-    end
+    assert_m expected, res, 4
   end
 end
