@@ -20,7 +20,7 @@ module TestIncrementalSend
       id = raw_data.slice!(0,4)
     end
     assert_equal TEND, id
-    assert_equal TDONE, raw_data.slice!(0,4)
+    assert_equal TBYE, raw_data.slice!(0,4)
     ex_cmn = IO.read("data/noyes/cmn.dat").unpack 'g*'
     assert_m ex_cmn[0, cepstra.size], cepstra, 5
   end
