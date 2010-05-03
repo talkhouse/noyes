@@ -1,7 +1,6 @@
 require 'noyes'
 include Noyes
 
-require 'noyes_protocol'
 # The following flags are in network byte order (big endian) and are 4 bytes
 # long. 
 #
@@ -13,7 +12,7 @@ require 'noyes_protocol'
 #   send length of array (in values, not bytes)
 # end while
 # sent TEND       # microphone is off
-# sent TDONE      # session is finished
+# sent TBYE      # session is finished
 
 # Use sox to convert a file of almost any common type int pcm.
 def file2pcm file
@@ -63,7 +62,7 @@ def send_incremental_features file, to_server, from_server
     to_server.flush
   end
   to_server.write TEND
-  to_server.write TDONE
+  to_server.write TBYE
   to_server.flush
   from_server.read
 end
@@ -82,7 +81,7 @@ def send_incremental_pcm file, to_server, from_server, depth, rate
     chunk = raw.slice! 0, 1024
   end
   to_server.write TEND
-  to_server.write TDONE
+  to_server.write TBYE
   to_server.flush
   from_server.read
 end

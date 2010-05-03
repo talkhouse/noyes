@@ -46,52 +46,52 @@ task :tags do
 end
 
 namespace :test do
-  description = 'Full Ruby implementation test.'
-  desc description
+  ruby_desc = 'Full Ruby implementation test.'
+  desc ruby_desc
   task :ruby do
-    puts description
+    puts ruby_desc
     sh "ruby -Ilib:test test/ts_all_ruby.rb"
   end
   
-  description = 'Test C implementation' 
-  desc description
+  c_desc = 'Test C implementation' 
+  desc c_desc 
   task :c do
-    puts description
+    puts c_desc 
     sh "ruby -Ilib:test:ext test/ts_all_c.rb"
   end
-  description = 'Full Java implementation test.'
-  desc description
+  java_desc = 'Full Java implementation test.'
+  desc java_desc 
   task :java => :jar do
-    puts "Testing Java implementation."
+    puts java_desc 
     sh "jruby -Ilib:test:ship test/ts_all_java.rb"
   end
-  description = 'Full JRuby implementation test.'
-  desc description
+  jruby_desc = 'Full JRuby implementation test.'
+  desc jruby_desc
   task :jruby do
     puts "Testing JRuby implementation."
     sh "jruby -Ilib:test test/ts_all_ruby.rb"
   end
   namespace :ruby do
-    description = 'Fast (but less thorough) Ruby implementation test.'
-    desc description
+    fast_ruby_desc = 'Fast (but less thorough) Ruby implementation test.'
+    desc fast_ruby_desc
     task :fast do
-      puts description
+      puts fast_ruby_desc
       sh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :jruby do
-    description = 'Fast (but less thorough) JRuby implementation test.'
-    desc description
+    fast_jruby_desc = 'Fast (but less thorough) JRuby implementation test.'
+    desc fast_jruby_desc 
     task :fast do
-      puts description
+      puts fast_jruby_desc 
       sh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :java do
-    description = 'Fast (but less thorough) Java implementation test.'
-    desc description
+    fast_java_desc = 'Fast (but less thorough) Java implementation test.'
+    desc fast_java_desc 
     task :fast do
-      puts description
+      puts fast_java_desc 
       sh "jruby -Ilib:test test/ts_fast_java.rb"
     end
   end
