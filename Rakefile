@@ -52,6 +52,13 @@ namespace :test do
     puts description
     sh "ruby -Ilib:test test/ts_all_ruby.rb"
   end
+  
+  description = 'Test C implementation' 
+  desc description
+  task :c do
+    puts description
+    sh "ruby -Ilib:test:ext test/ts_all_c.rb"
+  end
   description = 'Full Java implementation test.'
   desc description
   task :java => :jar do
