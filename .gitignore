@@ -12,3 +12,5 @@ ship
 *.o
 Makefile
 *.bundle
+*.dll
+*.so
