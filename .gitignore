@@ -9,3 +9,6 @@ build
 out
 ship
 .tags
+*.o
+Makefile
+*.bundle
