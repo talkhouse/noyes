@@ -10,7 +10,7 @@ out
 ship
 .tags
 *.o
-Makefile
-*.bundle
-*.dll
-*.so
+lib/c_impl/Makefile
+lib/c_impl/*.bundle
+lib/c_impl/*.dll
+lib/c_impl/*.so
