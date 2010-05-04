@@ -9,8 +9,5 @@ module NoyesC
     include NoyesFilterDSL
   end
 end
-x = NoyesC::Preemphasizer.new 3
-x << [1,2,3,4]
-p x.methods
 
 make_test 'NoyesC', 'Preemphasis'
