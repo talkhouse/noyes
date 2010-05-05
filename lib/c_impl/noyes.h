@@ -18,3 +18,6 @@ void free_ndata2(NData2 *);
 
 Segmenter * new_segmenter(int winsz, int winshift);
 void free_segmenter(Segmenter *s);
+NData2 * segmenter_apply(Segmenter* self, double * data, int datalen);
+void Init_preemphasis();
+void Init_segmenter();

@@ -18,7 +18,8 @@ void free_segmenter(Segmenter *s) {
   free(s);
 }
 
-NData2 * apply(Segmenter* self, double * data, int datalen) {
+NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
+  fprintf(stderr, "hello there");
   double * combo;
   int combolen = 0;
   if (self->buf != NULL) {

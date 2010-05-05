@@ -20,3 +20,8 @@ void free_ndata2(NData2 *d) {
   free(d->data);
   free(d);
 }
+
+void Init_noyes_c() {
+  Init_segmenter();
+  Init_preemphasis();
+}

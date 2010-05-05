@@ -1,2 +1,2 @@
 require 'mkmf'
-create_makefile "preemphasis"
+create_makefile "noyes_c"
