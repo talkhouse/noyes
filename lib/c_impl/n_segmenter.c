@@ -42,22 +42,20 @@ NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
   int i = 0;
   int j=0;
   while (i+self->winsz <= combolen) {
+    fprintf(stderr, "j = %d  %f\n", j, combo[1]);
     memcpy(d->data[j++], combo, self->winsz);
     i+=self->winshift;
   }
   
   int bufsize = combolen- i;
   if (bufsize > 0) {
-      if (self->buf == NULL || self->buflen != bufsize) {
-        if (self->buf != NULL) {
-          free(self->buf);
-        }
-        self->buf = malloc(bufsize * sizeof(double));
-      }
       // Copy the tail end of combo into buf.
+      self->buf = realloc(self->buf, bufsize * sizeof(double));
+      self->buflen = bufsize;
       memcpy(self->buf, combo + (combolen - bufsize), bufsize);
   } else {
       self->buf = NULL;
+      self->buflen = 0;
   }
   return d;
 }
