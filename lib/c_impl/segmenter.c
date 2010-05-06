@@ -52,7 +52,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
     free_ndata2(d);
     return result;
   }
-  return NULL;
+  return Qnil;
 }
 
 
