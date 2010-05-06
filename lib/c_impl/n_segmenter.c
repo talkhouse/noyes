@@ -42,8 +42,7 @@ NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
   int i = 0;
   int j=0;
   while (i+self->winsz <= combolen) {
-    fprintf(stderr, "j = %d  %f\n", j, combo[1]);
-    memcpy(d->data[j++], combo, self->winsz);
+    memcpy(d->data[j++], combo + i, self->winsz * sizeof(double));
     i+=self->winshift;
   }
   
