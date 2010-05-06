@@ -92,7 +92,7 @@ namespace :test do
     desc fast_java_desc 
     task :fast do
       puts fast_java_desc 
-      sh "jruby -Ilib:test test/ts_fast_java.rb"
+      sh "jruby -Ilib:test:ship test/ts_fast_java.rb"
     end
   end
   desc 'Run fast (but less thorough) tests for all implementations.'
