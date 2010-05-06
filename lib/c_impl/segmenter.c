@@ -21,7 +21,7 @@ static VALUE t_init(VALUE self, VALUE args) {
 
   Segmenter *s = new_segmenter(winsz, winshift);
   VALUE segmenter = Data_Wrap_Struct(cSegmenter, 0, segmenter_free, s);
-//  rb_iv_set(self, "@segmenter", segmenter);
+  rb_iv_set(self, "@segmenter", segmenter);
 
   return self;
 }
@@ -38,17 +38,21 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Segmenter *s;
   Data_Get_Struct(segmenter, Segmenter, s);
   NData2 *d = segmenter_apply(s, data, len);
-  VALUE result = rb_ary_new2(d->rows);
-  for (i=0;i<d->rows;++i) {
-    VALUE row = rb_ary_new2(d->cols);
-    int j;
-    for (j=0;j<d->cols;++d) {
-      rb_ary_store(row, j, rb_float_new(d->data[i][j]));
-    }
-  }
-  free_ndata2(d);
 
-  return result;
+  if (d) {
+    VALUE result = rb_ary_new2(d->rows);
+    for (i=0;i<d->rows;++i) {
+      VALUE row = rb_ary_new2(d->cols);
+      rb_ary_store(result, i, row);
+      int j;
+      for (j=0;j<d->cols;++j) {
+        rb_ary_store(row, j, rb_float_new(d->data[i][j]));
+      }
+    }
+    free_ndata2(d);
+    return result;
+  }
+  return NULL;
 }
 
 
