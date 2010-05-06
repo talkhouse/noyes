@@ -24,4 +24,5 @@ void free_ndata2(NData2 *d) {
 void Init_noyes_c() {
   Init_segmenter();
   Init_preemphasis();
+  Init_hamming_window();
 }
