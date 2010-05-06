@@ -23,7 +23,7 @@ NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
   int combolen = 0;
   if (self->buf != NULL) {
       combolen = self->buflen + datalen;
-      combo = malloc((combolen) * sizeof(double));
+      combo = alloca((combolen) * sizeof(double));
       memcpy(combo, self->buf, self->buflen * sizeof(double));
       memcpy(combo + self->buflen, data, datalen * sizeof(double));
   } else {
@@ -31,7 +31,9 @@ NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
       combo = data;
   }
   if (combolen < self->winsz + self->winshift * 5) {
-      self->buf = combo;
+      self->buf = realloc(self->buf, combolen);
+      memcpy(self->buf, combo, combolen);
+      self->buflen = combolen;
       return NULL;
   } else {
       self->buf = NULL;

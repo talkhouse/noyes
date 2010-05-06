@@ -30,7 +30,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   int len = RARRAY_LEN(obj);
   int *ptr = (int*)RARRAY_PTR(obj);
   int i;
-  double *data = ALLOC_N(double, len);
+  double *data = ALLOCA_N(double, len);
   for (i=0;i<len;++i) {
     data[i] = NUM2DBL(ptr[i]);
   }
