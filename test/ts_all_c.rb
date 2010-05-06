@@ -14,7 +14,5 @@ module NoyesC
   end
 end
 
-x = NoyesC::Segmenter.new 4,2
-p x
 make_test 'NoyesC', 'Preemphasis'
-#make_test 'NoyesC', 'Segment'
+make_test 'NoyesC', 'Segment'

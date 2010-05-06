@@ -31,8 +31,8 @@ NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
       combo = data;
   }
   if (combolen < self->winsz + self->winshift * 5) {
-      self->buf = realloc(self->buf, combolen);
-      memcpy(self->buf, combo, combolen);
+      self->buf = realloc(self->buf, combolen * sizeof(double));
+      memcpy(self->buf, combo, combolen*sizeof(double));
       self->buflen = combolen;
       return NULL;
   } else {
@@ -51,7 +51,7 @@ NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
       // Copy the tail end of combo into buf.
       self->buf = realloc(self->buf, bufsize * sizeof(double));
       self->buflen = bufsize;
-      memcpy(self->buf, combo + (combolen - bufsize), bufsize);
+      memcpy(self->buf, combo + (combolen - bufsize), bufsize*sizeof(double));
   } else {
       self->buf = NULL;
       self->buflen = 0;

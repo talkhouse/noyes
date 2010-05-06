@@ -57,7 +57,6 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
 
 
 void Init_segmenter() {
-  fprintf(stderr, "initialising this thing");
   VALUE m_noyes_c = rb_define_module("NoyesC");
   cSegmenter = rb_define_class_under(m_noyes_c, "Segmenter", rb_cObject);
   rb_define_method(cSegmenter, "initialize", t_init, -2);
