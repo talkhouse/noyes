@@ -13,7 +13,7 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
- return self;
+ return obj;
 }
 
 void Init_hamming_window() {
