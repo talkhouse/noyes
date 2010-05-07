@@ -13,6 +13,6 @@ void free_hamming_window(HammingWindow *hw) {
   free(hw);
 }
 
-NData2 * hamming_window_apply(HammingWindow *self, NData2* data) {
+NMatrix * hamming_window_apply(HammingWindow *self, NMatrix* data) {
   return NULL;
 }

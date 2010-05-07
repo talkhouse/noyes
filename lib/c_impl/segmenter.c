@@ -37,7 +37,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE segmenter = rb_iv_get(self, "@segmenter");
   Segmenter *s;
   Data_Get_Struct(segmenter, Segmenter, s);
-  NData2 *d = segmenter_apply(s, data, len);
+  NMatrix *d = segmenter_apply(s, data, len);
 
   if (d) {
     VALUE result = rb_ary_new2(d->rows);
@@ -49,7 +49,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
         rb_ary_store(row, j, rb_float_new(d->data[i][j]));
       }
     }
-    free_ndata2(d);
+    free_nmatrix(d);
     return result;
   }
   return Qnil;

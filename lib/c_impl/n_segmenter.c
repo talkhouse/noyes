@@ -18,7 +18,7 @@ void free_segmenter(Segmenter *s) {
   free(s);
 }
 
-NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
+NMatrix * segmenter_apply(Segmenter* self, double * data, int datalen) {
   double * combo;
   int combolen = 0;
   if (self->buf != NULL) {
@@ -38,7 +38,7 @@ NData2 * segmenter_apply(Segmenter* self, double * data, int datalen) {
   } else {
       self->buf = NULL;
   }
-  NData2 *d = new_ndata2((combolen - self->winsz)/ self->winshift+1, self->winsz);
+  NMatrix *d = new_nmatrix((combolen - self->winsz)/ self->winshift+1, self->winsz);
   int i = 0;
   int j=0;
   while (i+self->winsz <= combolen) {

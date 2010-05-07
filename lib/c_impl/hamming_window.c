@@ -13,7 +13,8 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
- return obj;
+ NMatrix *M = v_2_nmatrix(obj);
+ return nmatrix_2_v(M);
 }
 
 void Init_hamming_window() {
