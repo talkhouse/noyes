@@ -34,7 +34,6 @@ NMatrix * v_2_nmatrix(VALUE value) {
       rb_raise(rb_eTypeError, "Matrix one dimensional instead of two");
     }
     cols = RARRAY_LEN(colzero);
-    fprintf(stderr, "rows cols %d %d\n", rows, colzero);
     M = new_nmatrix(rows,cols);
      int i,j;
      for (i=0;i<rows;++i) {
