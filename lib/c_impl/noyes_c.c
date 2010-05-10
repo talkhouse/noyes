@@ -3,7 +3,7 @@
 
 NMatrix *new_nmatrix(int rows, int cols) {
   NMatrix *M = malloc(sizeof(NMatrix));
-  M->data = malloc(rows * sizeof(double));
+  M->data = malloc(rows * sizeof(double*));
   int i;
   for (i=0;i<rows;++i) {
     M->data[i] = malloc(cols * sizeof(double));
@@ -21,6 +21,19 @@ void free_nmatrix(NMatrix *M) {
   free(M->data);
   free(M);
 }
+
+NMatrix1 *new_nmatrix1(int rows) {
+  NMatrix1 *M = malloc(sizeof(NMatrix));
+  M->data = malloc(rows * sizeof(double));
+  M->rows = rows;
+  return M;
+}
+
+void free_nmatrix1(NMatrix1 *M) {
+  free(M->data);
+  free(M);
+}
+
 
 // Ruby wrapper specific stuff goes below here:
 NMatrix * v_2_nmatrix(VALUE value) {
@@ -68,4 +81,5 @@ void Init_noyes_c() {
   Init_preemphasis();
   Init_hamming_window();
   Init_power_spectrum();
+  Init_mel_filter();
 }

@@ -6,6 +6,7 @@ require 'tc_preemphasis'
 require 'tc_segment'
 require 'tc_hamming_window'
 require 'tc_power_spec'
+require 'tc_mel_filter'
 
 module NoyesC
   class Preemphasizer
@@ -34,3 +35,4 @@ make_test 'NoyesC', 'Preemphasis'
 make_test 'NoyesC', 'Segment'
 make_test 'NoyesC', 'HammingWindow'
 make_test 'NoyesC', 'PowerSpec'
+make_test 'NoyesC', 'MelFilter'
