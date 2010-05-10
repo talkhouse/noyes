@@ -39,7 +39,6 @@ NMatrix * v_2_nmatrix(VALUE value) {
      for (i=0;i<rows;++i) {
        VALUE col = rb_ary_entry(value, i);
          for (j=0;j<cols;++j) {
-           VALUE cell = rb_ary_entry(col, i);
            M->data[i][j] = NUM2DBL(rb_ary_entry(col, j));
          }
      }
@@ -68,4 +67,5 @@ void Init_noyes_c() {
   Init_segmenter();
   Init_preemphasis();
   Init_hamming_window();
+  Init_power_spectrum();
 }
