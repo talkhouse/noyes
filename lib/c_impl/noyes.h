@@ -57,6 +57,7 @@ void free_power_spectrum(PowerSpectrum *);
 NMatrix *power_spectrum_apply(PowerSpectrum *self, NMatrix *data);
 NMatrix * dft(double * data, int datalen, int size);
 
+// Mel Filter
 typedef struct {
   int len;
   int * indices;
@@ -75,6 +76,14 @@ NMatrix1 * make_filter(double left, double center, double right,
 double melinv(double m);
 double mel(double m);
 
+// Log Compressor
+typedef struct {
+  double log_zero;
+} LogCompressor;
+
+LogCompressor * new_log_compressor(double log_zero);
+void free_log_compressor(LogCompressor *lc);
+NMatrix * log_compressor_apply(LogCompressor *self, NMatrix *data);
 
 // Wrapper stuff.  Only ruby related stuff below here.
 #include "ruby.h"
@@ -83,6 +92,7 @@ void Init_segmenter();
 void Init_hamming_window();
 void Init_power_spectrum();
 void Init_mel_filter();
+void Init_log_compressor();
 
 VALUE nmatrix_2_v(NMatrix *d);
 NMatrix * v_2_nmatrix(VALUE value);

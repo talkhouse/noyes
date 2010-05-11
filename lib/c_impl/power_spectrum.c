@@ -37,4 +37,3 @@ void Init_power_spectrum() {
   rb_define_method(cPowerSpectrum, "<<", t_left_shift, 1);
   id_push = rb_intern("push");
 }
-

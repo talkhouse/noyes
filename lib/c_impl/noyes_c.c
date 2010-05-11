@@ -82,4 +82,5 @@ void Init_noyes_c() {
   Init_hamming_window();
   Init_power_spectrum();
   Init_mel_filter();
+  Init_log_compressor();
 }
