@@ -85,6 +85,17 @@ LogCompressor * new_log_compressor(double log_zero);
 void free_log_compressor(LogCompressor *lc);
 NMatrix * log_compressor_apply(LogCompressor *self, NMatrix *data);
 
+// Discrete Cosine Transform
+typedef struct {
+  int rows;
+  int cols;
+  double **melcos;
+} DiscreteCosineTransform;
+
+DiscreteCosineTransform * new_dct(int order, int ncol);
+void free_dct(DiscreteCosineTransform *dct);
+NMatrix * dct_apply(DiscreteCosineTransform *self, NMatrix *data);
+
 // Wrapper stuff.  Only ruby related stuff below here.
 #include "ruby.h"
 void Init_preemphasis();

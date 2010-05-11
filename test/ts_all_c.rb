@@ -8,6 +8,7 @@ require 'tc_hamming_window'
 require 'tc_power_spec'
 require 'tc_mel_filter'
 require 'tc_log_compress'
+require 'tc_dct'
 
 module NoyesC
   class Preemphasizer
@@ -38,3 +39,4 @@ make_test 'NoyesC', 'HammingWindow'
 make_test 'NoyesC', 'PowerSpec'
 make_test 'NoyesC', 'MelFilter'
 make_test 'NoyesC', 'LogCompress'
+make_test 'NoyesC', 'DCT'
