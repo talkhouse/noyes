@@ -1,6 +1,6 @@
 #include "ruby.h"
 #include "noyes.h"
-
+#include "math.h"
 static int id_push;
 
 VALUE cMelFilter;
@@ -10,21 +10,20 @@ static void mel_filter_free(void *p) {
 }
 
 static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right), VALUE(init_freq), VALUE(delta)) {
-  NMatrix *d = make_filter(NUM2INT(left), NUM2INT(center),
+  NMatrix1 *d = make_filter(NUM2INT(left), NUM2INT(center),
                 NUM2INT(right), NUM2INT(init_freq), NUM2INT(delta)); 
- // if (d) {
- //   VALUE result = rb_ary_new2(d->rows);
- //   int i,j;
- //   for (i=0;i<d->rows;++i) {
- //     VALUE row = rb_ary_new2(d->cols);
- //     rb_ary_store(result, i, row);
- //     for (j=0;j<d->cols;++j) {
- //       rb_ary_store(row, j, rb_float_new(d->data[i][j]));
- //     }
- //   }
- //   free_nmatrix(d);
- //   return result;
- // }
+  if (d) {
+    VALUE result = rb_ary_new2(2);
+    rb_ary_store(result, 0, INT2FIX(round(d->data[0])));
+    int i;
+    VALUE filt = rb_ary_new2(d->rows-1);
+    for (i=1;i<d->rows;++i) {
+      rb_ary_store(filt, i-1, rb_float_new(d->data[i]));
+    }
+    rb_ary_store(result, 1, filt);
+    free_nmatrix1(d);
+    return result;
+  }
   return Qnil;
 }
 
