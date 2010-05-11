@@ -10,8 +10,8 @@ static void mel_filter_free(void *p) {
 }
 
 static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right), VALUE(init_freq), VALUE(delta)) {
-  NMatrix1 *d = make_filter(NUM2INT(left), NUM2INT(center),
-                NUM2INT(right), NUM2INT(init_freq), NUM2INT(delta)); 
+  NMatrix1 *d = make_filter(NUM2DBL(left), NUM2DBL(center),
+                NUM2DBL(right), NUM2DBL(init_freq), NUM2DBL(delta)); 
   if (d) {
     VALUE result = rb_ary_new2(2);
     rb_ary_store(result, 0, INT2FIX(round(d->data[0])));
@@ -25,6 +25,14 @@ static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right),
     return result;
   }
   return Qnil;
+}
+
+static VALUE t_to_mel(VALUE self, VALUE m) {
+  return rb_float_new(mel(NUM2DBL(m)));
+}
+
+static VALUE t_to_linear(VALUE self, VALUE f) {
+  return rb_float_new(melinv(NUM2DBL(f)));
 }
 
 static VALUE t_make_bank_parameters(VALUE self, VALUE srate, VALUE nfft,
@@ -99,6 +107,8 @@ void Init_mel_filter() {
   rb_define_method(cMelFilter, "<<", t_left_shift, 1);
   rb_define_module_function(cMelFilter, "make_bank_parameters", t_make_bank_parameters, 5);
   rb_define_module_function(cMelFilter, "make_filter", t_make_filter, 5);
+  rb_define_module_function(cMelFilter, "to_linear", t_to_linear, 1);
+  rb_define_module_function(cMelFilter, "to_mel", t_to_mel, 1);
   id_push = rb_intern("push");
 }
 

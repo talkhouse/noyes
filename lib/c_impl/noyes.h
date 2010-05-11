@@ -72,6 +72,8 @@ NMatrix *make_bank_parameters(double srate, int nfft, int nfilt,
 NMatrix * mel_filter_apply(MelFilter* self, NMatrix * power_spectrum);
 NMatrix1 * make_filter(double left, double center, double right,
                                double initFreq, double delta);
+double melinv(double m);
+double mel(double m);
 
 
 // Wrapper stuff.  Only ruby related stuff below here.

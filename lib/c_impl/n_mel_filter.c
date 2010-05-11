@@ -65,7 +65,7 @@ void free_mel_filter(MelFilter* mf) {
   free(mf->indices); 
 }
 
-static double mel(double f) {
+double mel(double f) {
     return 2595.0 * log10(1.0 + f/700.0);
 }
 
@@ -73,11 +73,11 @@ static double determine_bin(double inFreq,double stepFreq) {
     return stepFreq * round(inFreq / stepFreq);
 }
 
-static double melinv_single(double m) {
+double melinv(double m) {
     return 700.0 * (pow(10, m/2595.0) - 1.0);
 }
 
-//static double[] melinv(double[] m) {
+//static double[] melinv_array(double[] m) {
 //    double[] result = new double[m.length];
 //    for (int i=0;i<m.length;++i) {
 //        result[i] = melinv(m[i]);
@@ -99,7 +99,7 @@ NMatrix *make_bank_parameters(double srate, int nfft, int nfilt,
   int i;
   for (i=0;i<nfilt;++i) {
       nextEdgeMel += deltaFreqMel;
-      double nextEdge = melinv_single(nextEdgeMel);
+      double nextEdge = melinv(nextEdgeMel);
       centerFreq[i] = determine_bin(nextEdge, deltaFreq);
       if (i > 0) { 
           rightEdge[i-1] = centerFreq[i];
@@ -109,7 +109,7 @@ NMatrix *make_bank_parameters(double srate, int nfft, int nfilt,
   }
   
   nextEdgeMel += deltaFreqMel;
-  double nextEdge = melinv_single(nextEdgeMel);
+  double nextEdge = melinv(nextEdgeMel);
   rightEdge[nfilt-1] = determine_bin(nextEdge, deltaFreq);
   NMatrix *fparams = new_nmatrix(nfilt, 5);
   for (i=0;i<nfilt;++i) {
