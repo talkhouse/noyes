@@ -9,6 +9,7 @@ require 'tc_power_spec'
 require 'tc_mel_filter'
 require 'tc_log_compress'
 require 'tc_dct'
+require 'tc_live_cmn'
 
 module NoyesC
   class Preemphasizer
@@ -40,3 +41,4 @@ make_test 'NoyesC', 'PowerSpec'
 make_test 'NoyesC', 'MelFilter'
 make_test 'NoyesC', 'LogCompress'
 make_test 'NoyesC', 'DCT'
+make_test 'NoyesC', 'LiveCMN'

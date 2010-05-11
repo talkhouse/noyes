@@ -83,4 +83,5 @@ void Init_noyes_c() {
   Init_power_spectrum();
   Init_mel_filter();
   Init_log_compressor();
+  Init_live_cmn();
 }
