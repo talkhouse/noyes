@@ -119,4 +119,5 @@ void Init_noyes_c() {
   Init_mel_filter();
   Init_log_compressor();
   Init_live_cmn();
+  Init_fast_8k_mfcc();
 }

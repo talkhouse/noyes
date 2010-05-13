@@ -136,5 +136,5 @@ typedef struct {
 } Fast8kMfcc;
 
 Fast8kMfcc* new_fast_8k_mfcc();
-void free_fast8k_mfcc(Fast8kMfcc *self);
+void free_fast_8k_mfcc(Fast8kMfcc *self);
 NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 *data);

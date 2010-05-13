@@ -46,4 +46,3 @@ void Init_segmenter() {
   rb_define_method(cSegmenter, "<<", t_left_shift, 1);
   id_push = rb_intern("push");
 }
-
