@@ -25,6 +25,16 @@ void free_nmatrix(NMatrix *);
 NMatrix1 *new_nmatrix1(int rows);
 void free_nmatrix1(NMatrix1 *);
 
+// Preemphasizer
+typedef struct {
+  double factor;
+  double prior;
+} Preemphasizer;
+
+Preemphasizer * new_preemphasizer(double factor);
+void free_preemphasizer(Preemphasizer *self);
+NMatrix1 *preemphasizer_apply(Preemphasizer *self, NMatrix1 *data);
+
 // Segmenter
 typedef struct {
   double * buf;
@@ -35,7 +45,7 @@ typedef struct {
 
 Segmenter * new_segmenter(int winsz, int winshift);
 void free_segmenter(Segmenter *s);
-NMatrix * segmenter_apply(Segmenter* self, double * data, int datalen);
+NMatrix * segmenter_apply(Segmenter* self, NMatrix1 *data);
 
 // Hamming Window
 typedef struct {
@@ -109,3 +119,22 @@ typedef struct {
 LiveCMN * new_live_cmn(int dimensions, int init_mean, int window_size, int shift);
 void free_live_cmn(LiveCMN *lcmn);
 NMatrix *live_cmn_apply(LiveCMN *self, NMatrix *data);
+
+
+// Fast 8k mfcc
+// This strings together all the algorithms necessary to make mfcc's from an 8k
+// signal so you don't have to.
+typedef struct {
+  Preemphasizer *pre;
+  Segmenter *seg;
+  HammingWindow *ham;
+  PowerSpectrum *pow;
+  MelFilter *mel;
+  LogCompressor *log;
+  DiscreteCosineTransform *dct;
+  LiveCMN *cmn;
+} Fast8kMfcc;
+
+Fast8kMfcc* new_fast_8k_mfcc();
+void free_fast8k_mfcc(Fast8kMfcc *self);
+NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 *data);

@@ -11,3 +11,5 @@ void Init_live_cmn();
 VALUE nmatrix_2_v(NMatrix *d);
 NMatrix * v_2_nmatrix(VALUE value);
 
+VALUE nmatrix1_2_v(NMatrix1 *d);
+NMatrix1 * v_2_nmatrix1(VALUE value);

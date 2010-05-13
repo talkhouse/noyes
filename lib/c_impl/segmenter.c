@@ -1,5 +1,6 @@
 #include "ruby.h"
 #include "noyes.h"
+#include "rnoyes.h"
 
 static int id_push;
 
@@ -27,32 +28,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  int len = RARRAY_LEN(obj);
-  int *ptr = (int*)RARRAY_PTR(obj);
-  int i;
-  double *data = ALLOCA_N(double, len);
-  for (i=0;i<len;++i) {
-    data[i] = NUM2DBL(ptr[i]);
-  }
+  NMatrix1 *M = v_2_nmatrix1(obj); 
   VALUE segmenter = rb_iv_get(self, "@segmenter");
   Segmenter *s;
   Data_Get_Struct(segmenter, Segmenter, s);
-  NMatrix *d = segmenter_apply(s, data, len);
-
-  if (d) {
-    VALUE result = rb_ary_new2(d->rows);
-    for (i=0;i<d->rows;++i) {
-      VALUE row = rb_ary_new2(d->cols);
-      rb_ary_store(result, i, row);
-      int j;
-      for (j=0;j<d->cols;++j) {
-        rb_ary_store(row, j, rb_float_new(d->data[i][j]));
-      }
-    }
-    free_nmatrix(d);
-    return result;
-  }
-  return Qnil;
+  NMatrix *N = segmenter_apply(s, M);
+  return nmatrix_2_v(N);
 }
 
 

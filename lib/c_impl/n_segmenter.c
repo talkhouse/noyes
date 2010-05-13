@@ -18,17 +18,18 @@ void free_segmenter(Segmenter *s) {
   free(s);
 }
 
-NMatrix * segmenter_apply(Segmenter* self, double * data, int datalen) {
+NMatrix * segmenter_apply(Segmenter* self, NMatrix1 *data) {
   double * combo;
   int combolen = 0;
   if (self->buf != NULL) {
-      combolen = self->buflen + datalen;
+      combolen = self->buflen + data->rows;
       combo = alloca((combolen) * sizeof(double));
       memcpy(combo, self->buf, self->buflen * sizeof(double));
-      memcpy(combo + self->buflen, data, datalen * sizeof(double));
+      memcpy(combo + self->buflen, data->data, data->rows * sizeof(double));
   } else {
-      combolen = datalen;
-      combo = data;
+      combo = alloca((data->rows) * sizeof(double));
+      combolen = data->rows;
+      memcpy(combo, data->data, combolen * sizeof(double));
   }
   if (combolen < self->winsz + self->winshift * 5) {
       self->buf = realloc(self->buf, combolen * sizeof(double));

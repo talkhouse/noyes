@@ -34,8 +34,6 @@ void free_nmatrix1(NMatrix1 *M) {
   free(M);
 }
 
-
-// Ruby wrapper specific stuff goes below here:
 NMatrix * v_2_nmatrix(VALUE value) {
   NMatrix *M = NULL;
   int rows = RARRAY_LEN(value);
@@ -75,6 +73,39 @@ VALUE nmatrix_2_v(NMatrix *M) {
   
   return v;
 }
+
+NMatrix1 * v_2_nmatrix1(VALUE value) {
+  NMatrix1 *M = NULL;
+  int rows = RARRAY_LEN(value);
+  if (rows > 0) {
+    VALUE colzero = rb_ary_entry(value, 0);
+    colzero = rb_check_array_type(colzero);
+    if (!NIL_P(colzero)) {
+      rb_raise(rb_eTypeError, "Matrix two dimensional instead of one");
+    }
+    M = new_nmatrix1(rows);
+     int i;
+     for (i=0;i<rows;++i) {
+       VALUE val = rb_ary_entry(value, i);
+       M->data[i] = NUM2DBL(val);
+     }
+  }
+  return M;
+}
+
+VALUE nmatrix1_2_v(NMatrix1 *M) {
+  VALUE v = Qnil;
+  if (M) {
+    v = rb_ary_new2(M->rows);
+    int i;
+    for (i=0;i<M->rows;++i) {
+      rb_ary_store(v, i, rb_float_new(M->data[i]));
+    }
+  }
+  
+  return v;
+}
+
 
 void Init_noyes_c() {
   Init_segmenter();

@@ -1,46 +1,40 @@
 #include "ruby.h"
-#include "n_preemphasis.h"
+#include "noyes.h"
+#include "rnoyes.h"
 
 static int id_push;
 
+VALUE cPreemphasizer;
+
+static void preemphasizer_free(void *p) {
+  free_preemphasizer(p);
+}
+
 static VALUE t_init(VALUE self, VALUE args) {
   int len = RARRAY_LEN(args);
-  if (len ==1) {
-    rb_iv_set(self, "@factor", rb_ary_entry(args, 0));
-  } else {
-    rb_iv_set(self, "@factor", rb_float_new(0.97));
+  double factor = 0.97;
+  if (len > 0) {
+     factor = NUM2DBL(rb_ary_entry(args, 0));
   }
-  rb_iv_set(self, "@prior", rb_float_new(0.0));
-
+  Preemphasizer *pre = new_preemphasizer(factor);
+  VALUE prev = Data_Wrap_Struct(cPreemphasizer, 0, preemphasizer_free, pre);
+  rb_iv_set(self, "@preemphasizer", prev);
   return self;
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  int len = RARRAY_LEN(obj);
-  int *ptr = (int*)RARRAY_PTR(obj);
-  int i;
-  float *data = ALLOCA_N(float, len);
-  for (i=0;i<len;++i) {
-    data[i] = NUM2DBL(ptr[i]);
-  }
-  
-  VALUE factor = rb_iv_get(self, "@factor");
-  VALUE prior = rb_iv_get(self, "@prior");
-  rb_iv_set(self, "@prior", rb_float_new(data[len-1]));
-  data = preemphasize(data, len, NUM2DBL(factor), NUM2DBL(prior)); 
-  VALUE result = rb_ary_new2(len);
-  for (i=0;i<len;++i) {
-    rb_ary_store(result, i, rb_float_new(data[i]));
-  }
-  return result;
+  NMatrix1 *M = v_2_nmatrix1(obj);
+  Preemphasizer *pre;
+  VALUE prev = rb_iv_get(self, "@preemphasizer");
+  Data_Get_Struct(prev, Preemphasizer, pre);
+  NMatrix1 *N = preemphasizer_apply(pre, M);
+  return nmatrix1_2_v(N);
 }
-
-VALUE cPreemphasis;
 
 void Init_preemphasis() {
   VALUE m_noyes_c = rb_define_module("NoyesC");
-  cPreemphasis = rb_define_class_under(m_noyes_c, "Preemphasizer", rb_cObject);
-  rb_define_method(cPreemphasis, "initialize", t_init, -2);
-  rb_define_method(cPreemphasis, "<<", t_left_shift, 1);
+  cPreemphasizer = rb_define_class_under(m_noyes_c, "Preemphasizer", rb_cObject);
+  rb_define_method(cPreemphasizer, "initialize", t_init, -2);
+  rb_define_method(cPreemphasizer, "<<", t_left_shift, 1);
   id_push = rb_intern("push");
 }
