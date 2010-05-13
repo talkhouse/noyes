@@ -1,7 +1,8 @@
+#include "noyes.h"
 #include "stdlib.h"
 #include "memory.h"
 #include "math.h"
-#include "noyes.h"
+#include "stdio.h"
 
 NMatrix * dft(double * data, int datalen, int size) {
     if (datalen> size) {

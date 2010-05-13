@@ -1,5 +1,6 @@
 #include "ruby.h"
 #include "noyes.h"
+#include "rnoyes.h"
 
 static int id_push;
 

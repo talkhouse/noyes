@@ -1,5 +1,6 @@
 #include "noyes.h"
 #include "stdlib.h"
+#include "stdio.h"
 
 LiveCMN * new_live_cmn(dimensions, init_mean, window_size, shift) {
   LiveCMN *cmn = malloc(sizeof(LiveCMN));

@@ -1,6 +1,7 @@
-#include "ruby.h"
 #include "noyes.h"
+#include "rnoyes.h"
 #include "math.h"
+
 static int id_push;
 
 VALUE cMelFilter;

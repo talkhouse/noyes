@@ -1,5 +1,6 @@
 #include "ruby.h"
 #include "noyes.h"
+#include "rnoyes.h"
 
 static int id_push;
 
@@ -40,4 +41,3 @@ void Init_dct() {
   rb_define_method(cDiscreteCosineTransform, "<<", t_left_shift, 1);
   id_push = rb_intern("push");
 }
-

@@ -1,5 +1,5 @@
 #include "noyes.h"
-#include "ruby.h"
+#include "rnoyes.h"
 
 NMatrix *new_nmatrix(int rows, int cols) {
   NMatrix *M = malloc(sizeof(NMatrix));
