@@ -14,12 +14,14 @@ NMatrix *new_nmatrix(int rows, int cols) {
 }
 
 void free_nmatrix(NMatrix *M) {
-  int i;
-  for (i=0;i<M->rows;++i) {
-    free(M->data[i]);
+  if (M) {
+    int i;
+    for (i=0;i<M->rows;++i) {
+      free(M->data[i]);
+    }
+    free(M->data);
+    free(M);
   }
-  free(M->data);
-  free(M);
 }
 
 NMatrix1 *new_nmatrix1(int rows) {
@@ -30,8 +32,10 @@ NMatrix1 *new_nmatrix1(int rows) {
 }
 
 void free_nmatrix1(NMatrix1 *M) {
-  free(M->data);
-  free(M);
+  if (M) {
+    free(M->data);
+    free(M);
+  }
 }
 
 NMatrix * v_2_nmatrix(VALUE value) {

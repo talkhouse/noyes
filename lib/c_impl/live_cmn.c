@@ -34,7 +34,9 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE cmnv = rb_iv_get(self, "@cmn");
   Data_Get_Struct(cmnv, LiveCMN, cmn);
   NMatrix *N = live_cmn_apply(cmn, M);
-  return nmatrix_2_v(N);
+  VALUE result = nmatrix_2_v(N);
+  free_nmatrix(N);
+  return result;
 }
 
 void Init_live_cmn() {

@@ -39,11 +39,11 @@ NMatrix * segmenter_apply(Segmenter* self, NMatrix1 *data) {
   } else {
       self->buf = NULL;
   }
-  NMatrix *d = new_nmatrix((combolen - self->winsz)/ self->winshift+1, self->winsz);
+  NMatrix *M = new_nmatrix((combolen - self->winsz)/ self->winshift+1, self->winsz);
   int i = 0;
   int j=0;
   while (i+self->winsz <= combolen) {
-    memcpy(d->data[j++], combo + i, self->winsz * sizeof(double));
+    memcpy(M->data[j++], combo + i, self->winsz * sizeof(double));
     i+=self->winshift;
   }
   
@@ -57,5 +57,5 @@ NMatrix * segmenter_apply(Segmenter* self, NMatrix1 *data) {
       self->buf = NULL;
       self->buflen = 0;
   }
-  return d;
+  return M;
 }

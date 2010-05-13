@@ -28,7 +28,10 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE lcv = rb_iv_get(self, "@log_compressor");
   Data_Get_Struct(lcv, LogCompressor, lc);
   NMatrix *N = log_compressor_apply(lc, M);
-  return nmatrix_2_v(N);
+  VALUE result = nmatrix_2_v(N);
+  free_nmatrix(N);
+  free_nmatrix(M);
+  return result;
 }
 
 void Init_log_compressor() {

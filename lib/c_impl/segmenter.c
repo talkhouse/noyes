@@ -33,9 +33,11 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Segmenter *s;
   Data_Get_Struct(segmenter, Segmenter, s);
   NMatrix *N = segmenter_apply(s, M);
-  return nmatrix_2_v(N);
+  VALUE result = nmatrix_2_v(N);
+  free_nmatrix(N);
+  free_nmatrix1(M);
+  return result;
 }
-
 
 void Init_segmenter() {
   VALUE m_noyes_c = rb_define_module("NoyesC");

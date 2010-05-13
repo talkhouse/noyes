@@ -28,7 +28,9 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE prev = rb_iv_get(self, "@preemphasizer");
   Data_Get_Struct(prev, Preemphasizer, pre);
   NMatrix1 *N = preemphasizer_apply(pre, M);
-  return nmatrix1_2_v(N);
+  VALUE result = nmatrix1_2_v(N);
+  free_nmatrix1(N);
+  return result;
 }
 
 void Init_preemphasis() {

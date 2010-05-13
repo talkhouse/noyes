@@ -27,7 +27,9 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE hwv = rb_iv_get(self, "@hw");
   Data_Get_Struct(hwv, HammingWindow, hw);
   NMatrix *N = hamming_window_apply(hw, M);
-  return nmatrix_2_v(N);
+  VALUE result = nmatrix_2_v(N);
+  free_nmatrix(N);
+  return result;
 }
 
 void Init_hamming_window() {

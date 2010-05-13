@@ -28,7 +28,9 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE psv = rb_iv_get(self, "@ps");
   Data_Get_Struct(psv, PowerSpectrum, ps);
   NMatrix *N = power_spectrum_apply(ps, M);
-  return nmatrix_2_v(N);
+  VALUE result = nmatrix_2_v(N);
+  free_nmatrix(N);
+  return result;
 }
 
 void Init_power_spectrum() {
