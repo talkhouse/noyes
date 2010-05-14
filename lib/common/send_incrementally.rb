@@ -15,9 +15,10 @@ include Noyes
 # sent TBYE      # session is finished
 
 # Use sox to convert a file of almost any common type int pcm.
-def file2pcm file
-  raw = `sox #{file} -s -B -r 8k -b 16 -t raw -` 
-  length = 16 # bits
+# Not sure this works for anything beside 16 bits.
+def file2pcm file, bits, freq
+  raw = `sox #{file} -s -B -r #{freq} -b #{bits} -t raw -`
+  length = bits.to_i # bits
   max = 2**length-1
   mid = 2**(length-1)
   to_signed = proc {|n| (n>=mid) ? -((n ^ max) + 1) : n}
@@ -26,14 +27,14 @@ def file2pcm file
 end
 
 # Takes a file and two IO-like objects.
-def send_incremental_features file, to_server, from_server
+def send_incremental_features file, to_server, from_server, bits, freq
   nfilt = 32
   min_freq = 200
   max_freq = 3700
-  nfft = 256
-  freq = 8000
-  shift = 80
-  frame_size = 205
+  freq_adjustment = freq.to_i/8000
+  nfft = 256 * freq_adjustment
+  shift = 80 * freq_adjustment
+  frame_size = 205 * freq_adjustment
   preemphasizer = Preemphasizer.new 0.97
   segmenter = Segmenter.new frame_size, shift
   hamming_windower = HammingWindow.new frame_size
@@ -42,7 +43,7 @@ def send_incremental_features file, to_server, from_server
   compressor = LogCompressor.new
   discrete_cosine_transform = DCT.new 13, nfilt
   live_cmn = LiveCMN.new
-  pcm = file2pcm file
+  pcm = file2pcm file, bits, freq
   to_server.write TMAGIC
   to_server.write TSTART
   pcm.each_slice 1230 do |data|

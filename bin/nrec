@@ -12,8 +12,16 @@ options = Trollop::options do
   opt :address, "address", :default => '174.129.244.159'
   opt :port, "port", :default => 2348
   opt :bits, "bit depth", :default => 16
-  opt :frequency, "sampling frequency", :default => '16k'
+  opt :frequency, "sampling frequency", :default => 16000
   opt :payload, "mfcc, or pcm", :default => 'mfcc'
+end
+
+if options[:bits] != 16 && options[:payload] == 'mfcc'
+  Trollop::die :bits, "must be 16 for mfcc"
+end
+
+if options[:payload] == 'mfcc' && ((options[:frequency] % 8000) != 0)
+  Trollop::die :frequency, "(#{options[:frequency]}) for mfcc must be divisible by 8000"
 end
 
 # Must set implementation specific library path before requiring libraries.
@@ -58,10 +66,11 @@ require 'socket'
 
 def recognize file, options
   TCPSocket.open(options[:address], options[:port]) do |client|
+    bits, rate = options[:bits], options[:frequency]
     if options[:pcm]
-      send_incremental_pcm file, client, client, options[:bits], options[:rate]
+      send_incremental_pcm file, client, client, bits, rate
     else
-      send_incremental_features file, client, client
+      send_incremental_features file, client, client, bits, rate
     end
   end
 end

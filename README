@@ -2,8 +2,8 @@ Noyes is a signal processing library.  It currently has just enough signal
 processing to produce features suitable for speech recognition.
 
 Pronunciation:  Typically pronounced the same as 'noise'.  But "NO!... YES!" is
-considered acceptable if you yell it loudly enough or at least with sufficient
-conviction to make people think you have truly changed your mind.
+considered acceptable if you say it with sufficient conviction to make people
+think you have truly changed your mind.
 
 Noyes is a general purpose signal processing tool that is flexible enough for
 many purposes.  However, it exists because there is a need for low-latency high
