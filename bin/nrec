@@ -12,8 +12,9 @@ OptionParser.new do |opt|
     options[:verbose] = true
   end
   options[:implementation] = :ruby
-  opt.on '-j', '--java', 'Use java implementation' do
-    options[:implementation] = :java
+  opt.on '--implementation [IMP]', [:java, :c, :ruby],
+         'Select the implementation (java, c, ruby).' do |implementation|
+    options[:implementation] = implementation
   end
   opt.on '-p', '--port [PORT]', 'Port' do |port|
     options[:port] = port
