@@ -11,6 +11,7 @@ out
 ship
 .tags
 *.o
+*.gem
 lib/c_impl/Makefile
 lib/c_impl/*.bundle
 lib/c_impl/*.dll
