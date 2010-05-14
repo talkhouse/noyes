@@ -153,8 +153,11 @@ begin
     s.email = "joe@talkhouse.com"
     s.homepage = "http://github.com/talkhouse/noyes"
     s.authors = ["Joe Woelfel"]
-    s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << 
-        Dir['lib/java_impl/*.rb'] << Dir['lib/*.rb'] << Dir['ship/*.jar']
+    s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] <<
+        Dir['lib/java_impl/*.rb'] << Dir['lib/*.rb'] << Dir['ship/*.jar'] <<
+        Dir['lib/c_impl/*.c'] << Dir['lib/c_impl/*.h'] <<
+        Dir['lib/c_impl/extconf.rb'] << 'VERSION'
+    s.extensions = ['lib/c_impl/extconf.rb']
     s.test_files = []
     s.require_paths = ['lib','ship']
     s.extra_rdoc_files = ['README', 'FAQ', 'COPYING']

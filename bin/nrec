@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
 # vim: set filetype=ruby :
 ROOT = File.dirname(File.dirname(__FILE__))
+VERSION_FILE = "#{ROOT}/VERSION"
 $: << "#{ROOT}/lib" << "#{ROOT}/ship"
 
 require 'trollop'
 
 options = Trollop::options do
-  version "Noyes #{IO.read('VERSION').strip} (c) 2010 Talkhouse"
+  version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010 Talkhouse"
   banner 'Usage: nrec [options] file1 file2 ...'
   opt :implementation, "ruby, c, or java", :default => 'ruby'
   opt :address, "address", :default => '174.129.244.159'
