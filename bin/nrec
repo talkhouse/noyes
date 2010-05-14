@@ -3,44 +3,21 @@
 ROOT = File.dirname(File.dirname(__FILE__))
 $: << "#{ROOT}/lib" << "#{ROOT}/ship"
 
-require 'optparse'
-options = {:port => 2348, :address => '174.129.244.159',
-           :rate => '16k', :bits => '16'}
-OptionParser.new do |opt|
-  opt.banner = 'Usage: nrec [options] file1 file2 ...'
-  opt.on '-v', '--verbose', 'Output more information' do 
-    options[:verbose] = true
-  end
-  options[:implementation] = :ruby
-  opt.on '-j', '--java', 'Use java implementation' do
-    options[:implementation] = :java
-  end
-  opt.on '-c', '--clang', 'Use c implementation' do
-    options[:implementation] = :c
-  end
-  opt.on '-p', '--port [PORT]', 'Port' do |port|
-    options[:port] = port
-  end
-  opt.on '-a', '--address [ADDRESS]', 'Internet address' do |address|
-    options[:address] = address
-  end
-  opt.on '-b', '--bits [BITS]', 'Bit bits' do |bits|
-    options[:bits] = bits
-  end
-  opt.on '-r', '--rate [RATE]', 'Sampling rate' do |rate|
-    options[:rate] = rate
-  end
-  opt.on '--pcm', 'PCM' do
-    options[:pcm] = true
-  end
-  opt.on( '-h', '--help', 'Display this screen' ) do
-    puts opt
-    exit
-  end
-end.parse!
+require 'trollop'
+
+options = Trollop::options do
+  version "Noyes #{IO.read('VERSION').strip} (c) 2010 Talkhouse"
+  banner 'Usage: nrec [options] file1 file2 ...'
+  opt :implementation, "ruby, c, or java", :default => 'ruby'
+  opt :address, "address", :default => '174.129.244.159'
+  opt :port, "port", :default => 2348
+  opt :bits, "bit depth", :default => 16
+  opt :frequency, "sampling frequency", :default => '16k'
+  opt :payload, "mfcc, or pcm", :default => 'mfcc'
+end
 
 # Must set implementation specific library path before requiring libraries.
-case options[:implementation]
+case options[:implementation].to_sym
 when :c
   if RUBY_PLATFORM == 'java'
     puts "The Java implementation is not accessable from Ruby, only JRuby."
