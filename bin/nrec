@@ -16,6 +16,9 @@ OptionParser.new do |opt|
          'Select the implementation (java, c, ruby).' do |implementation|
     options[:implementation] = implementation
   end
+  opt.on '-c', '--clang', 'Use c implementation' do
+    options[:implementation] = :c
+  end
   opt.on '-p', '--port [PORT]', 'Port' do |port|
     options[:port] = port
   end
@@ -39,13 +42,25 @@ end.parse!
 
 # Must set implementation specific library path before requiring libraries.
 case options[:implementation]
+when :c
+  if RUBY_PLATFORM == 'java'
+    puts "The Java implementation is not accessable from Ruby, only JRuby."
+    puts "You'll need to check your environment carefully.  If you've"
+    puts "installed this gem under both ruby and jruby and both are in"
+    puts "your current environment you may have created a conflict."
+    puts "You must make sure the Ruby path preceeds the JRuby path."
+    exit
+  end
+  puts "Using C implementation" if options[:verbose]
+  require 'noyes_c'
+  include NoyesC
 when :java
   if RUBY_PLATFORM != 'java'
     puts "The Java implementation is not accessable from Ruby, only JRuby."
     puts "You'll need to check your environment carefully.  If you've"
     puts "installed this gem under both ruby and jruby and both are in"
     puts "your current environment you may have created a conflict."
-    puts "you must make sure the jruby path preceeds the ruby path."
+    puts "You must make sure the JRuby path preceeds the Ruby path."
     exit
   end
   puts "Using Java implementation" if options[:verbose]
@@ -66,7 +81,7 @@ end
 require 'socket'
 
 def recognize file, options
-  TCPSocket.open(options[:node], options[:port]) do |client|
+  TCPSocket.open(options[:address], options[:port]) do |client|
     if options[:pcm]
       send_incremental_pcm file, client, client, options[:bits], options[:rate]
     else
