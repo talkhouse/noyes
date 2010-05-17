@@ -15,6 +15,7 @@ options = Trollop::options do
   opt :bits, "bit depth", :default => 16
   opt :frequency, "sampling frequency", :default => 16000
   opt :payload, "mfcc, or pcm", :default => 'mfcc'
+  opt :verbose, "verbose", :default => false
 end
 
 if options[:bits] != 16 && options[:payload] == 'mfcc'
