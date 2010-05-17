@@ -12,13 +12,14 @@ void free_preemphasizer(Preemphasizer *self) {
 }
 
 NMatrix1 *preemphasizer_apply(Preemphasizer *self, NMatrix1 *data) {
+    NMatrix1 *res = new_nmatrix1(data->rows);
     double current_prior = self->prior;
     self->prior = data->data[data->rows-1];
     int i;
     for (i = 0; i < data->rows; ++i) {
         double current = data->data[i];
-        data->data[i] = current - self->factor * current_prior;
+        res->data[i] = current - self->factor * current_prior;
         current_prior = current;
     }
-    return data;
+    return res;
 }
