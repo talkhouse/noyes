@@ -1,4 +1,5 @@
 require 'noyes'
+require 'common/file2pcm'
 include Noyes
 
 # The following flags are in network byte order (big endian) and are 4 bytes
@@ -16,16 +17,6 @@ include Noyes
 
 # Use sox to convert a file of almost any common type int pcm.
 # Not sure this works for anything beside 16 bits.
-def file2pcm file, bits, freq
-  raw = `sox #{file} -s -B -r #{freq} -b #{bits} -t raw -`
-  length = bits.to_i # bits
-  max = 2**length-1
-  mid = 2**(length-1)
-  to_signed = proc {|n| (n>=mid) ? -((n ^ max) + 1) : n}
-  unpacked = raw.unpack 'n*'
-  unpacked.map{|d| to_signed[d].to_f}
-end
-
 # Takes a file and two IO-like objects.
 def send_incremental_features file, to_server, from_server, bits, freq
   nfilt = 32

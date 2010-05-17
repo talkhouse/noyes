@@ -28,6 +28,38 @@ end
 
 # Must set implementation specific library path before requiring libraries.
 case options[:implementation].to_sym
+when :fastc
+  if RUBY_PLATFORM == 'java'
+    puts "The Java implementation is not accessable from Ruby, only JRuby."
+    puts "You'll need to check your environment carefully.  If you've"
+    puts "installed this gem under both ruby and jruby and both are in"
+    puts "your current environment you may have created a conflict."
+    puts "You must make sure the Ruby path preceeds the JRuby path."
+    exit
+  end
+  puts "Using Fast C implementation" if options[:verbose]
+  require 'noyes_c'
+  include NoyesC
+  def send_incremental_features file, to_server, from_server, bits, freq
+    puts "bits and freq #{bits} #{freq}"
+    feature_maker = NoyesC::Fast8kMfcc.new
+    pcm = file2pcm file, bits, freq
+    to_server.write TMAGIC
+    to_server.write TSTART
+    pcm.each_slice 1230 do |data|
+      data >>= feature_maker
+      next unless data
+      to_server.write TCEPSTRA
+      to_server.write [data.size].pack('N')
+      print '.'
+      data.each {|cmn| to_server.write cmn.pack('g*')} 
+      to_server.flush
+    end
+    to_server.write TEND
+    to_server.write TBYE
+    to_server.flush
+    from_server.read
+  end
 when :c
   if RUBY_PLATFORM == 'java'
     puts "The Java implementation is not accessable from Ruby, only JRuby."

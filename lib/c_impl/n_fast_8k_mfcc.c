@@ -1,15 +1,14 @@
 #include "noyes.h"
 
-
 Fast8kMfcc * new_fast_8k_mfcc() {
   double factor = 0.97;
   int nfilt = 32;
   int min_freq = 200;
   int max_freq = 3700;
-  int nfft = 256;
-  int freq = 8000;
-  int shift = 80;
-  int frame_size = 205;
+  int nfft = 256*2;
+  int freq = 8000*2;
+  int shift = 80*2;
+  int frame_size = 205*2;
   double log_zero = -0.00001;
   int dimensions=13;
   int cmn_init_mean=45.0;
@@ -43,20 +42,14 @@ NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 * data) {
   NMatrix *M = NULL;
   NMatrix *N = NULL;
   NMatrix1 *data1 = preemphasizer_apply(self->pre, data);
-  free_nmatrix1(data);
-  M = segmenter_apply(self->seg, data1);
-  free_nmatrix1(data1);
-  N = hamming_window_apply(self->ham, M);
-  free_nmatrix(M);
-  M = power_spectrum_apply(self->pow, N);
-  free_nmatrix(N);
-  N = mel_filter_apply(self->mel, M);
-  free_nmatrix(M);
-  M = log_compressor_apply(self->log, N);
-  free_nmatrix(N);
-  N = dct_apply(self->dct, M);
-  free_nmatrix(M);
-  M = live_cmn_apply(self->cmn, N);
-  free_nmatrix(N);
+  M = segmenter_apply(self->seg, data1); free_nmatrix1(data1);
+  if (!M)
+    return NULL;
+  N = hamming_window_apply(self->ham, M); free_nmatrix(M);
+  M = power_spectrum_apply(self->pow, N); free_nmatrix(N);
+  N = mel_filter_apply(self->mel, M); free_nmatrix(M);
+  M = log_compressor_apply(self->log, N); free_nmatrix(N);
+  N = dct_apply(self->dct, M); free_nmatrix(M);
+  M = live_cmn_apply(self->cmn, N); free_nmatrix(N);
   return M;
 }
