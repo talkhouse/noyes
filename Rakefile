@@ -161,6 +161,7 @@ begin
     s.test_files = []
     s.require_paths = ['lib','ship']
     s.extra_rdoc_files = ['README', 'FAQ', 'COPYING']
+    s.add_dependency "trollop", ">= 1.0.0"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
