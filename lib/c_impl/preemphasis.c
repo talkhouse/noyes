@@ -30,6 +30,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   NMatrix1 *N = preemphasizer_apply(pre, M);
   VALUE result = nmatrix1_2_v(N);
   free_nmatrix1(N);
+  free_nmatrix1(M);
   return result;
 }
 
