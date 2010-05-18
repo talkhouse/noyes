@@ -25,7 +25,7 @@ void free_nmatrix(NMatrix *M) {
 }
 
 NMatrix1 *new_nmatrix1(int rows) {
-  NMatrix1 *M = malloc(sizeof(NMatrix));
+  NMatrix1 *M = malloc(sizeof(NMatrix1));
   M->data = malloc(rows * sizeof(double));
   M->rows = rows;
   return M;
