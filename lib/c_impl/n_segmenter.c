@@ -1,5 +1,5 @@
-#include "ruby.h"
 #include "noyes.h"
+#include "memory.h"
 
 Segmenter * new_segmenter(int winsz, int winshift) {
   Segmenter *s = malloc(sizeof(Segmenter));
