@@ -35,7 +35,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
 
 void Init_power_spectrum() {
   VALUE m_noyes_c = rb_define_module("NoyesC");
-  cPowerSpectrum = rb_define_class_under(m_noyes_c, "PowerSpectrum", rb_cObject);
+  cPowerSpectrum = rb_define_class_under(m_noyes_c, "PowerSpectrumFilter", rb_cObject);
   rb_define_method(cPowerSpectrum, "initialize", t_init, -2);
   rb_define_method(cPowerSpectrum, "<<", t_left_shift, 1);
   id_push = rb_intern("push");

@@ -6,15 +6,19 @@
 
 NMatrix * dft(double * data, int datalen, int size) {
     if (datalen> size) {
-        fprintf(stderr,"Size must be larger than data length");
+        fprintf(stderr,"Size(%d) must be larger than data length(%d)", size, datalen);
         return NULL;
     }
     NMatrix *M = new_nmatrix(2, size);
     double * real = M->data[0];
     double * imag = M->data[1];
+    int j=0,i;
+    for (i=0;i<size;++i) {
+      imag[i] = 0.0;
+      real[i] = 0.0;
+    }
     memcpy(real, data, datalen * sizeof(double));
 
-    int j=0,i;
     for (i=0;i<size;++i) {
         if (i < j) {
            double temp = real[j];
