@@ -8,6 +8,7 @@ void Init_mel_filter();
 void Init_log_compressor();
 void Init_live_cmn();
 void Init_fast_8k_mfcc();
+void Init_dct();
 
 VALUE nmatrix_2_v(NMatrix *d);
 NMatrix * v_2_nmatrix(VALUE value);

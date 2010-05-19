@@ -30,14 +30,31 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE dctv = rb_iv_get(self, "@dct");
   Data_Get_Struct(dctv, DiscreteCosineTransform, dct);
   NMatrix *N = dct_apply(dct, M);
-  return nmatrix_2_v(N);
+  VALUE result = nmatrix_2_v(N);
+  free_nmatrix(N);
+  return result;
+}
+
+static VALUE t_melcos(VALUE self) {
+  DiscreteCosineTransform *dct;
+  VALUE dctv = rb_iv_get(self, "@dct");
+  Data_Get_Struct(dctv, DiscreteCosineTransform, dct);
+  NMatrix *N = new_nmatrix(dct->rows, dct->cols);
+  int i;
+  for (i=0;i<dct->rows;++i) {
+    memcpy(N->data[i],dct->melcos[i], dct->cols * sizeof(double));
+  }
+  VALUE result = nmatrix_2_v(N);
+  free_nmatrix(N);
+  return result;
 }
 
 void Init_dct() {
   VALUE m_noyes_c = rb_define_module("NoyesC");
   cDiscreteCosineTransform = rb_define_class_under(m_noyes_c,
-                        "DiscreteCosineTransform", rb_cObject);
+                        "DCT", rb_cObject);
   rb_define_method(cDiscreteCosineTransform, "initialize", t_init, -2);
   rb_define_method(cDiscreteCosineTransform, "<<", t_left_shift, 1);
+  rb_define_method(cDiscreteCosineTransform, "melcos", t_melcos, 0);
   id_push = rb_intern("push");
 }

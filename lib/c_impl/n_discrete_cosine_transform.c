@@ -30,10 +30,15 @@ void free_dct(DiscreteCosineTransform *dct) {
 NMatrix * dct_apply(DiscreteCosineTransform *self, NMatrix *data) {
   NMatrix *M = new_nmatrix(data->rows, self->rows);
   int i,j,k;
+  for (i=0;i<M->rows;++i) {
+    for (j=0;j<M->cols;++j) {
+      M->data[i][j] = 0;
+    }
+  }
   for (i=0;i<data->rows;++i) {
       for (j=0;j<self->rows;++j) {
           for (k=0;k<self->cols; ++k) {
-              M->data[i][j] += M->data[i][k] * self->melcos[j][k];
+              M->data[i][j] += data->data[i][k] * self->melcos[j][k];
           }
       }
   }
