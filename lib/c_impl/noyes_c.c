@@ -1,43 +1,7 @@
 #include "noyes.h"
 #include "rnoyes.h"
 
-NMatrix *new_nmatrix(int rows, int cols) {
-  NMatrix *M = malloc(sizeof(NMatrix));
-  M->data = malloc(rows * sizeof(double*));
-  int i;
-  for (i=0;i<rows;++i) {
-    M->data[i] = malloc(cols * sizeof(double));
-  }
-  M->rows = rows;
-  M->cols = cols;
-  return M;
-}
-
-void free_nmatrix(NMatrix *M) {
-  if (M) {
-    int i;
-    for (i=0;i<M->rows;++i) {
-      free(M->data[i]);
-    }
-    free(M->data);
-    free(M);
-  }
-}
-
-NMatrix1 *new_nmatrix1(int rows) {
-  NMatrix1 *M = malloc(sizeof(NMatrix1));
-  M->data = malloc(rows * sizeof(double));
-  M->rows = rows;
-  return M;
-}
-
-void free_nmatrix1(NMatrix1 *M) {
-  if (M) {
-    free(M->data);
-    free(M);
-  }
-}
-
+// Wrappers for matrix class
 NMatrix * v_2_nmatrix(VALUE value) {
   NMatrix *M = NULL;
   int rows = RARRAY_LEN(value);
@@ -110,7 +74,7 @@ VALUE nmatrix1_2_v(NMatrix1 *M) {
   return v;
 }
 
-
+// Initialize Ruby API wrappers.
 void Init_noyes_c() {
   Init_segmenter();
   Init_preemphasis();
