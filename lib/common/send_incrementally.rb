@@ -19,6 +19,7 @@ include Noyes
 # Not sure this works for anything beside 16 bits.
 # Takes a file and two IO-like objects.
 def send_incremental_features file, to_server, from_server, bits, freq
+  stats = {}
   nfilt = 32
   min_freq = 200
   max_freq = 3700
@@ -35,9 +36,12 @@ def send_incremental_features file, to_server, from_server, bits, freq
   discrete_cosine_transform = DCT.new 13, nfilt
   live_cmn = LiveCMN.new
   pcm = file2pcm file, bits, freq
+  stats[:audio_length] = pcm.size/freq.to_f
   to_server.write TMAGIC
   to_server.write TSTART
+  stats[:process_time] = 0
   pcm.each_slice 1230 do |data|
+    process_time_start = Time.new
     data >>= preemphasizer
     data >>= segmenter
     next unless data
@@ -47,6 +51,7 @@ def send_incremental_features file, to_server, from_server, bits, freq
     data >>= compressor
     data >>= discrete_cosine_transform
     data >>= live_cmn
+    stats[:process_time] += Time.new - process_time_start
     to_server.write TCEPSTRA
     to_server.write [data.size].pack('N')
     print '.'
@@ -56,7 +61,10 @@ def send_incremental_features file, to_server, from_server, bits, freq
   to_server.write TEND
   to_server.write TBYE
   to_server.flush
-  from_server.read
+  latency_start = Time.new
+  stats[:transcript] = from_server.read
+  stats[:latency] = Time.new - latency_start
+  return stats
 end
 
 def send_incremental_pcm file, to_server, from_server, depth, rate

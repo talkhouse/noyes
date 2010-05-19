@@ -112,5 +112,9 @@ end
 ARGV.each do |file|
   puts "recognizing file #{file}" if options[:verbose]
   result = recognize file, options
-  puts "\n#{result}"
+  if options[:verbose]
+    puts "\n#{result}"
+  else
+    puts "\n#{result[:transcript]}"
+  end
 end
