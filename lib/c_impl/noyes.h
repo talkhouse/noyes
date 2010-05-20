@@ -122,7 +122,7 @@ typedef struct {
   int shift;
 } LiveCMN;
 
-LiveCMN * new_live_cmn(int dimensions, int init_mean, int window_size, int shift);
+LiveCMN * new_live_cmn(int dimensions, double init_mean, int window_size, int shift);
 void free_live_cmn(LiveCMN *lcmn);
 NMatrix *live_cmn_apply(LiveCMN *self, NMatrix *data);
 

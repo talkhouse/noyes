@@ -2,7 +2,8 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-LiveCMN * new_live_cmn(dimensions, init_mean, window_size, shift) {
+LiveCMN * new_live_cmn(int dimensions, double init_mean, int window_size,
+                                                         int shift) {
   LiveCMN *cmn = malloc(sizeof(LiveCMN));
   cmn->init_mean = init_mean; 
   cmn->window_size = window_size;
