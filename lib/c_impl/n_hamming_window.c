@@ -1,4 +1,3 @@
-#include "ruby.h"
 #include "noyes.h"
 #include "math.h"
 
