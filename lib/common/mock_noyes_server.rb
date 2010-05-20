@@ -35,7 +35,7 @@ class MockNoyesServer
   end
 
   def accept_new_connection
-    puts "accepting new connection"
+    puts "Accepting new connection."
     newsock = @server_socket.accept
     @descriptors.push newsock
     session = Session.new open("session_#{@file_counter+=1}.raw", 'w')
@@ -52,7 +52,6 @@ class MockNoyesServer
       if session.data =~ /^#{TMAGIC}/
         session.magic = true
         session.data.slice! 0, TMAGIC.size
-        puts "magic! #{msg}"
       end
     end
 
@@ -78,6 +77,7 @@ class MockNoyesServer
       id = session.data.slice(0,4)
     end
     if id == TEND
+      puts "Connection closed."
       session.file.flush
       session.file.close
       session.data.slice!(0,4) 
@@ -86,11 +86,10 @@ class MockNoyesServer
     end
     session.data.slice!(0,4) if id == TBYE
   rescue IOError => e
-    puts "\nConnection closed"
+    puts "Connection IOError"
   end
   def close_socket sock
     @descriptors.delete sock
-    @sessions[sock].file.close
     @sessions.delete sock
     sock.close
   end
