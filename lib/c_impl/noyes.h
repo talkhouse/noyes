@@ -1,4 +1,10 @@
 #include "stdlib.h"
+#ifndef _NOYES_H_
+#define _NOYES_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // Matrix handling routines.
 typedef struct {
@@ -138,3 +144,8 @@ typedef struct {
 Fast8kMfcc* new_fast_8k_mfcc();
 void free_fast_8k_mfcc(Fast8kMfcc *self);
 NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 *data);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
