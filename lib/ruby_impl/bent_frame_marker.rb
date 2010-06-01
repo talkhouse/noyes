@@ -1,8 +1,8 @@
 module Noyes
-  # Determines whether a PCM signal is speech or not using Bent
+  # Determines whether a PCM frame is speech or not using Bent
   # Schmidt-Nielsen's algorithm.  Basically, it's an energy-based detector
   # where the background noise level is constantly estimated.
-  class EouEnergy
+  class BentFrameMarker
     def initialize
       @adjustment = 0.003
       @average_number = 1.0
