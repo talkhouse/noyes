@@ -1,4 +1,8 @@
 module Noyes
+  # SpeechTrimmer trims non-speech from both ends of an audio stream. Each time
+  # you enqueue audio into it you should dequeue audio out of it until dequeue
+  # returns nil.  Then check for eos.  If eos is true you are done.
+  # SpeechTrimmer is designed to work efficiently with live audio.
   class SpeechTrimmer
     def initialize
       @leader = 5
@@ -15,7 +19,7 @@ module Noyes
       @ecs = 50
     end
 
-    def put pcm
+    def enqueue pcm
       return if @eos_reached
       @queue << pcm
       if @frame_marker << pcm
@@ -39,7 +43,7 @@ module Noyes
         @speech_started = true
       end
     end
-    def get
+    def dequeue
       if @eos_reached || (@speech_started && @queue.size > @ecs)
         @queue.shift
       end

@@ -40,14 +40,15 @@ module TestEndOfUtterance
     # Get and test results from speech trimmer.
     trimmer = SpeechTrimmer.new
     speech = segments.inject [] do |memo, centisec|
-      trimmer.put centisec unless trimmer.eos?
-      while x = trimmer.get
+      trimmer.enqueue centisec unless trimmer.eos?
+      while x = trimmer.dequeue
         memo << x
       end
       break memo if trimmer.eos?
       memo
     end
 
+    #open('spc.raw', 'wb') {|f| f.write speech.flatten.pack 'n*'}
     assert_m expected_speech, speech, 5
     assert_equal expected_speech, speech
   end
