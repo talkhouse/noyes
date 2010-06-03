@@ -2,6 +2,9 @@ module Noyes
   # Determines whether a PCM frame is speech or not using Bent
   # Schmidt-Nielsen's algorithm.  Basically, it's an energy-based detector
   # where the background noise level is constantly estimated.
+  #
+  # The pcm data should be in 100 millisecond chunks.  For example,
+  # At 8000 Hz there should 80 frames of pcm.
   class BentFrameMarker
     def initialize
       @adjustment = 0.003
@@ -10,7 +13,6 @@ module Noyes
       @level = 0.0
       @min_signal = 0.0
       @threshold = 10.0
-      @frame_len_secs = 0.001
     end
     def logrms pcm
       sum_of_squares = 0.0
