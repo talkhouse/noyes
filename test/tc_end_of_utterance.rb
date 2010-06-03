@@ -22,6 +22,8 @@ module TestEndOfUtterance
     leader = 1; trailer = 1
     segmenter = Segmenter.new 80, 80
     segments = segmenter << @pcm
+    ecs = 40 # End centiseconds.
+    scs = 20 # Start centiseconds.
 
     # Determine expected values.
     is_speech = YAML.load IO.read "#{DD}/is_speech.yml"
@@ -29,20 +31,23 @@ module TestEndOfUtterance
     false_count = 0
     speech_end = is_speech.drop(speech_start).each_with_index do |s, i|
       false_count = s ? 0 : false_count + 1
-      break i if false_count == 40
+      break i - ecs if false_count == ecs
       i
     end
-    expected_speech = segments[speech_start - leader, speech_end + trailer]
+    expected_speech = segments[speech_start - leader, speech_end + trailer + 1]
 
     # Get and test results from speech trimmer.
     trimmer = SpeechTrimmer.new
     speech = segments.inject [] do |memo, centisec|
-      x = trimmer << centisec
-      memo << x if x
+      trimmer.put centisec unless trimmer.eos?
+      while x = trimmer.get
+        memo << x
+      end
       break memo if trimmer.eos?
       memo
     end
-    speech.concat trimmer.get_queue
+
+    assert_m expected_speech, speech, 5
     assert_equal expected_speech, speech
   end
 end

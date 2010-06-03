@@ -1,44 +1,51 @@
 module Noyes
   class SpeechTrimmer
     def initialize
-      @speech_leader = 1
-      @speech_trailer = 1
+      @leader = 1
+      @trailer = 1
       @speech_started = false
       @frame_count = 0
       @speech_started = false
       @frame_marker = BentFrameMarker.new
       @false_count=0
-      @speech_queue = []
+      @true_count=0
+      @queue = []
       @eos_reached = false
+      @START_LEN = 20
+      @END_SIL = 40
     end
 
-    def << pcm
-      @speech_queue << pcm
-      if @frame_marker << pcm # is the 10 ms speech?
+    def put pcm
+      return if @eos_reached
+      @queue << pcm
+      if @frame_marker << pcm
         @false_count = 0
-        unless @speech_started
-          # Discard most begining silence, keeping just a tad.
-          if @speech_leader < @speech_queue.size
-            @speech_queue = @speech_queue[-@speech_leader - 1, @speech_leader + 1]
-          end
-          @speech_started = true
-        end
+        @true_count += 1
       else
         @false_count += 1
+        @true_count = 0
       end
-      if @false_count >= 40
-        @eos_reached = true
-        # only keep trailer number of frames once eos is detected.
-        @speech_queue = @speech_queue.slice 0, @speech_trailer
+      if @speech_started
+        if @false_count == @END_SIL
+          @eos_reached = true
+          # only keep trailer number of frames once eos is detected.
+          @queue = @queue.slice 0, @trailer
+        end
+      elsif @true_count > @START_LEN
+        # Discard most begining silence, keeping just a tad.
+        if @leader < @queue.size
+          @queue = @queue[-@leader - 21, @leader + 21]
+        end
+        @speech_started = true
       end
-      @speech_queue.shift if @speech_started
+    end
+    def get
+      if @eos_reached || (@speech_started && @queue.size > @END_SIL)
+        @queue.shift
+      end
     end
     def eos?
       @eos_reached
     end
-    def get_queue
-      @speech_queue
-    end
   end    
 end
-      
