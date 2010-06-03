@@ -22,7 +22,7 @@ module TestEndOfUtterance
     leader = 1; trailer = 1
     segmenter = Segmenter.new 80, 80
     segments = segmenter << @pcm
-    ecs = 40 # End centiseconds.
+    ecs = 50 # End centiseconds.
     scs = 20 # Start centiseconds.
 
     # Determine expected values.

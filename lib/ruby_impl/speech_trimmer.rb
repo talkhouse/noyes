@@ -11,8 +11,8 @@ module Noyes
       @true_count=0
       @queue = []
       @eos_reached = false
-      @START_LEN = 20
-      @END_SIL = 40
+      @scs = 20
+      @END_SIL = 50
     end
 
     def put pcm
@@ -31,10 +31,10 @@ module Noyes
           # only keep trailer number of frames once eos is detected.
           @queue = @queue.slice 0, @trailer
         end
-      elsif @true_count > @START_LEN
+      elsif @true_count > @scs
         # Discard most begining silence, keeping just a tad.
         if @leader < @queue.size
-          @queue = @queue[-@leader - 21, @leader + 21]
+          @queue = @queue[-@leader - @scs - 1, @leader + @scs + 1]
         end
         @speech_started = true
       end
