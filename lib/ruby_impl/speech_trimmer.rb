@@ -1,8 +1,8 @@
 module Noyes
   class SpeechTrimmer
     def initialize
-      @leader = 1
-      @trailer = 1
+      @leader = 5
+      @trailer = 5
       @speech_started = false
       @frame_count = 0
       @speech_started = false
@@ -12,7 +12,7 @@ module Noyes
       @queue = []
       @eos_reached = false
       @scs = 20
-      @END_SIL = 50
+      @ecs = 50
     end
 
     def put pcm
@@ -26,7 +26,7 @@ module Noyes
         @true_count = 0
       end
       if @speech_started
-        if @false_count == @END_SIL
+        if @false_count == @ecs
           @eos_reached = true
           # only keep trailer number of frames once eos is detected.
           @queue = @queue.slice 0, @trailer
@@ -40,7 +40,7 @@ module Noyes
       end
     end
     def get
-      if @eos_reached || (@speech_started && @queue.size > @END_SIL)
+      if @eos_reached || (@speech_started && @queue.size > @ecs)
         @queue.shift
       end
     end

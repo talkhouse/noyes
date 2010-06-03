@@ -17,9 +17,9 @@ module TestEndOfUtterance
     assert_equal expected.size, slices.size, 'is_speech wrong length'
     assert_equal expected, slices, 'is_speech failed'
   end
-  def test_end_of_utterance_detection
+  def test_speech_trimmer
     # Parameters and data.
-    leader = 1; trailer = 1
+    leader = 5; trailer = 5
     segmenter = Segmenter.new 80, 80
     segments = segmenter << @pcm
     ecs = 50 # End centiseconds.
@@ -29,12 +29,13 @@ module TestEndOfUtterance
     is_speech = YAML.load IO.read "#{DD}/is_speech.yml"
     speech_start = is_speech.index true
     false_count = 0
-    speech_end = is_speech.drop(speech_start).each_with_index do |s, i|
+    speechlen = is_speech.drop(speech_start).each_with_index do |s, i|
       false_count = s ? 0 : false_count + 1
       break i - ecs if false_count == ecs
       i
     end
-    expected_speech = segments[speech_start - leader, speech_end + trailer + 1]
+    expected_speech = segments[speech_start - leader,
+                               speechlen + trailer + leader]
 
     # Get and test results from speech trimmer.
     trimmer = SpeechTrimmer.new
