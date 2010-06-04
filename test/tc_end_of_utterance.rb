@@ -7,11 +7,11 @@ module TestEndOfUtterance
     @pcm = @pcm.map{|d| to_signed_short(d).to_f}
     @frames_per_10_millisecs = 80
   end
-  def test_bent_frame_marker
-    frame_marker = BentFrameMarker.new
+  def test_bent_cent_marker
+    cent_marker = BentCentMarker.new
     slices = []
     @pcm.each_slice @frames_per_10_millisecs do |frame|
-      slices << (frame_marker << frame)
+      slices << (cent_marker << frame)
     end
     expected = YAML.load IO.read "#{DD}/is_speech.yml"
     assert_equal expected.size, slices.size, 'is_speech wrong length'

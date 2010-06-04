@@ -8,9 +8,7 @@ module Noyes
       @leader = 5
       @trailer = 5
       @speech_started = false
-      @frame_count = 0
-      @speech_started = false
-      @frame_marker = BentFrameMarker.new
+      @cent_marker = BentCentMarker.new
       @false_count=0
       @true_count=0
       @queue = []
@@ -22,7 +20,7 @@ module Noyes
     def enqueue pcm
       return if @eos_reached
       @queue << pcm
-      if @frame_marker << pcm
+      if @cent_marker << pcm
         @false_count = 0
         @true_count += 1
       else
@@ -32,7 +30,7 @@ module Noyes
       if @speech_started
         if @false_count == @ecs
           @eos_reached = true
-          # only keep trailer number of frames once eos is detected.
+          # only keep trailer number of cents once eos is detected.
           @queue = @queue.slice 0, @trailer
         end
       elsif @true_count > @scs

@@ -5,7 +5,7 @@ module Noyes
   #
   # The pcm data should be in 100 millisecond chunks.  For example,
   # At 8000 Hz there should 80 frames of pcm.
-  class BentFrameMarker
+  class BentCentMarker
     def initialize
       @adjustment = 0.003
       @average_number = 1.0
