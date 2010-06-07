@@ -1,3 +1,5 @@
+require 'noyes_java'
+include NoyesJava
 require 'ts_fast_java'
 require 'ts_all'
 
