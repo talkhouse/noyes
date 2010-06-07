@@ -1,4 +1,5 @@
 require 'yaml'
+
 module TestEndOfUtterance
   DD = 'data/noyes'
   def setup
