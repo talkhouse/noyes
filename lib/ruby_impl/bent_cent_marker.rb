@@ -22,8 +22,8 @@ module Noyes
       Math.log(rms) * 20
     end
     def << pcm
-      current = logrms pcm
       is_speech = false
+      current = logrms pcm
       if current >= @min_signal
         @level = ((@level * @average_number) + current) / (@average_number + 1)
         if current < @background 
