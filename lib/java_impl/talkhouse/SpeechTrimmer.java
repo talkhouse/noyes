@@ -10,8 +10,8 @@ public class SpeechTrimmer {
   int trueCount=0;
   LinkedList<double[]> queue = new LinkedList<double[]>();
   boolean eosReached = false;
-  int scs;
-  int ecs;
+  int scs = 20;
+  int ecs = 50;
 
   public void enqueue(double[] pcm) {
     if (eosReached)
@@ -28,7 +28,8 @@ public class SpeechTrimmer {
     if (speechStarted) {
         if (falseCount == ecs) {
             eosReached = true;
-            queue = new LinkedList<double[]>(queue.subList(0, trailer-1));
+            int newSize = queue.size() - (ecs - trailer);
+            queue = new LinkedList<double[]>(queue.subList(0, newSize));
         }
     } else if (trueCount > scs) {
       if (leader + scs < queue.size()) {
@@ -42,9 +43,9 @@ public class SpeechTrimmer {
   }
 
   public double[] dequeue() {
-    if (eosReached || speechStarted && queue.size() > ecs)
+    if (eosReached  && queue.size() > 0 || speechStarted && queue.size() > ecs) {
       return queue.remove();
-    else
+    } else
       return null;
   }
   public boolean eos() {
