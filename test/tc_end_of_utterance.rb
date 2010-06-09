@@ -32,9 +32,10 @@ module TestEndOfUtterance
     false_count = 0
     speechlen = is_speech.drop(speech_start).each_with_index do |s, i|
       false_count = s ? 0 : false_count + 1
-      break i - ecs if false_count == ecs
-      i
+      break i + 1 - ecs if false_count == ecs
+      i + 1
     end
+
     expected_speech = segments[speech_start - leader,
                                speechlen + trailer + leader]
 
