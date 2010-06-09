@@ -5,16 +5,16 @@ module Noyes
   # SpeechTrimmer is designed to work efficiently with live audio.
   class SpeechTrimmer
     def initialize
-      @leader = 5
-      @trailer = 5
+      @leader = 5  # Cents of leading silence to retain.
+      @trailer = 5  # Cents of trailing silence to retain.
       @speech_started = false
       @cent_marker = BentCentMarker.new
       @false_count=0
       @true_count=0
       @queue = []
       @eos_reached = false
-      @scs = 20
-      @ecs = 50
+      @scs = 20 # Centiseconds of speech before detection of utterance.
+      @ecs = 50 # Centiseconds of silence before end detection.
     end
 
     def enqueue pcm
@@ -31,12 +31,13 @@ module Noyes
         if @false_count == @ecs
           @eos_reached = true
           # only keep trailer number of cents once eos is detected.
-          @queue = @queue.slice 0, @trailer
+          @queue = @queue[0, @queue.size - (@ecs - @trailer)]
         end
       elsif @true_count > @scs
         # Discard most begining silence, keeping just a tad.
-        if @leader < @queue.size
-          @queue = @queue[-@leader - @scs - 1, @leader + @scs + 1]
+        if @leader + @scs < @queue.size
+          start = @queue.size - @leader - 1 - @scs
+          @queue = @queue[start,@queue.size - start]
         end
         @speech_started = true
       end
