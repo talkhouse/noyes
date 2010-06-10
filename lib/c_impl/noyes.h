@@ -145,6 +145,20 @@ Fast8kMfcc* new_fast_8k_mfcc();
 void free_fast_8k_mfcc(Fast8kMfcc *self);
 NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 *data);
 
+// Silence removal with BentCentMarker and SpeechTrimmer
+typedef struct {
+  double adjustment;
+  double average_number;
+  double background;
+  double level;
+  double min_signal;
+  double threshold;
+} BentCentMarker;
+
+BentCentMarker * new_bent_cent_marker();
+double bent_cent_marker_log_rms(BentCentMarker *self, NMatrix1 *data);
+int bent_cent_marker_apply(BentCentMarker *self, NMatrix1 *data);
+
 #ifdef __cplusplus
 }
 #endif
