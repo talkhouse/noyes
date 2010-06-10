@@ -1,6 +1,5 @@
 require 'noyes'
 require 'common/file2pcm'
-include Noyes
 
 # The following flags are in network byte order (big endian) and are 4 bytes
 # long. 

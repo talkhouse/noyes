@@ -5,7 +5,7 @@ module TestIncrementalSend
     file = "data/noyes/noyes.flac"
     to_server = StringIO.new 'wb'
     from_server = StringIO.new 'dummy result'
-    result = send_incremental_features file, to_server, from_server
+    result = send_incremental_features file, to_server, from_server, 16, 8000
     raw_data = to_server.string
     assert_equal TMAGIC, raw_data.slice!(0,13)
     assert_equal TSTART, raw_data.slice!(0,4)
