@@ -156,6 +156,7 @@ typedef struct {
 } BentCentMarker;
 
 BentCentMarker * new_bent_cent_marker();
+void free_bent_cent_marker(BentCentMarker *self);
 double bent_cent_marker_log_rms(BentCentMarker *self, NMatrix1 *data);
 int bent_cent_marker_apply(BentCentMarker *self, NMatrix1 *data);
 

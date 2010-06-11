@@ -13,6 +13,10 @@ BentCentMarker * new_bent_cent_marker() {
   return self;
 }
 
+void free_bent_cent_marker(BentCentMarker *self) {
+  free(self);
+}
+
 double bent_cent_log_rms(BentCentMarker *self, NMatrix1 *pcm) {
   double sum_of_squares = 0.0;
   int i;

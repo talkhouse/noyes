@@ -9,6 +9,7 @@ void Init_log_compressor();
 void Init_live_cmn();
 void Init_fast_8k_mfcc();
 void Init_dct();
+void Init_bent_cent_marker();
 
 VALUE nmatrix_2_v(NMatrix *d);
 NMatrix * v_2_nmatrix(VALUE value);
