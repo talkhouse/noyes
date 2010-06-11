@@ -160,6 +160,23 @@ void free_bent_cent_marker(BentCentMarker *self);
 double bent_cent_marker_log_rms(BentCentMarker *self, NMatrix1 *data);
 int bent_cent_marker_apply(BentCentMarker *self, NMatrix1 *data);
 
+#include "n_array_list.h"
+
+typedef struct {
+  int leader;
+  int trailer;
+  int speech_started;
+  int false_count;
+  int true_count;
+  int scs;
+  int ecs;
+  BentCentMarker *bcm;
+  NList queue;
+} SpeechTrimmer;
+  
+//SpeechTrimer * new_speech_trimmer();
+//void free_speech_trimmer(SpeechTrimmer *self);
+
 #ifdef __cplusplus
 }
 #endif
