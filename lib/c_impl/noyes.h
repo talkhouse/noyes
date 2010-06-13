@@ -171,11 +171,15 @@ typedef struct {
   int scs;
   int ecs;
   BentCentMarker *bcm;
-  NList queue;
+  NList *queue;
+  int eos_reached;
 } SpeechTrimmer;
   
-//SpeechTrimer * new_speech_trimmer();
-//void free_speech_trimmer(SpeechTrimmer *self);
+SpeechTrimmer * new_speech_trimmer();
+void free_speech_trimmer(SpeechTrimmer *self);
+void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm);
+NMatrix1 * speech_trimmer_dequeue(SpeechTrimmer *self);
+int speech_trimmer_eos(SpeechTrimmer *self);
 
 #ifdef __cplusplus
 }

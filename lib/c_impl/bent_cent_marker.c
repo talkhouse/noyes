@@ -34,4 +34,3 @@ void Init_bent_cent_marker() {
   rb_define_method(cBentCentMarker, "<<", t_left_shift, 1);
   id_push = rb_intern("push");
 }
-
