@@ -10,7 +10,7 @@ static void bent_cent_marker_free(void *p) {
   free_bent_cent_marker(p);
 }
 
-static VALUE t_init(VALUE self, VALUE args) {
+static VALUE t_init(VALUE self) {
   BentCentMarker *pre = new_bent_cent_marker();
   VALUE prev = Data_Wrap_Struct(cBentCentMarker, 0, bent_cent_marker_free, pre);
   rb_iv_set(self, "@bent_cent_marker", prev);
