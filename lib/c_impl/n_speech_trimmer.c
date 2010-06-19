@@ -16,6 +16,7 @@ SpeechTrimmer * new_speech_trimmer() {
   self->eos_reached = FALSE;
   self->scs = 20;
   self->ecs = 50;
+  return self;
 }
 
 void free_speech_trimmer(SpeechTrimmer *self) {
