@@ -24,6 +24,7 @@ void free_speech_trimmer(SpeechTrimmer *self) {
 }
 
 void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm) {
+  n_list_add(self->queue, pcm);
 }
 
 NMatrix1 * speech_trimmer_dequeue(SpeechTrimmer *self) {
