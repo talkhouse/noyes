@@ -63,18 +63,6 @@ int n_list_contains(const NList * self, const void * object) {
   return (n_list_index_of(self, object) > -1);
 }
 
-int n_list_index_of(const NList * self, const void * object) {
-  int length = n_list_size(self);
-  int index;
-
-  for (index = 0; index < length; index++) {
-    if ((*self->_equals)(n_list_get(self, index), object)) {
-      return index;
-    }
-  }
-  return -1;
-}
-
 int n_list_is_empty(const NList * self) {
   return 0 == n_list_size(self);
 }
