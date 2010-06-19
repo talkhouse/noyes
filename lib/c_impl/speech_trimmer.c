@@ -10,7 +10,7 @@ static void speech_trimmer_free(void *p) {
   free_speech_trimmer(p);
 }
 
-static VALUE t_init(VALUE self, VALUE args) {
+static VALUE t_init(VALUE self) {
   SpeechTrimmer *st = new_speech_trimmer();
   VALUE stv = Data_Wrap_Struct(cSpeechTrimmer, 0, speech_trimmer_free, st);
   rb_iv_set(self, "@speech_trimmer", stv);
@@ -20,8 +20,7 @@ static VALUE t_init(VALUE self, VALUE args) {
 static VALUE t_enqueue(VALUE self, VALUE obj) {
   NMatrix1 *M = v_2_nmatrix1(obj);
   SpeechTrimmer *st;
-  VALUE stv = rb_iv_get(self, "@speech_trimmer");
-  Data_Get_Struct(stv, SpeechTrimmer, st);
+  Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   speech_trimmer_enqueue(st, M);
   free_nmatrix1(M);
   return Qnil;
@@ -29,8 +28,7 @@ static VALUE t_enqueue(VALUE self, VALUE obj) {
 
 static VALUE t_dequeue(VALUE self) {
   SpeechTrimmer *st;
-  VALUE stv = rb_iv_get(self, "@speech_trimmer");
-  Data_Get_Struct(stv, SpeechTrimmer, st);
+  Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   NMatrix1 *N =speech_trimmer_dequeue(st);
   VALUE result = nmatrix1_2_v(N);
   free_nmatrix1(N);
