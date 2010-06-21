@@ -1,7 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "n_array_list.h"
 
 #define NLIST_INITIAL_CAPACITY 10
@@ -31,36 +30,37 @@ int n_list_add(NList * self, void * object) {
   void ** new_data;
 
   (self->size)++;
-  if (old_size == self->capacity)
-    {
-      new_capacity = self->capacity + NLIST_DELTA_CAPACITY;
-      new_data = malloc(sizeof(void*) * new_capacity);
-      memcpy(new_data, self->data, sizeof(void*) * old_size);
-      free(self->data);
-      (self->data) = new_data;
-      self->capacity = new_capacity;
-    }
-  (self->data)[old_size] = object;
+  if (old_size == self->capacity) {
+    new_capacity = self->capacity + NLIST_DELTA_CAPACITY;
+    new_data = malloc(sizeof(void*) * new_capacity);
+    memcpy(new_data, self->data, sizeof(void*) * old_size);
+    free(self->data);
+    (self->data) = new_data;
+    self->capacity = new_capacity;
+  }
+  self->data[old_size] = object;
   return TRUE;
 }
 
-void n_list_remove(NList * self, int start, int finish) {
-  int length = n_list_size(self);
-  memmove(self->data + start, self->data + finish, sizeof(void*) * (length - finish));
+int n_list_remove(NList * self, int start, int finish) {
+  if (start > finish || finish > self->size)
+    return 1;
+
+  memmove(self->data + start, self->data + finish,
+                              sizeof(void*) * (self->size - finish));
   self->size = self->size - (finish - start);
   if (self->size < self->capacity - 2 * NLIST_DELTA_CAPACITY) {
     int new_capacity = self->size + NLIST_DELTA_CAPACITY;
     self->data = realloc(self->data, sizeof(void*) * new_capacity);
     self->capacity = new_capacity;
   }
+  return 0;
 }
 
 void * n_list_get(const NList * self, const int index) {
+  if (index < 0 || index > self->size)
+    return NULL;
   return self->data[index];
-}
-
-int n_list_contains(const NList * self, const void * object) {
-  return (n_list_index_of(self, object) > -1);
 }
 
 int n_list_is_empty(const NList * self) {
