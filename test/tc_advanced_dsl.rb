@@ -11,8 +11,6 @@ module TestAdvancedDsl
     end
   end
 
-  include Noyes
-  include NoyesFilterDSL
   def test_error_with_unfilter_like_object
     # A filter is anything that produces a result via the << operator.
     assert_raise(RuntimeError) {SerialFilter.new & 3.2}
