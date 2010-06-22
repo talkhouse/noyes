@@ -49,6 +49,21 @@ static VALUE t_melcos(VALUE self) {
   return result;
 }
 
+static VALUE t_dft(VALUE classmod, VALUE data, VALUE size) {
+  NMatrix1 *M = v_2_nmatrix1(data);
+  NMatrix *R = dft(M->data, M->rows, FIX2INT(size));
+  VALUE result = rb_ary_new2(R->cols);
+  int i;
+  for (i=0;i<R->cols;++i) {
+    VALUE real = rb_float_new(R->data[0][i]);
+    VALUE imag = rb_float_new(R->data[1][i]);
+    rb_ary_store(result, i, rb_complex_new(real, imag));
+  }
+  free_nmatrix1(M);
+  free_nmatrix(R);
+  return result;
+}
+
 void Init_dct() {
   VALUE m_noyes_c = rb_define_module("NoyesC");
   cDiscreteCosineTransform = rb_define_class_under(m_noyes_c,
@@ -56,5 +71,6 @@ void Init_dct() {
   rb_define_method(cDiscreteCosineTransform, "initialize", t_init, -2);
   rb_define_method(cDiscreteCosineTransform, "<<", t_left_shift, 1);
   rb_define_method(cDiscreteCosineTransform, "melcos", t_melcos, 0);
+  rb_define_module_function(m_noyes_c, "dft", t_dft, 2);
   id_push = rb_intern("push");
 }
