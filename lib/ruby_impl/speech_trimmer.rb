@@ -31,7 +31,7 @@ module Noyes
         if @false_count == @ecs
           @eos_reached = true
           # only keep trailer number of cents once eos is detected.
-          @queue = @queue[0, @queue.size - (@ecs - @trailer)]
+          @queue = @queue[0, @queue.size - @ecs + @trailer]
         end
       elsif @true_count > @scs
         # Discard most begining silence, keeping just a tad.
