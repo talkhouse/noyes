@@ -1,3 +1,9 @@
+# 0.9.0     May 28, 2010
+
+* Adds end point detection.
+* Fast tests are no consistant between implementations.  They
+  have the same number of tests in the same order.
+
 # 0.8.0     May 28, 2010 
 
 * Adds C implementation under NoyesC package.
