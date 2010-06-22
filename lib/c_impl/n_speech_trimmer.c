@@ -25,11 +25,9 @@ void free_speech_trimmer(SpeechTrimmer *self) {
   free(self);
 }
 
-#include "stdio.h"
 void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm) {
   if (self->eos_reached)
     return;
-  fprintf(stderr, "pcm = %x\n", pcm);
   n_list_add(self->queue, pcm);
   if (bent_cent_marker_apply(self->bcm, pcm)) {
     self->false_count = 0;
@@ -57,11 +55,11 @@ void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm) {
 }
 
 NMatrix1 * speech_trimmer_dequeue(SpeechTrimmer *self) {
+  if (n_list_size(self->queue) == 0)
+    return NULL;
   if (self->eos_reached || (self->speech_started &&
-                            n_list_size(self->queue) > self->ecs)) {
+      n_list_size(self->queue) > self->ecs)) {
     NMatrix1 * N = n_list_get(self->queue, 0);
-    fprintf(stderr, "freeing %x, next %x size %d\n", N, self->queue->data[1],
-      self->queue->size);
     n_list_remove(self->queue, 0, 1);
     return N;
   }
