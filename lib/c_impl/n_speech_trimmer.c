@@ -39,11 +39,8 @@ void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm) {
   if (self->speech_started) {
     if (self->false_count == self->ecs) {
       self->eos_reached = TRUE;
-      int new_size = n_list_size(self->queue) - (self->ecs - self->trailer);
-      int end = n_list_size(self->queue) - new_size;
-      if (end > 0) {
-        n_list_remove(self->queue, 0, end);
-      }
+      int new_size = n_list_size(self->queue) - self->ecs + self->trailer;
+      n_list_remove(self->queue, new_size, n_list_size(self->queue));
     }
   } else if (self->true_count > self->scs) {
     if (self->leader + self->scs < n_list_size(self->queue)) {
