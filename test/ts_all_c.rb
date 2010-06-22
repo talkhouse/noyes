@@ -10,6 +10,8 @@ require 'tc_mel_filter'
 require 'tc_log_compress'
 require 'tc_dct'
 require 'tc_live_cmn'
+require 'tc_end_of_utterance'
+require 'tc_queue'
 
 module NoyesC
   class Preemphasizer
@@ -20,20 +22,6 @@ module NoyesC
   end
 end
 
-#    ham = NoyesC::HammingWindow.new 10
-#    res = ham << [[1,1,1,1,1,1,1,1,1,1]]
-#    expected = [0.08, 0.18761955616527, 0.460121838273212,
-#               0.77, 0.972258605561518, 0.972258605561518,
-#               0.77, 0.460121838273212, 0.18761955616527, 0.08]
-#p res
-#seg = NoyesC::Segmenter.new 4, 2
-#ham = NoyesC::HammingWindow.new 2
-#
-#data = (1..16).to_a
-#data = seg << data
-#p data
-#data = ham << data
-#p data
 make_test 'NoyesC', 'Preemphasis'
 make_test 'NoyesC', 'Segment'
 make_test 'NoyesC', 'HammingWindow'
@@ -42,3 +30,5 @@ make_test 'NoyesC', 'MelFilter'
 make_test 'NoyesC', 'LogCompress'
 make_test 'NoyesC', 'DCT'
 make_test 'NoyesC', 'LiveCMN'
+make_test 'NoyesC', 'EndOfUtterance'
+make_test 'NoyesC', 'Queue'

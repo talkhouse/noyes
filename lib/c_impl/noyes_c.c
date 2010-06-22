@@ -85,4 +85,7 @@ void Init_noyes_c() {
   Init_live_cmn();
   Init_fast_8k_mfcc();
   Init_dct();
+  Init_bent_cent_marker();
+  Init_speech_trimmer();
+  Init_n_list();
 }

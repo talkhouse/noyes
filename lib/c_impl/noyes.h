@@ -145,6 +145,42 @@ Fast8kMfcc* new_fast_8k_mfcc();
 void free_fast_8k_mfcc(Fast8kMfcc *self);
 NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 *data);
 
+// Silence removal with BentCentMarker and SpeechTrimmer
+typedef struct {
+  double adjustment;
+  double average_number;
+  double background;
+  double level;
+  double min_signal;
+  double threshold;
+} BentCentMarker;
+
+BentCentMarker * new_bent_cent_marker();
+void free_bent_cent_marker(BentCentMarker *self);
+double bent_cent_marker_log_rms(BentCentMarker *self, NMatrix1 *data);
+int bent_cent_marker_apply(BentCentMarker *self, NMatrix1 *data);
+
+#include "n_array_list.h"
+
+typedef struct {
+  int leader;
+  int trailer;
+  int speech_started;
+  int false_count;
+  int true_count;
+  int scs;
+  int ecs;
+  BentCentMarker *bcm;
+  NList *queue;
+  int eos_reached;
+} SpeechTrimmer;
+  
+SpeechTrimmer * new_speech_trimmer();
+void free_speech_trimmer(SpeechTrimmer *self);
+void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm);
+NMatrix1 * speech_trimmer_dequeue(SpeechTrimmer *self);
+int speech_trimmer_eos(SpeechTrimmer *self);
+
 #ifdef __cplusplus
 }
 #endif
