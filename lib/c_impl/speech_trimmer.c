@@ -21,9 +21,7 @@ static VALUE t_enqueue(VALUE self, VALUE obj) {
   NMatrix1 *M = v_2_nmatrix1(obj);
   SpeechTrimmer *st;
   Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
-  fprintf(stderr, "in pcm = %x\n", M);
   speech_trimmer_enqueue(st, M);
-  free_nmatrix1(M);
   return Qnil;
 }
 
