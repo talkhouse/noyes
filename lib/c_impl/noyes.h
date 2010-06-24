@@ -126,25 +126,6 @@ LiveCMN * new_live_cmn(int dimensions, double init_mean, int window_size, int sh
 void free_live_cmn(LiveCMN *lcmn);
 NMatrix *live_cmn_apply(LiveCMN *self, NMatrix *data);
 
-
-// Fast 8k mfcc
-// This strings together all the algorithms necessary to make mfcc's from an 8k
-// signal so you don't have to.
-typedef struct {
-  Preemphasizer *pre;
-  Segmenter *seg;
-  HammingWindow *ham;
-  PowerSpectrum *pow;
-  MelFilter *mel;
-  LogCompressor *log;
-  DiscreteCosineTransform *dct;
-  LiveCMN *cmn;
-} Fast8kMfcc;
-
-Fast8kMfcc* new_fast_8k_mfcc();
-void free_fast_8k_mfcc(Fast8kMfcc *self);
-NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 *data);
-
 // Silence removal with BentCentMarker and SpeechTrimmer
 typedef struct {
   double adjustment;
@@ -174,12 +155,30 @@ typedef struct {
   NList *queue;
   int eos_reached;
 } SpeechTrimmer;
-  
+
 SpeechTrimmer * new_speech_trimmer();
 void free_speech_trimmer(SpeechTrimmer *self);
 void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm);
 NMatrix1 * speech_trimmer_dequeue(SpeechTrimmer *self);
 int speech_trimmer_eos(SpeechTrimmer *self);
+
+// Fast 8k mfcc
+// This strings together all the algorithms necessary to make mfcc's from an 8k
+// signal so you don't have to.
+typedef struct {
+  Preemphasizer *pre;
+  Segmenter *seg;
+  HammingWindow *ham;
+  PowerSpectrum *pow;
+  MelFilter *mel;
+  LogCompressor *log;
+  DiscreteCosineTransform *dct;
+  LiveCMN *cmn;
+} Fast8kMfcc;
+
+Fast8kMfcc* new_fast_8k_mfcc();
+void free_fast_8k_mfcc(Fast8kMfcc *self);
+NMatrix *fast_8k_mfcc_apply(Fast8kMfcc *self, NMatrix1 *data);
 
 #ifdef __cplusplus
 }
