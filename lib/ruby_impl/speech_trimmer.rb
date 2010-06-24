@@ -19,6 +19,7 @@ module Noyes
     end
 
     def << pcm
+      return if eos?
       (@segmenter << pcm).inject [] do |memo, centisec|
         enqueue centisec unless eos?
         while x = dequeue

@@ -54,6 +54,7 @@ module TestEndOfUtterance
     assert_m expected_speech, speech, 5
     assert_equal expected_speech, speech
   end
+
   def test_speech_trimmer_without_presegmenting
     # Parameters and data.
     leader = 5; trailer = 5
@@ -78,6 +79,7 @@ module TestEndOfUtterance
     # Get and test results from speech trimmer.
     trimmer = SpeechTrimmer.new 8000
     speech = trimmer << @pcm
+    assert_equal nil, trimmer << @pcm
     assert_m expected_speech, speech, 5
     assert_equal expected_speech, speech
   end
