@@ -4,7 +4,7 @@ module Noyes
   # returns nil.  Then check for eos.  If eos is true you are done.
   # SpeechTrimmer is designed to work efficiently with live audio.
   class SpeechTrimmer
-    def initialize
+    def initialize frequency=16000
       @leader = 5  # Cents of leading silence to retain.
       @trailer = 5  # Cents of trailing silence to retain.
       @speech_started = false
@@ -15,6 +15,18 @@ module Noyes
       @eos_reached = false
       @scs = 20 # Centiseconds of speech before detection of utterance.
       @ecs = 50 # Centiseconds of silence before end detection.
+      @segmenter = Segmenter.new(frequency/100, frequency/100)
+    end
+
+    def << pcm
+      (@segmenter << pcm).inject [] do |memo, centisec|
+        enqueue centisec unless eos?
+        while x = dequeue
+          memo << x
+        end
+        break memo if eos?
+        memo
+      end
     end
 
     def enqueue pcm
