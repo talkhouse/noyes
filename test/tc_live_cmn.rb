@@ -1,5 +1,4 @@
 module TestLiveCMN
-  include Noyes
   def test_live_cmn
     ex_dct = IO.read('data/noyes/dct.dat').unpack 'g*'
     dct =[]

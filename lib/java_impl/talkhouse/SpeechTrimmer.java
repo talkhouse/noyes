@@ -28,7 +28,7 @@ public class SpeechTrimmer {
     if (speechStarted) {
         if (falseCount == ecs) {
             eosReached = true;
-            int newSize = queue.size() - (ecs - trailer);
+            int newSize = queue.size() - ecs + trailer;
             queue = new LinkedList<double[]>(queue.subList(0, newSize));
         }
     } else if (trueCount > scs) {
