@@ -1,7 +1,11 @@
 module NoyesJava
   class SpeechTrimmer
-    def initialize
-      @st = Java::talkhouse.SpeechTrimmer.new
+    def initialize frequency = 16000
+      @st = Java::talkhouse.SpeechTrimmer.new frequency
+    end
+    def << pcm
+      result = @st.apply(pcm.to_java(Java::double))
+      result.to_a if result
     end
     def enqueue pcm
       @st.enqueue pcm.to_java(Java::double)

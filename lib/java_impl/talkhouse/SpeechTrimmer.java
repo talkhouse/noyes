@@ -12,6 +12,39 @@ public class SpeechTrimmer {
   boolean eosReached = false;
   int scs = 20;
   int ecs = 50;
+  Segmenter seg;
+
+  public SpeechTrimmer(int frequency) {
+    seg = new Segmenter(frequency/100, frequency/100);
+  }
+
+  public double[][] apply(double[] pcm) {
+    if (eos())
+      return null;
+
+    double[][] segments = seg.apply(pcm);
+    double[][] speechSegments= new double[segments.length][];
+    int speechCount=0;
+    for (int i=0;i<segments.length;++i) {
+      enqueue(segments[i]);
+      double[] centispeech = dequeue();
+      while (centispeech != null) {
+        speechSegments[speechCount++] = centispeech;
+        centispeech = dequeue();
+      }
+      if (eos())
+        break;
+    }
+
+    if (eos() && speechCount == 0)
+      return null;
+
+    double[][] result = new double[speechCount][];
+    for (int i=0;i<speechCount;++i) {
+      result[i] = speechSegments[i];
+    }
+    return result;
+  }
 
   public void enqueue(double[] pcm) {
     if (eosReached)

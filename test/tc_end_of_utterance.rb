@@ -79,8 +79,8 @@ module TestEndOfUtterance
     # Get and test results from speech trimmer.
     trimmer = SpeechTrimmer.new 8000
     speech = trimmer << @pcm
-    assert_equal nil, trimmer << @pcm
     assert_m expected_speech, speech, 5
     assert_equal expected_speech, speech
+    assert_equal nil, trimmer << @pcm
   end
 end
