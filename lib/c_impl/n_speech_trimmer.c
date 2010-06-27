@@ -4,7 +4,7 @@
 #undef FALSE
 #define FALSE 0
 
-SpeechTrimmer * new_speech_trimmer() {
+SpeechTrimmer * new_speech_trimmer(int frequency) {
   SpeechTrimmer *self = malloc(sizeof(SpeechTrimmer));
   self->leader = 5;
   self->trailer = 5;
@@ -16,6 +16,7 @@ SpeechTrimmer * new_speech_trimmer() {
   self->eos_reached = FALSE;
   self->scs = 20;
   self->ecs = 50;
+  self->seg = new_segmenter(frequency/100, frequency/100);
   return self;
 }
 
@@ -24,6 +25,25 @@ void free_speech_trimmer(SpeechTrimmer *self) {
   n_list_free(self->queue);
   free(self);
 }
+
+NMatrix * speech_trimmer_apply(SpeechTrimmer *self, NMatrix1* pcm) {
+  if (self->eos_reached)
+    return NULL;
+
+  int frames_per_centisecond = self->seg->winsz;
+  NMatrix *segment_matrix = segmenter_apply(self->seg, pcm);
+  int segment_count = segment_matrix->rows;
+  NMatrix1 *segments = nmatrix_2_nmatrix1s(segment_matrix);
+  NMatrix1 **
+  double ** speech_segments = malloc(sizeof(double) * segments->rows);
+  int speech_count = 0, i;
+  for (i=0;i<speech_count;++i) {
+    enqueue(segments[i]);
+  }
+
+  return NULL;
+}
+
 
 void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm) {
   if (self->eos_reached)

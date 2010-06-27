@@ -30,6 +30,7 @@ void free_nmatrix(NMatrix *);
 
 NMatrix1 *new_nmatrix1(int rows);
 void free_nmatrix1(NMatrix1 *);
+NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M);
 
 // Preemphasizer
 typedef struct {
@@ -152,6 +153,7 @@ typedef struct {
   int scs;
   int ecs;
   BentCentMarker *bcm;
+  Segmenter *seg;
   NList *queue;
   int eos_reached;
 } SpeechTrimmer;
