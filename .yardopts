@@ -6,5 +6,7 @@ lib/**/*.java
 lib/**/*.c
 lib/**/*.h
 -
-release_notes.md
+docs/design.md
+docs/dsl.md
 COPYING
+release_notes.md
