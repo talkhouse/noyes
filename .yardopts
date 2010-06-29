@@ -1,7 +1,6 @@
 --protected
 --no-private
 --markup markdown
---charset utf8
 lib/**/*.rb
 lib/**/*.java
 lib/**/*.c
