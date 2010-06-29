@@ -30,18 +30,25 @@ NMatrix * speech_trimmer_apply(SpeechTrimmer *self, NMatrix1* pcm) {
   if (self->eos_reached)
     return NULL;
 
-  int frames_per_centisecond = self->seg->winsz;
   NMatrix *segment_matrix = segmenter_apply(self->seg, pcm);
-  int segment_count = segment_matrix->rows;
-  NMatrix1 *segments = nmatrix_2_nmatrix1s(segment_matrix);
-  NMatrix1 **
-  double ** speech_segments = malloc(sizeof(double) * segments->rows);
+  NMatrix1 **segments = nmatrix_2_nmatrix1s(segment_matrix);
+  NMatrix1 ** speech_segments = malloc(sizeof(NMatrix*) * segment_matrix->rows);
   int speech_count = 0, i;
   for (i=0;i<speech_count;++i) {
-    enqueue(segments[i]);
+    speech_trimmer_enqueue(self, segments[i]);
+    NMatrix1 *centispeech = speech_trimmer_dequeue(self);
+    while (centispeech) {
+      speech_segments[speech_count++] = centispeech;
+      centispeech = speech_trimmer_dequeue(self);
+    }
+    if (speech_trimmer_eos(self))
+      break;
   }
 
-  return NULL;
+  if (speech_trimmer_eos(self) && speech_count == 0)
+    return NULL;
+
+  return nmatrix1_2_nmatrix(speech_segments, speech_count);
 }
 
 

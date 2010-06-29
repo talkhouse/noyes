@@ -46,11 +46,25 @@ NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M) {
   int i,j;
   for (i=0;i<M->rows;++i) {
     single[i] = malloc(sizeof(NMatrix1));
-    single[i]->data = malloc(sizeof(double) * M->cols);
-    for (j=0;j<M->cols;++i)
-      single[i]->data[j] = M->data[i][j];
+    single[i]->data = M->data[i];
   }
   free(M->data);
   free(M);
   return single;
+}
+
+// Converts an array of one dimensional arrays into a square matrix.  It frees
+// these arrays in the process.
+NMatrix * nmatrix1_2_nmatrix(NMatrix1 **array, int size) {
+  if (size ==0)
+    return NULL;
+  NMatrix *result = malloc(sizeof(NMatrix));
+  result->data = malloc(sizeof(double*) * size);
+  int i;
+  for (i=0; i<size; ++i) {
+    result->data[i] = array[i]->data;
+    free(array[i]);
+  }
+
+  return result;
 }

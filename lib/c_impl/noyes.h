@@ -31,6 +31,7 @@ void free_nmatrix(NMatrix *);
 NMatrix1 *new_nmatrix1(int rows);
 void free_nmatrix1(NMatrix1 *);
 NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M);
+NMatrix * nmatrix1_2_nmatrix(NMatrix1 **array, int size);
 
 // Preemphasizer
 typedef struct {
@@ -163,6 +164,7 @@ void free_speech_trimmer(SpeechTrimmer *self);
 void speech_trimmer_enqueue(SpeechTrimmer *self, NMatrix1* pcm);
 NMatrix1 * speech_trimmer_dequeue(SpeechTrimmer *self);
 int speech_trimmer_eos(SpeechTrimmer *self);
+NMatrix * speech_trimmer_apply(SpeechTrimmer *self, NMatrix1* pcm);
 
 // Fast 8k mfcc
 // This strings together all the algorithms necessary to make mfcc's from an 8k
