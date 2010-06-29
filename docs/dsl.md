@@ -22,8 +22,8 @@ to remember.
 
 You can expand the >>= operator out, but I think the flow is worse and there is
 more repetition, particularly when you have a lot of filters in sequence.  This
-is perfectly valid syntax though. Also, this is very useful if you don't want
-to keep a reference to your original data.
+is perfectly valid syntax though. Also, this is very useful if you want to keep
+a reference to your original data.
 
     require 'noyes'
     pcm_data = (1..12).to_a
