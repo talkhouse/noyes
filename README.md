@@ -23,9 +23,9 @@ compromising recognition accuracy.  In some cases the effect of inadequate
 bandwidth on latency can be reduced to zero.
 
 ## Requirements:
-Almost any version of Ruby & rake.
-Java, if you want to use the Java implementation
-A C compiler if you want to use the C version
+* Almost any version of Ruby & Rake
+* Java, if you want to use the Java implementation
+* A C compiler if you want to use the C version
 
 Some of the utility scripts such as nrec may use sox, but
 none of the core routines use it.
