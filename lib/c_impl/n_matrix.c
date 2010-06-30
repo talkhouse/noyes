@@ -43,10 +43,11 @@ void free_nmatrix1(NMatrix1 *M) {
 // Simultaneously frees the original square matrix.
 NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M) {
   NMatrix1 **single = malloc(sizeof(NMatrix1*) * M->rows);
-  int i,j;
+  int i;
   for (i=0;i<M->rows;++i) {
     single[i] = malloc(sizeof(NMatrix1));
     single[i]->data = M->data[i];
+    single[i]->rows = M->cols;
   }
   free(M->data);
   free(M);
@@ -60,6 +61,7 @@ NMatrix * nmatrix1_2_nmatrix(NMatrix1 **array, int size) {
     return NULL;
   NMatrix *result = malloc(sizeof(NMatrix));
   result->data = malloc(sizeof(double*) * size);
+  result->rows = size;
   int i;
   for (i=0; i<size; ++i) {
     result->data[i] = array[i]->data;

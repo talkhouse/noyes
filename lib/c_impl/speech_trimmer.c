@@ -44,7 +44,7 @@ static VALUE t_eos(VALUE self) {
   SpeechTrimmer *st;
   VALUE stv = rb_iv_get(self, "@speech_trimmer");
   Data_Get_Struct(stv, SpeechTrimmer, st);
-  return speech_trimmer_dequeue(st) ? Qtrue : Qfalse;
+  return speech_trimmer_eos(st) ? Qtrue : Qfalse;
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
@@ -56,7 +56,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
     free_nmatrix1(M);
     return Qnil;
   }
-  VALUE result = nmatrix1_2_v(M);
+  VALUE result = nmatrix_2_v(R);
   free_nmatrix1(M);
   free_nmatrix(R);
   return result;

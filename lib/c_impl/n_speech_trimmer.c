@@ -31,13 +31,15 @@ NMatrix * speech_trimmer_apply(SpeechTrimmer *self, NMatrix1* pcm) {
     return NULL;
 
   NMatrix *segment_matrix = segmenter_apply(self->seg, pcm);
+  int centisecond_count = segment_matrix->rows;
+  int col_count = segment_matrix->cols;
   NMatrix1 **segments = nmatrix_2_nmatrix1s(segment_matrix);
   NMatrix1 ** speech_segments = malloc(sizeof(NMatrix*) * segment_matrix->rows);
   int speech_count = 0, i;
-  for (i=0;i<speech_count;++i) {
+  for (i=0; i<centisecond_count ;++i) {
     speech_trimmer_enqueue(self, segments[i]);
     NMatrix1 *centispeech = speech_trimmer_dequeue(self);
-    while (centispeech) {
+    while (centispeech != NULL) {
       speech_segments[speech_count++] = centispeech;
       centispeech = speech_trimmer_dequeue(self);
     }
@@ -82,13 +84,14 @@ NMatrix1 * speech_trimmer_dequeue(SpeechTrimmer *self) {
   if (n_list_size(self->queue) == 0)
     return NULL;
   if (self->eos_reached || (self->speech_started &&
-      n_list_size(self->queue) > self->ecs)) {
+    n_list_size(self->queue) > self->ecs)) {
     NMatrix1 * N = n_list_get(self->queue, 0);
     n_list_remove(self->queue, 0, 1);
     return N;
   }
   return NULL;
 }
+
 int speech_trimmer_eos(SpeechTrimmer *self) {
   return self->eos_reached;
 }
