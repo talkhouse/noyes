@@ -2,8 +2,8 @@ require 'rake/clean'
 require 'rake/testtask' 
 require 'fileutils'
 
-CLEAN.include 'build'
-CLOBBER.include 'pkg', 'ship', 'noyes.gemspec'
+CLEAN.include 'lib/**/*.o', 'build'
+CLOBBER.include 'pkg', 'ship', 'noyes.gemspec', 'lib/c_impl/*.bundle'
 directory 'ship'
 
 def ensure_dir file
@@ -34,6 +34,11 @@ module JavaBuild
   file 'ship/noyes.jar' => OBJ
 end
 
+desc 'Build c extension'
+task :cext do
+  `cd lib/c_impl; make`
+end
+
 task :jar => 'ship/noyes.jar'
 task :default => :build
 
@@ -56,7 +61,7 @@ namespace :test do
   
   c_desc = 'Test C implementation' 
   desc c_desc 
-  task :c do
+  task :c => :cext do
     puts c_desc 
     sh "ruby -Ilib:test:ext test/ts_all_c.rb"
   end

@@ -1,6 +1,4 @@
 package talkhouse;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Segmenter {
   private double[] buf=null;
