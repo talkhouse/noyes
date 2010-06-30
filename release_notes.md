@@ -1,3 +1,12 @@
+# 0.9.1     June 30, 20101
+
+* Make end point detection more convenient for real time systems.  This is
+  accomplished by adding a left shift operator that takes any size chunk of
+  audio rather than something that is pre-segmented into centisecond chunks.
+
+* Swith to yardoc.
+
+
 # 0.9.0     May 28, 2010
 
 * Adds end point detection.
