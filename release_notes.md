@@ -1,3 +1,7 @@
+# 0.9.2     June 30, 20101
+
+* Update gem description.
+
 # 0.9.1     June 30, 20101
 
 * Make end point detection more convenient for real time systems.  This is

@@ -155,7 +155,9 @@ begin
   Jeweler::Tasks.new do |s|
     s.name = "noyes"
     s.summary = "A signal processing library"
-    s.description = "Currently sufficient to create features for speech recognition"
+    s.description = "A fast portable signal processing library
+                     sufficient for creating features for
+                     speech recognition, etc.".sub(/\n/, ' ').squeeze ' '
     s.email = "joe@talkhouse.com"
     s.homepage = "http://github.com/talkhouse/noyes"
     s.authors = ["Joe Woelfel"]
