@@ -38,7 +38,8 @@ task :jar => 'ship/noyes.jar'
 task :default => :build
 
 module Tags
-  FILES = FileList['lib/**/*.rb']
+  FILES = FileList['lib/**/*.rb'] << FileList['lib/**/*.java'] <<
+          FileList['lib/**/*.c'] << FileList['lib/**/*.h']
 end
 
 task :tags do
