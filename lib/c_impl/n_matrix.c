@@ -1,4 +1,5 @@
 #include "noyes.h"
+#include "memory.h"
 
 // A 2 dimensional matrix "class".
 NMatrix *new_nmatrix(int rows, int cols) {
@@ -52,6 +53,18 @@ NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M) {
   free(M->data);
   free(M);
   return single;
+}
+
+// Does not delete the original matrix
+NMatrix1 *nmatrix_flatten(NMatrix *M) {
+  NMatrix1 *fmat = malloc(sizeof(NMatrix));
+  fmat->rows = M->rows * M->cols;
+  fmat->data = malloc(fmat->rows * sizeof(double));
+  int i;
+  for (i=0;i<M->rows; ++i)
+    memcpy(fmat->data + (M->cols * i), M->data[i], sizeof(double) * M->cols);
+
+  return fmat;
 }
 
 // Converts an array of one dimensional arrays into a square matrix.  It frees
