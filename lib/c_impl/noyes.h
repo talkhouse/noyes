@@ -32,6 +32,7 @@ NMatrix1 *new_nmatrix1(int rows);
 void free_nmatrix1(NMatrix1 *);
 NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M);
 NMatrix * nmatrix1_2_nmatrix(NMatrix1 **array, int size);
+NMatrix1 *nmatrix_flatten(NMatrix *M);
 
 // Preemphasizer
 typedef struct {
