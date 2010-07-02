@@ -107,6 +107,11 @@ def recognize file, options
       send_incremental_features file, client, client, bits, rate
     end
   end
+rescue Errno::ECONNREFUSED
+  puts "Connection refused."
+  puts "Possibly the IP address and port are incorrect."
+  puts "Or maybe the server is down.  Contact Talkhouse if this persists."
+  exit 2
 end
 
 ARGV.each do |file|
