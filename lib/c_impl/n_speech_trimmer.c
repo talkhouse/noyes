@@ -31,6 +31,8 @@ NMatrix * speech_trimmer_apply(SpeechTrimmer *self, NMatrix1* pcm) {
     return NULL;
 
   NMatrix *segment_matrix = segmenter_apply(self->seg, pcm);
+  if (segment_matrix == NULL)
+	  return NULL;
   int centisecond_count = segment_matrix->rows;
   NMatrix1 **segments = nmatrix_2_nmatrix1s(segment_matrix);
   NMatrix1 ** speech_segments = malloc(sizeof(NMatrix*) * segment_matrix->rows);
