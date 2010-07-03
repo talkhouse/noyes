@@ -1,8 +1,8 @@
 require 'common/noyes_math'
 
 module Noyes
-  # Takes the discrete cosing transform.  Converts a n x m matrix to an n x order
-  # matrix.  ncol should be set to m.
+  # Takes the discrete cosing transform.  Converts an n x m matrix to an n x
+  # order matrix.  ncol should be set to m.
   class DCT 
     include Math
     attr_accessor :melcos
