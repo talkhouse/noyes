@@ -2,8 +2,8 @@
 #include "memory.h"
 
 // A 2 dimensional matrix "class".
-NMat *nmat_new(int rows, int cols) {
-  NMat *M = malloc(sizeof(NMat));
+Nmat *nmat_new(int rows, int cols) {
+  Nmat *M = malloc(sizeof(Nmat));
   M->data = malloc(rows * sizeof(double*));
   int i;
   for (i=0;i<rows;++i) {
@@ -14,7 +14,7 @@ NMat *nmat_new(int rows, int cols) {
   return M;
 }
 
-void nmat_free(NMat *M) {
+void nmat_free(Nmat *M) {
   if (M) {
     int i;
     for (i=0;i<M->rows;++i) {
@@ -26,14 +26,14 @@ void nmat_free(NMat *M) {
 }
 
 // A 1 dimensional matrix "class".
-NMat1 *nmat_new1(int rows) {
-  NMat1 *M = malloc(sizeof(NMat1));
+Narr *nmat_new1(int rows) {
+  Narr *M = malloc(sizeof(Narr));
   M->data = malloc(rows * sizeof(double));
   M->rows = rows;
   return M;
 }
 
-void nmat_free1(NMat1 *M) {
+void nmat_free1(Narr *M) {
   if (M) {
     free(M->data);
     free(M);
@@ -42,11 +42,11 @@ void nmat_free1(NMat1 *M) {
 
 // Converts a square matrix to a list of one dimensional matrices.
 // Simultaneously frees the original square matrix.
-NMat1 ** mat2arrs(NMat *M) {
-  NMat1 **single = malloc(sizeof(NMat1*) * M->rows);
+Narr ** mat2arrs(Nmat *M) {
+  Narr **single = malloc(sizeof(Narr*) * M->rows);
   int i;
   for (i=0;i<M->rows;++i) {
-    single[i] = malloc(sizeof(NMat1));
+    single[i] = malloc(sizeof(Narr));
     single[i]->data = M->data[i];
     single[i]->rows = M->cols;
   }
@@ -56,8 +56,8 @@ NMat1 ** mat2arrs(NMat *M) {
 }
 
 // Does not delete the original matrix
-NMat1 *nmat_flatten(NMat *M) {
-  NMat1 *fmat = malloc(sizeof(NMat));
+Narr *nmat_flatten(Nmat *M) {
+  Narr *fmat = malloc(sizeof(Nmat));
   fmat->rows = M->rows * M->cols;
   fmat->data = malloc(fmat->rows * sizeof(double));
   int i;
@@ -69,10 +69,10 @@ NMat1 *nmat_flatten(NMat *M) {
 
 // Converts an array of one dimensional arrays into a square matrix.  It frees
 // these arrays in the process.
-NMat * arrs2mat(NMat1 **array, int size) {
+Nmat * arrs2mat(Narr **array, int size) {
   if (size ==0)
     return NULL;
-  NMat *result = malloc(sizeof(NMat));
+  Nmat *result = malloc(sizeof(Nmat));
   result->data = malloc(sizeof(double*) * size);
   result->rows = size;
   int i;

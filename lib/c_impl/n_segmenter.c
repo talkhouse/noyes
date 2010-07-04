@@ -18,7 +18,7 @@ void free_segmenter(Segmenter *s) {
   free(s);
 }
 
-NMat * segmenter_apply(Segmenter* self, NMat1 *data) {
+Nmat * segmenter_apply(Segmenter* self, Narr *data) {
   double * combo;
   int combolen = 0;
   if (self->buf != NULL) {
@@ -39,7 +39,7 @@ NMat * segmenter_apply(Segmenter* self, NMat1 *data) {
   } else {
       self->buf = NULL;
   }
-  NMat *M = nmat_new((combolen - self->winsz)/ self->winshift+1, self->winsz);
+  Nmat *M = nmat_new((combolen - self->winsz)/ self->winshift+1, self->winsz);
   int i = 0;
   int j=0;
   while (i+self->winsz <= combolen) {

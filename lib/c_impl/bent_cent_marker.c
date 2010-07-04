@@ -18,7 +18,7 @@ static VALUE t_init(VALUE self) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  NMat1 *M = v_2_nmatrix1(obj);
+  Narr *M = v_2_nmatrix1(obj);
   BentCentMarker *pre;
   VALUE prev = rb_iv_get(self, "@bent_cent_marker");
   Data_Get_Struct(prev, BentCentMarker, pre);

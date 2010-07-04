@@ -38,10 +38,10 @@ void free_fast_8k_mfcc(Fast8kMfcc *self) {
   free(self);
 }
 
-NMat *fast_8k_mfcc_apply(Fast8kMfcc *self, NMat1 * data) {
-  NMat *M = NULL;
-  NMat *N = NULL;
-  NMat1 *data1 = preemphasizer_apply(self->pre, data);
+Nmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr * data) {
+  Nmat *M = NULL;
+  Nmat *N = NULL;
+  Narr *data1 = preemphasizer_apply(self->pre, data);
   M = segmenter_apply(self->seg, data1); nmat_free1(data1);
   if (!M)
     return NULL;

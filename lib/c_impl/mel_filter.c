@@ -11,7 +11,7 @@ static void mel_filter_free(void *p) {
 }
 
 static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right), VALUE(init_freq), VALUE(delta)) {
-  NMat1 *d = make_filter(NUM2DBL(left), NUM2DBL(center),
+  Narr *d = make_filter(NUM2DBL(left), NUM2DBL(center),
                 NUM2DBL(right), NUM2DBL(init_freq), NUM2DBL(delta)); 
   if (d) {
     VALUE result = rb_ary_new2(2);
@@ -38,7 +38,7 @@ static VALUE t_to_linear(VALUE self, VALUE f) {
 
 static VALUE t_make_bank_parameters(VALUE self, VALUE srate, VALUE nfft,
                                     VALUE nfilt, VALUE lowerf, VALUE upperf) {
-  NMat *d = make_bank_parameters(NUM2INT(srate), NUM2INT(nfft),
+  Nmat *d = make_bank_parameters(NUM2INT(srate), NUM2INT(nfft),
                 NUM2INT(nfilt), NUM2INT(lowerf), NUM2INT(upperf)); 
   if (d) {
     VALUE result = rb_ary_new2(d->rows);
@@ -78,11 +78,11 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  NMat *M = v_2_nmatrix(obj);
+  Nmat *M = v_2_nmatrix(obj);
   VALUE mel_filter = rb_iv_get(self, "@mel_filter");
   MelFilter *s;
   Data_Get_Struct(mel_filter, MelFilter, s);
-  NMat *d = mel_filter_apply(s, M);
+  Nmat *d = mel_filter_apply(s, M);
 
   if (d) {
     VALUE result = rb_ary_new2(d->rows);

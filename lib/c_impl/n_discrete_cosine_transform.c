@@ -27,8 +27,8 @@ void free_dct(DiscreteCosineTransform *dct) {
   free(dct);
 }
 
-NMat * dct_apply(DiscreteCosineTransform *self, NMat *data) {
-  NMat *M = nmat_new(data->rows, self->rows);
+Nmat * dct_apply(DiscreteCosineTransform *self, Nmat *data) {
+  Nmat *M = nmat_new(data->rows, self->rows);
   int i,j,k;
   for (i=0;i<M->rows;++i) {
     for (j=0;j<M->cols;++j) {

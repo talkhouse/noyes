@@ -29,11 +29,11 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  NMat *M = v_2_nmatrix(obj);
+  Nmat *M = v_2_nmatrix(obj);
   LiveCMN *cmn;
   VALUE cmnv = rb_iv_get(self, "@cmn");
   Data_Get_Struct(cmnv, LiveCMN, cmn);
-  NMat *N = live_cmn_apply(cmn, M);
+  Nmat *N = live_cmn_apply(cmn, M);
   VALUE result = nmatrix_2_v(N);
   nmat_free(N);
   return result;
