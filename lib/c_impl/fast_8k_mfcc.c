@@ -25,8 +25,8 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(fast_8k_mfcc, Fast8kMfcc, s);
   NMat *N = fast_8k_mfcc_apply(s, M);
   VALUE result = nmatrix_2_v(N);
-  free_nmatrix(N);
-  free_nmatrix1(M);
+  nmat_free(N);
+  nmat_free1(M);
   return result;
 }
 

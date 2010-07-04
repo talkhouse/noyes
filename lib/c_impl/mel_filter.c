@@ -22,7 +22,7 @@ static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right),
       rb_ary_store(filt, i-1, rb_float_new(d->data[i]));
     }
     rb_ary_store(result, 1, filt);
-    free_nmatrix1(d);
+    nmat_free1(d);
     return result;
   }
   return Qnil;
@@ -50,7 +50,7 @@ static VALUE t_make_bank_parameters(VALUE self, VALUE srate, VALUE nfft,
         rb_ary_store(row, j, rb_float_new(d->data[i][j]));
       }
     }
-    free_nmatrix(d);
+    nmat_free(d);
     return result;
   }
   return Qnil;
@@ -94,7 +94,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
         rb_ary_store(row, j, rb_float_new(d->data[i][j]));
       }
     }
-    free_nmatrix(d);
+    nmat_free(d);
     return result;
   }
   return Qnil;

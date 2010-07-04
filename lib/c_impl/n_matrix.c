@@ -14,7 +14,7 @@ NMat *nmat_new(int rows, int cols) {
   return M;
 }
 
-void free_nmatrix(NMat *M) {
+void nmat_free(NMat *M) {
   if (M) {
     int i;
     for (i=0;i<M->rows;++i) {
@@ -33,7 +33,7 @@ NMat1 *nmat_new1(int rows) {
   return M;
 }
 
-void free_nmatrix1(NMat1 *M) {
+void nmat_free1(NMat1 *M) {
   if (M) {
     free(M->data);
     free(M);

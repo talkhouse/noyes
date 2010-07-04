@@ -42,14 +42,14 @@ NMat *fast_8k_mfcc_apply(Fast8kMfcc *self, NMat1 * data) {
   NMat *M = NULL;
   NMat *N = NULL;
   NMat1 *data1 = preemphasizer_apply(self->pre, data);
-  M = segmenter_apply(self->seg, data1); free_nmatrix1(data1);
+  M = segmenter_apply(self->seg, data1); nmat_free1(data1);
   if (!M)
     return NULL;
-  N = hamming_window_apply(self->ham, M); free_nmatrix(M);
-  M = power_spectrum_apply(self->pow, N); free_nmatrix(N);
-  N = mel_filter_apply(self->mel, M); free_nmatrix(M);
-  M = log_compressor_apply(self->log, N); free_nmatrix(N);
-  N = dct_apply(self->dct, M); free_nmatrix(M);
-  M = live_cmn_apply(self->cmn, N); free_nmatrix(N);
+  N = hamming_window_apply(self->ham, M); nmat_free(M);
+  M = power_spectrum_apply(self->pow, N); nmat_free(N);
+  N = mel_filter_apply(self->mel, M); nmat_free(M);
+  M = log_compressor_apply(self->log, N); nmat_free(N);
+  N = dct_apply(self->dct, M); nmat_free(M);
+  M = live_cmn_apply(self->cmn, N); nmat_free(N);
   return M;
 }

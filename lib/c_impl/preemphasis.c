@@ -29,8 +29,8 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(prev, Preemphasizer, pre);
   NMat1 *N = preemphasizer_apply(pre, M);
   VALUE result = nmatrix1_2_v(N);
-  free_nmatrix1(N);
-  free_nmatrix1(M);
+  nmat_free1(N);
+  nmat_free1(M);
   return result;
 }
 

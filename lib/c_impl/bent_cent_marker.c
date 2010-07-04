@@ -23,7 +23,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE prev = rb_iv_get(self, "@bent_cent_marker");
   Data_Get_Struct(prev, BentCentMarker, pre);
   int res = bent_cent_marker_apply(pre, M);
-  free_nmatrix1(M);
+  nmat_free1(M);
   return res ? Qtrue : Qfalse;
 }
 

@@ -29,8 +29,8 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(lcv, LogCompressor, lc);
   NMat *N = log_compressor_apply(lc, M);
   VALUE result = nmatrix_2_v(N);
-  free_nmatrix(N);
-  free_nmatrix(M);
+  nmat_free(N);
+  nmat_free(M);
   return result;
 }
 

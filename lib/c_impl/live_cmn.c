@@ -35,7 +35,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(cmnv, LiveCMN, cmn);
   NMat *N = live_cmn_apply(cmn, M);
   VALUE result = nmatrix_2_v(N);
-  free_nmatrix(N);
+  nmat_free(N);
   return result;
 }
 

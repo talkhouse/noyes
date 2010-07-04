@@ -34,8 +34,8 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(segmenter, Segmenter, s);
   NMat *N = segmenter_apply(s, M);
   VALUE result = nmatrix_2_v(N);
-  free_nmatrix(N);
-  free_nmatrix1(M);
+  nmat_free(N);
+  nmat_free1(M);
   return result;
 }
 

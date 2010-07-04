@@ -21,7 +21,7 @@ NMat *power_spectrum_apply(PowerSpectrum *self, NMat *data) {
       for (j=0;j<self->n_uniq_fft_points;++j) {
           ps->data[i][j] = pow(ffts->data[0][j],2) + pow(ffts->data[1][j],2);
       }
-      free_nmatrix(ffts);
+      nmat_free(ffts);
   } 
   return ps;
 }
