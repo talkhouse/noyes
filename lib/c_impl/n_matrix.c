@@ -56,7 +56,7 @@ NMat1 ** mat2arr(NMat *M) {
 }
 
 // Does not delete the original matrix
-NMat1 *nmatrix_flatten(NMat *M) {
+NMat1 *nmat_flatten(NMat *M) {
   NMat1 *fmat = malloc(sizeof(NMat));
   fmat->rows = M->rows * M->cols;
   fmat->data = malloc(fmat->rows * sizeof(double));
