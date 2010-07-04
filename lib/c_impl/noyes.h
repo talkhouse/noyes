@@ -30,7 +30,7 @@ void nmat_free(NMat *);
 
 NMat1 *nmat_new1(int rows);
 void nmat_free1(NMat1 *);
-NMat1 ** nmatrix_2_nmatrix1s(NMat *M);
+NMat1 ** mat2arr(NMat *M);
 NMat * nmatrix1_2_nmatrix(NMat1 **array, int size);
 NMat1 *nmatrix_flatten(NMat *M);
 

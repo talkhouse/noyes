@@ -42,7 +42,7 @@ void nmat_free1(NMat1 *M) {
 
 // Converts a square matrix to a list of one dimensional matrices.
 // Simultaneously frees the original square matrix.
-NMat1 ** nmatrix_2_nmatrix1s(NMat *M) {
+NMat1 ** mat2arr(NMat *M) {
   NMat1 **single = malloc(sizeof(NMat1*) * M->rows);
   int i;
   for (i=0;i<M->rows;++i) {
