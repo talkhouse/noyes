@@ -69,7 +69,7 @@ NMat1 *nmat_flatten(NMat *M) {
 
 // Converts an array of one dimensional arrays into a square matrix.  It frees
 // these arrays in the process.
-NMat * nmatrix1_2_nmatrix(NMat1 **array, int size) {
+NMat * arr2mat(NMat1 **array, int size) {
   if (size ==0)
     return NULL;
   NMat *result = malloc(sizeof(NMat));

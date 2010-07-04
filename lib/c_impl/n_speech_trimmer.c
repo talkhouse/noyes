@@ -51,7 +51,7 @@ NMat * speech_trimmer_apply(SpeechTrimmer *self, NMat1* pcm) {
   if (speech_trimmer_eos(self) && speech_count == 0)
     return NULL;
 
-  return nmatrix1_2_nmatrix(speech_segments, speech_count);
+  return arr2mat(speech_segments, speech_count);
 }
 
 

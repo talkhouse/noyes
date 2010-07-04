@@ -31,7 +31,7 @@ void nmat_free(NMat *);
 NMat1 *nmat_new1(int rows);
 void nmat_free1(NMat1 *);
 NMat1 ** mat2arr(NMat *M);
-NMat * nmatrix1_2_nmatrix(NMat1 **array, int size);
+NMat * arr2mat(NMat1 **array, int size);
 NMat1 *nmat_flatten(NMat *M);
 
 // Preemphasizer
