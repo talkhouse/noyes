@@ -2,8 +2,8 @@
 #include "rnoyes.h"
 
 // Wrappers for matrix class
-NMatrix * v_2_nmatrix(VALUE value) {
-  NMatrix *M = NULL;
+NMat * v_2_nmatrix(VALUE value) {
+  NMat *M = NULL;
   int rows = RARRAY_LEN(value);
   int cols = 0;
   if (rows > 0) {
@@ -13,7 +13,7 @@ NMatrix * v_2_nmatrix(VALUE value) {
       rb_raise(rb_eTypeError, "Matrix one dimensional instead of two");
     }
     cols = RARRAY_LEN(colzero);
-    M = new_nmatrix(rows,cols);
+    M = nmat_new(rows,cols);
      int i,j;
      for (i=0;i<rows;++i) {
        VALUE col = rb_ary_entry(value, i);
@@ -25,7 +25,7 @@ NMatrix * v_2_nmatrix(VALUE value) {
   return M;
 }
 
-VALUE nmatrix_2_v(NMatrix *M) {
+VALUE nmatrix_2_v(NMat *M) {
   VALUE v = Qnil;
   if (M) {
     v = rb_ary_new2(M->rows);
@@ -42,8 +42,8 @@ VALUE nmatrix_2_v(NMatrix *M) {
   return v;
 }
 
-NMatrix1 * v_2_nmatrix1(VALUE value) {
-  NMatrix1 *M = NULL;
+NMat1 * v_2_nmatrix1(VALUE value) {
+  NMat1 *M = NULL;
   int rows = RARRAY_LEN(value);
   if (rows > 0) {
     VALUE colzero = rb_ary_entry(value, 0);
@@ -51,7 +51,7 @@ NMatrix1 * v_2_nmatrix1(VALUE value) {
     if (!NIL_P(colzero)) {
       rb_raise(rb_eTypeError, "Matrix two dimensional instead of one");
     }
-    M = new_nmatrix1(rows);
+    M = nmat_new1(rows);
      int i;
      for (i=0;i<rows;++i) {
        VALUE val = rb_ary_entry(value, i);
@@ -61,7 +61,7 @@ NMatrix1 * v_2_nmatrix1(VALUE value) {
   return M;
 }
 
-VALUE nmatrix1_2_v(NMatrix1 *M) {
+VALUE nmatrix1_2_v(NMat1 *M) {
   VALUE v = Qnil;
   if (M) {
     v = rb_ary_new2(M->rows);

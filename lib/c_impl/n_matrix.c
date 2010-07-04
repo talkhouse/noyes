@@ -2,8 +2,8 @@
 #include "memory.h"
 
 // A 2 dimensional matrix "class".
-NMatrix *new_nmatrix(int rows, int cols) {
-  NMatrix *M = malloc(sizeof(NMatrix));
+NMat *nmat_new(int rows, int cols) {
+  NMat *M = malloc(sizeof(NMat));
   M->data = malloc(rows * sizeof(double*));
   int i;
   for (i=0;i<rows;++i) {
@@ -14,7 +14,7 @@ NMatrix *new_nmatrix(int rows, int cols) {
   return M;
 }
 
-void free_nmatrix(NMatrix *M) {
+void nmat_free(NMat *M) {
   if (M) {
     int i;
     for (i=0;i<M->rows;++i) {
@@ -26,14 +26,14 @@ void free_nmatrix(NMatrix *M) {
 }
 
 // A 1 dimensional matrix "class".
-NMatrix1 *new_nmatrix1(int rows) {
-  NMatrix1 *M = malloc(sizeof(NMatrix1));
+NMat1 *nmat_new1(int rows) {
+  NMat1 *M = malloc(sizeof(NMat1));
   M->data = malloc(rows * sizeof(double));
   M->rows = rows;
   return M;
 }
 
-void free_nmatrix1(NMatrix1 *M) {
+void nmat_free1(NMat1 *M) {
   if (M) {
     free(M->data);
     free(M);
@@ -42,11 +42,11 @@ void free_nmatrix1(NMatrix1 *M) {
 
 // Converts a square matrix to a list of one dimensional matrices.
 // Simultaneously frees the original square matrix.
-NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M) {
-  NMatrix1 **single = malloc(sizeof(NMatrix1*) * M->rows);
+NMat1 ** mat2arrs(NMat *M) {
+  NMat1 **single = malloc(sizeof(NMat1*) * M->rows);
   int i;
   for (i=0;i<M->rows;++i) {
-    single[i] = malloc(sizeof(NMatrix1));
+    single[i] = malloc(sizeof(NMat1));
     single[i]->data = M->data[i];
     single[i]->rows = M->cols;
   }
@@ -56,8 +56,8 @@ NMatrix1 ** nmatrix_2_nmatrix1s(NMatrix *M) {
 }
 
 // Does not delete the original matrix
-NMatrix1 *nmatrix_flatten(NMatrix *M) {
-  NMatrix1 *fmat = malloc(sizeof(NMatrix));
+NMat1 *nmat_flatten(NMat *M) {
+  NMat1 *fmat = malloc(sizeof(NMat));
   fmat->rows = M->rows * M->cols;
   fmat->data = malloc(fmat->rows * sizeof(double));
   int i;
@@ -69,10 +69,10 @@ NMatrix1 *nmatrix_flatten(NMatrix *M) {
 
 // Converts an array of one dimensional arrays into a square matrix.  It frees
 // these arrays in the process.
-NMatrix * nmatrix1_2_nmatrix(NMatrix1 **array, int size) {
+NMat * arrs2mat(NMat1 **array, int size) {
   if (size ==0)
     return NULL;
-  NMatrix *result = malloc(sizeof(NMatrix));
+  NMat *result = malloc(sizeof(NMat));
   result->data = malloc(sizeof(double*) * size);
   result->rows = size;
   int i;

@@ -23,13 +23,13 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  NMatrix *M = v_2_nmatrix(obj);
+  NMat *M = v_2_nmatrix(obj);
   PowerSpectrum *ps;
   VALUE psv = rb_iv_get(self, "@ps");
   Data_Get_Struct(psv, PowerSpectrum, ps);
-  NMatrix *N = power_spectrum_apply(ps, M);
+  NMat *N = power_spectrum_apply(ps, M);
   VALUE result = nmatrix_2_v(N);
-  free_nmatrix(N);
+  nmat_free(N);
   return result;
 }
 

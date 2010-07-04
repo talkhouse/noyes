@@ -13,8 +13,8 @@ void Init_bent_cent_marker();
 void Init_speech_trimmer();
 void Init_n_list();
 
-VALUE nmatrix_2_v(NMatrix *d);
-NMatrix * v_2_nmatrix(VALUE value);
+VALUE nmatrix_2_v(NMat *d);
+NMat * v_2_nmatrix(VALUE value);
 
-VALUE nmatrix1_2_v(NMatrix1 *d);
-NMatrix1 * v_2_nmatrix1(VALUE value);
+VALUE nmatrix1_2_v(NMat1 *d);
+NMat1 * v_2_nmatrix1(VALUE value);
