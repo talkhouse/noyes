@@ -22,11 +22,11 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  NMatrix *M = v_2_nmatrix(obj);
+  NMat *M = v_2_nmatrix(obj);
   HammingWindow *hw;
   VALUE hwv = rb_iv_get(self, "@hw");
   Data_Get_Struct(hwv, HammingWindow, hw);
-  NMatrix *N = hamming_window_apply(hw, M);
+  NMat *N = hamming_window_apply(hw, M);
   VALUE result = nmatrix_2_v(N);
   free_nmatrix(N);
   return result;

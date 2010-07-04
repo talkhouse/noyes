@@ -9,8 +9,8 @@ void free_log_compressor(LogCompressor *lc) {
   free(lc);
 }
 
-NMatrix * log_compressor_apply(LogCompressor *self, NMatrix *data) {
-  NMatrix *M = new_nmatrix(data->rows, data->cols);
+NMat * log_compressor_apply(LogCompressor *self, NMat *data) {
+  NMat *M = nmat_new(data->rows, data->cols);
   int i, j;
   for (i=0;i<M->rows;++i) {
       for (j=0;j<M->cols;++j) {
