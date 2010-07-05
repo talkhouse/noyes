@@ -131,7 +131,7 @@ Nmat *make_bank_parameters(double srate, int nfft, int nfilt,
 Narr * make_filter(double left, double center, double right,
                                double initFreq, double delta) {
     int nElements = round((right - left)/ delta + 1);
-    Narr * filter = nmat_new1(nElements + 1);
+    Narr * filter = narr_new(nElements + 1);
     double height=1.0;
     double leftSlope = height / (center - left);
     double rightSlope = height / (center - right);

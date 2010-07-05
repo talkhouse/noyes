@@ -36,7 +36,7 @@ static VALUE t_dequeue(VALUE self) {
   Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   Narr *N =speech_trimmer_dequeue(st);
   VALUE result = nmatrix1_2_v(N);
-  nmat_free1(N);
+  narr_free(N);
   return result;
 }
 
@@ -53,11 +53,11 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   Nmat *R = speech_trimmer_apply(st, M);
   if (!R) {
-    nmat_free1(M);
+    narr_free(M);
     return Qnil;
   }
   VALUE result = nmatrix_2_v(R);
-  nmat_free1(M);
+  narr_free(M);
   nmat_free(R);
   return result;
 }

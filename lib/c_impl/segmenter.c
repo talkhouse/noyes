@@ -35,7 +35,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Nmat *N = segmenter_apply(s, M);
   VALUE result = nmatrix_2_v(N);
   nmat_free(N);
-  nmat_free1(M);
+  narr_free(M);
   return result;
 }
 

@@ -28,8 +28,8 @@ typedef struct {
 Nmat *nmat_new(int rows, int cols);
 void nmat_free(Nmat *);
 
-Narr *nmat_new1(int rows);
-void nmat_free1(Narr *);
+Narr *narr_new(int rows);
+void narr_free(Narr *);
 Narr ** mat2arrs(Nmat *M);
 Nmat * arrs2mat(Narr **array, int size);
 Narr *nmat_flatten(Nmat *M);

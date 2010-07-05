@@ -51,7 +51,7 @@ Narr * v_2_nmatrix1(VALUE value) {
     if (!NIL_P(colzero)) {
       rb_raise(rb_eTypeError, "Matrix two dimensional instead of one");
     }
-    M = nmat_new1(rows);
+    M = narr_new(rows);
      int i;
      for (i=0;i<rows;++i) {
        VALUE val = rb_ary_entry(value, i);

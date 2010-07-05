@@ -29,8 +29,8 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(prev, Preemphasizer, pre);
   Narr *N = preemphasizer_apply(pre, M);
   VALUE result = nmatrix1_2_v(N);
-  nmat_free1(N);
-  nmat_free1(M);
+  narr_free(N);
+  narr_free(M);
   return result;
 }
 

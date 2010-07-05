@@ -22,7 +22,7 @@ static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right),
       rb_ary_store(filt, i-1, rb_float_new(d->data[i]));
     }
     rb_ary_store(result, 1, filt);
-    nmat_free1(d);
+    narr_free(d);
     return result;
   }
   return Qnil;
