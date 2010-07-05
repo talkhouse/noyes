@@ -4,12 +4,12 @@
 #include "math.h"
 #include "stdio.h"
 
-NMat * dft(double * data, int datalen, int size) {
+Nmat * dft(double * data, int datalen, int size) {
     if (datalen> size) {
         fprintf(stderr,"Size(%d) must be larger than data length(%d)", size, datalen);
         return NULL;
     }
-    NMat *M = nmat_new(2, size);
+    Nmat *M = nmat_new(2, size);
     double * real = M->data[0];
     double * imag = M->data[1];
     int j=0,i;

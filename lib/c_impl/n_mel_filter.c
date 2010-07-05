@@ -3,19 +3,19 @@
 #include "memory.h"
 #include "math.h"
 
-NMat1 * make_filter(double left, double center, double right,
+Narr * make_filter(double left, double center, double right,
                                double initFreq, double delta);
 
 MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf, int upperf) {
   MelFilter *mf = malloc(sizeof(MelFilter));
-  NMat *params = make_bank_parameters(srate, nfft, nfilt, lowerf, upperf);
+  Nmat *params = make_bank_parameters(srate, nfft, nfilt, lowerf, upperf);
   mf->len = params->rows;
   mf->indices = malloc(params->rows * sizeof(int));
   mf->weights = malloc(params->rows * sizeof(double*));
   mf->weightlens = malloc(params->rows * sizeof(int));
   int i;
   for (i=0; i<params->rows;++i) {
-      NMat1 * temp = make_filter(params->data[i][0], params->data[i][1],
+      Narr * temp = make_filter(params->data[i][0], params->data[i][1],
                                     params->data[i][2], params->data[i][3],
                                     params->data[i][4]);
       mf->indices[i] = round(temp->data[0]);
@@ -31,8 +31,8 @@ MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf, int upper
   return mf;
 }
 
-NMat * mel_filter_apply(MelFilter* self, NMat * power_spectrum) {
-    NMat *melbanks = nmat_new(power_spectrum->rows, self->len);
+Nmat * mel_filter_apply(MelFilter* self, Nmat * power_spectrum) {
+    Nmat *melbanks = nmat_new(power_spectrum->rows, self->len);
     int i;
     for (i=0;i<power_spectrum->rows; ++i) {
         double * spectrum = power_spectrum->data[i];
@@ -85,7 +85,7 @@ double melinv(double m) {
 //    return result;
 //}
 
-NMat *make_bank_parameters(double srate, int nfft, int nfilt,
+Nmat *make_bank_parameters(double srate, int nfft, int nfilt,
                                       double lowerf, double upperf) { 
   double * leftEdge = alloca(nfilt*sizeof(double));
   double * rightEdge = alloca(nfilt*sizeof(double));
@@ -111,7 +111,7 @@ NMat *make_bank_parameters(double srate, int nfft, int nfilt,
   nextEdgeMel += deltaFreqMel;
   double nextEdge = melinv(nextEdgeMel);
   rightEdge[nfilt-1] = determine_bin(nextEdge, deltaFreq);
-  NMat *fparams = nmat_new(nfilt, 5);
+  Nmat *fparams = nmat_new(nfilt, 5);
   for (i=0;i<nfilt;++i) {
       double initialFreqBin = determine_bin(leftEdge[i], deltaFreq);
       if (initialFreqBin < leftEdge[i]) {
@@ -128,10 +128,10 @@ NMat *make_bank_parameters(double srate, int nfft, int nfilt,
 
 // Returns an array of weights with one additional element at the zero
 // location containing the starting index.
-NMat1 * make_filter(double left, double center, double right,
+Narr * make_filter(double left, double center, double right,
                                double initFreq, double delta) {
     int nElements = round((right - left)/ delta + 1);
-    NMat1 * filter = nmat_new1(nElements + 1);
+    Narr * filter = narr_new(nElements + 1);
     double height=1.0;
     double leftSlope = height / (center - left);
     double rightSlope = height / (center - right);

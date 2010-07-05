@@ -25,11 +25,11 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  NMat *M = v_2_nmatrix(obj);
+  Nmat *M = v_2_nmatrix(obj);
   DiscreteCosineTransform *dct;
   VALUE dctv = rb_iv_get(self, "@dct");
   Data_Get_Struct(dctv, DiscreteCosineTransform, dct);
-  NMat *N = dct_apply(dct, M);
+  Nmat *N = dct_apply(dct, M);
   VALUE result = nmatrix_2_v(N);
   nmat_free(N);
   return result;
@@ -39,7 +39,7 @@ static VALUE t_melcos(VALUE self) {
   DiscreteCosineTransform *dct;
   VALUE dctv = rb_iv_get(self, "@dct");
   Data_Get_Struct(dctv, DiscreteCosineTransform, dct);
-  NMat *N = nmat_new(dct->rows, dct->cols);
+  Nmat *N = nmat_new(dct->rows, dct->cols);
   int i;
   for (i=0;i<dct->rows;++i) {
     memcpy(N->data[i],dct->melcos[i], dct->cols * sizeof(double));
@@ -50,8 +50,8 @@ static VALUE t_melcos(VALUE self) {
 }
 
 static VALUE t_dft(VALUE classmod, VALUE data, VALUE size) {
-  NMat1 *M = v_2_nmatrix1(data);
-  NMat *R = dft(M->data, M->rows, FIX2INT(size));
+  Narr *M = v_2_nmatrix1(data);
+  Nmat *R = dft(M->data, M->rows, FIX2INT(size));
   VALUE result = rb_ary_new2(R->cols);
   int i;
   for (i=0;i<R->cols;++i) {
@@ -59,7 +59,7 @@ static VALUE t_dft(VALUE classmod, VALUE data, VALUE size) {
     VALUE imag = rb_float_new(R->data[1][i]);
     rb_ary_store(result, i, rb_complex_new(real, imag));
   }
-  nmat_free1(M);
+  narr_free(M);
   nmat_free(R);
   return result;
 }

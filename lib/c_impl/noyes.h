@@ -11,28 +11,28 @@ typedef struct {
   double **data;
   int rows;
   int cols;
-} NMat;
+} Nmat;
 
 typedef struct {
   double ***data;
   int rows;
   int cols;
   int z;
-} NMat3;
+} Nmat3;
 
 typedef struct {
   double *data;
   int rows;
-} NMat1;
+} Narr;
 
-NMat *nmat_new(int rows, int cols);
-void nmat_free(NMat *);
+Nmat *nmat_new(int rows, int cols);
+void nmat_free(Nmat *);
 
-NMat1 *nmat_new1(int rows);
-void nmat_free1(NMat1 *);
-NMat1 ** mat2arrs(NMat *M);
-NMat * arrs2mat(NMat1 **array, int size);
-NMat1 *nmat_flatten(NMat *M);
+Narr *narr_new(int rows);
+void narr_free(Narr *);
+Narr ** mat2arrs(Nmat *M);
+Nmat * arrs2mat(Narr **array, int size);
+Narr *nmat_flatten(Nmat *M);
 
 // Preemphasizer
 typedef struct {
@@ -42,7 +42,7 @@ typedef struct {
 
 Preemphasizer * new_preemphasizer(double factor);
 void free_preemphasizer(Preemphasizer *self);
-NMat1 *preemphasizer_apply(Preemphasizer *self, NMat1 *data);
+Narr *preemphasizer_apply(Preemphasizer *self, Narr *data);
 
 // Segmenter
 typedef struct {
@@ -54,7 +54,7 @@ typedef struct {
 
 Segmenter * new_segmenter(int winsz, int winshift);
 void free_segmenter(Segmenter *s);
-NMat * segmenter_apply(Segmenter* self, NMat1 *data);
+Nmat * segmenter_apply(Segmenter* self, Narr *data);
 
 // Hamming Window
 typedef struct {
@@ -64,7 +64,7 @@ typedef struct {
 
 HammingWindow * new_hamming_window(int window_size);
 void free_hamming_window(HammingWindow *s);
-NMat * hamming_window_apply(HammingWindow* self, NMat *data);
+Nmat * hamming_window_apply(HammingWindow* self, Nmat *data);
 
 // Power spectrum
 typedef struct {
@@ -73,8 +73,8 @@ typedef struct {
 
 PowerSpectrum * new_power_spectrum(int nfft);
 void free_power_spectrum(PowerSpectrum *);
-NMat *power_spectrum_apply(PowerSpectrum *self, NMat *data);
-NMat * dft(double * data, int datalen, int size);
+Nmat *power_spectrum_apply(PowerSpectrum *self, Nmat *data);
+Nmat * dft(double * data, int datalen, int size);
 
 // Mel Filter
 typedef struct {
@@ -87,10 +87,10 @@ typedef struct {
 MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf,
                                                             int upperf);
 void free_mel_filter(MelFilter* mf);
-NMat *make_bank_parameters(double srate, int nfft, int nfilt,
+Nmat *make_bank_parameters(double srate, int nfft, int nfilt,
                                       double lowerf, double upperf); 
-NMat * mel_filter_apply(MelFilter* self, NMat * power_spectrum);
-NMat1 * make_filter(double left, double center, double right,
+Nmat * mel_filter_apply(MelFilter* self, Nmat * power_spectrum);
+Narr * make_filter(double left, double center, double right,
                                double initFreq, double delta);
 double melinv(double m);
 double mel(double m);
@@ -102,7 +102,7 @@ typedef struct {
 
 LogCompressor * new_log_compressor(double log_zero);
 void free_log_compressor(LogCompressor *lc);
-NMat * log_compressor_apply(LogCompressor *self, NMat *data);
+Nmat * log_compressor_apply(LogCompressor *self, Nmat *data);
 
 // Discrete Cosine Transform
 typedef struct {
@@ -113,7 +113,7 @@ typedef struct {
 
 DiscreteCosineTransform * new_dct(int order, int ncol);
 void free_dct(DiscreteCosineTransform *dct);
-NMat * dct_apply(DiscreteCosineTransform *self, NMat *data);
+Nmat * dct_apply(DiscreteCosineTransform *self, Nmat *data);
 
 typedef struct {
   double * sums;
@@ -127,7 +127,7 @@ typedef struct {
 
 LiveCMN * new_live_cmn(int dimensions, double init_mean, int window_size, int shift);
 void free_live_cmn(LiveCMN *lcmn);
-NMat *live_cmn_apply(LiveCMN *self, NMat *data);
+Nmat *live_cmn_apply(LiveCMN *self, Nmat *data);
 
 // Silence removal with BentCentMarker and SpeechTrimmer
 typedef struct {
@@ -141,8 +141,8 @@ typedef struct {
 
 BentCentMarker * new_bent_cent_marker();
 void free_bent_cent_marker(BentCentMarker *self);
-double bent_cent_marker_log_rms(BentCentMarker *self, NMat1 *data);
-int bent_cent_marker_apply(BentCentMarker *self, NMat1 *data);
+double bent_cent_marker_log_rms(BentCentMarker *self, Narr *data);
+int bent_cent_marker_apply(BentCentMarker *self, Narr *data);
 
 #include "n_array_list.h"
 
@@ -162,10 +162,10 @@ typedef struct {
 
 SpeechTrimmer * new_speech_trimmer();
 void free_speech_trimmer(SpeechTrimmer *self);
-void speech_trimmer_enqueue(SpeechTrimmer *self, NMat1* pcm);
-NMat1 * speech_trimmer_dequeue(SpeechTrimmer *self);
+void speech_trimmer_enqueue(SpeechTrimmer *self, Narr* pcm);
+Narr * speech_trimmer_dequeue(SpeechTrimmer *self);
 int speech_trimmer_eos(SpeechTrimmer *self);
-NMat * speech_trimmer_apply(SpeechTrimmer *self, NMat1* pcm);
+Nmat * speech_trimmer_apply(SpeechTrimmer *self, Narr* pcm);
 
 // Fast 8k mfcc
 // This strings together all the algorithms necessary to make mfcc's from an 8k
@@ -183,7 +183,7 @@ typedef struct {
 
 Fast8kMfcc* new_fast_8k_mfcc();
 void free_fast_8k_mfcc(Fast8kMfcc *self);
-NMat *fast_8k_mfcc_apply(Fast8kMfcc *self, NMat1 *data);
+Nmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr *data);
 
 #ifdef __cplusplus
 }

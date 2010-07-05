@@ -11,8 +11,8 @@ void free_preemphasizer(Preemphasizer *self) {
   free(self);
 }
 
-NMat1 *preemphasizer_apply(Preemphasizer *self, NMat1 *data) {
-    NMat1 *res = nmat_new1(data->rows);
+Narr *preemphasizer_apply(Preemphasizer *self, Narr *data) {
+    Narr *res = narr_new(data->rows);
     double current_prior = self->prior;
     self->prior = data->data[data->rows-1];
     int i;
