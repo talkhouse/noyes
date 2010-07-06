@@ -22,6 +22,7 @@ SpeechTrimmer * new_speech_trimmer(int frequency) {
 
 void free_speech_trimmer(SpeechTrimmer *self) {
   free_bent_cent_marker(self->bcm);
+  free_segmenter(self->seg);
   n_list_free(self->queue);
   free(self);
 }
