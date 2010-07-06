@@ -41,31 +41,30 @@ void narr_free(Narr *M) {
 }
 
 // Converts a rectangular matrix to a list of one dimensional matrices.
-// Simultaneously frees the original rectangular matrix.
+// Simultaneously frees the original rectangular matrix.  Actually, the matrix
+// does not have to be rectangular.  Column sizes may vary.
 Narr ** mat2arrs(Nmat *M) {
-  Narr **single = malloc(sizeof(Narr*) * M->rows);
+  Narr **arrs = malloc(sizeof(Narr*) * M->rows);
   int i;
   for (i=0;i<M->rows;++i) {
-    single[i] = malloc(sizeof(Narr));
-    single[i]->data = M->data[i];
-    single[i]->rows = M->cols;
+    arrs[i] = malloc(sizeof(Narr));
+    arrs[i]->data = M->data[i];
+    arrs[i]->rows = M->cols;
   }
   free(M->data);
   free(M);
-  return single;
+  return arrs;
 }
 
 // Creates an array by appending columns of a rectangular matrix.  Does not
 // delete the original matrix.
 Narr *nmat_flatten(Nmat *M) {
-  Narr *fmat = malloc(sizeof(Nmat));
-  fmat->rows = M->rows * M->cols;
-  fmat->data = malloc(fmat->rows * sizeof(double));
+  Narr *flat = narr_new(M->rows * M->cols);
   int i;
   for (i=0;i<M->rows; ++i)
-    memcpy(fmat->data + (M->cols * i), M->data[i], sizeof(double) * M->cols);
+    memcpy(flat->data + (M->cols * i), M->data[i], sizeof(double) * M->cols);
 
-  return fmat;
+  return flat;
 }
 
 // Converts an array of one dimensional arrays into a rectangular matrix.  It
@@ -73,14 +72,14 @@ Narr *nmat_flatten(Nmat *M) {
 Nmat * arrs2mat(Narr **array, int size) {
   if (size ==0)
     return NULL;
-  Nmat *result = malloc(sizeof(Nmat));
-  result->data = malloc(sizeof(double*) * size);
-  result->rows = size;
+  Nmat *mat = malloc(sizeof(Nmat));
+  mat->data = malloc(sizeof(double*) * size);
+  mat->rows = size;
   int i;
   for (i=0; i<size; ++i) {
-    result->data[i] = array[i]->data;
+    mat->data[i] = array[i]->data;
     free(array[i]);
   }
 
-  return result;
+  return mat;
 }
