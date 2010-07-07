@@ -36,7 +36,7 @@ end
 
 desc 'Build c extension'
 task :cext do
-  `cd lib/c_impl; make`
+  `cd lib/c_impl; ruby extconf.rb; make`
 end
 
 task :jar => 'ship/noyes.jar'
