@@ -1,5 +1,5 @@
 require 'common'
-require 'c_impl/noyes_c'
+require 'cext/noyes_c'
 require 'ts_fast'
 
 make_test 'NoyesC', 'Preemphasis'

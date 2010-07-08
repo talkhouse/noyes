@@ -3,7 +3,7 @@ require 'rake/testtask'
 require 'fileutils'
 
 CLEAN.include 'lib/**/*.o', 'build'
-CLOBBER.include 'pkg', 'ship', 'noyes.gemspec', 'lib/c_impl/*.bundle'
+CLOBBER.include 'pkg', 'ship', 'noyes.gemspec', 'lib/cext/*.bundle'
 directory 'ship'
 
 def ensure_dir file
@@ -36,7 +36,7 @@ end
 
 desc 'Build c extension'
 task :cext do
-  `cd lib/c_impl; ruby extconf.rb; make`
+  `cd lib/cext; ruby extconf.rb; make`
 end
 
 task :jar => 'ship/noyes.jar'
@@ -163,9 +163,9 @@ begin
     s.authors = ["Joe Woelfel"]
     s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] <<
         Dir['lib/java_impl/*.rb'] << Dir['lib/*.rb'] << Dir['ship/*.jar'] <<
-        Dir['lib/c_impl/*.c'] << Dir['lib/c_impl/*.h'] <<
-        Dir['lib/c_impl/extconf.rb'] << 'VERSION'
-    s.extensions = ['lib/c_impl/extconf.rb']
+        Dir['lib/cext/*.c'] << Dir['lib/cext/*.h'] <<
+        Dir['lib/cext/extconf.rb'] << 'VERSION'
+    s.extensions = ['lib/cext/extconf.rb']
     s.test_files = []
     s.require_paths = ['lib','ship']
     s.extra_rdoc_files = ['README', 'FAQ', 'COPYING']

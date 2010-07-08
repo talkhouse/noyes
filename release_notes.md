@@ -1,3 +1,10 @@
+# 1.0.0    In progress 
+
+* Renamed c_impl to cext.  Didn't like typing c_impl so much.
+
+* Renamed many of the internal c array and matrix management functions.
+
+
 # 0.9.2     June 30, 20101
 
 * Update gem description.

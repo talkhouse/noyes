@@ -12,8 +12,8 @@ ship
 .tags
 *.o
 *.gem
-lib/c_impl/Makefile
-lib/c_impl/*.bundle
-lib/c_impl/*.dll
-lib/c_impl/*.so
+lib/cext/Makefile
+lib/cext/*.bundle
+lib/cext/*.dll
+lib/cext/*.so
 .yardoc
