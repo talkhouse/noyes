@@ -20,7 +20,9 @@ module Noyes
 
     def << pcm
       return if eos?
-      (@segmenter << pcm).inject [] do |memo, centisec|
+      segments = @segmenter << pcm
+      return unless segments
+      segments.inject [] do |memo, centisec|
         enqueue centisec unless eos?
         while x = dequeue
           memo << x
