@@ -144,7 +144,7 @@ void free_bent_cent_marker(BentCentMarker *self);
 double bent_cent_marker_log_rms(BentCentMarker *self, Narr *data);
 int bent_cent_marker_apply(BentCentMarker *self, Narr *data);
 
-#include "n_array_list.h"
+#include "c_array_list.h"
 
 typedef struct {
   int leader;

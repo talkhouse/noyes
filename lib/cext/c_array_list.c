@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "n_array_list.h"
+#include "c_array_list.h"
 
 #define NLIST_INITIAL_CAPACITY 10
 #define NLIST_DELTA_CAPACITY 10
@@ -10,7 +10,7 @@
 #undef FALSE
 #define FALSE 0
 
-NList * n_list_new() {
+NList * c_list_new() {
   NList * self;
   self = malloc(sizeof(NList));
   self->capacity = NLIST_INITIAL_CAPACITY;
@@ -19,13 +19,13 @@ NList * n_list_new() {
   return self;
 }
 
-void n_list_free(NList * self) {
+void c_list_free(NList * self) {
   free(self->data);
   free(self);
 }
 
-int n_list_add(NList * self, void * object) {
-  int old_size = n_list_size(self);
+int c_list_add(NList * self, void * object) {
+  int old_size = c_list_size(self);
   int new_capacity;
   void ** new_data;
 
@@ -42,7 +42,7 @@ int n_list_add(NList * self, void * object) {
   return TRUE;
 }
 
-int n_list_remove(NList * self, int start, int finish) {
+int c_list_remove(NList * self, int start, int finish) {
   if (start > finish || finish > self->size)
     return 1;
 
@@ -57,16 +57,16 @@ int n_list_remove(NList * self, int start, int finish) {
   return 0;
 }
 
-void * n_list_get(const NList * self, const int index) {
+void * c_list_get(const NList * self, const int index) {
   if (index < 0 || index > self->size)
     return NULL;
   return self->data[index];
 }
 
-int n_list_is_empty(const NList * self) {
-  return 0 == n_list_size(self);
+int c_list_is_empty(const NList * self) {
+  return 0 == c_list_size(self);
 }
 
-int n_list_size(const NList * self) {
+int c_list_size(const NList * self) {
   return self->size;
 }

@@ -11,7 +11,7 @@ void Init_fast_8k_mfcc();
 void Init_dct();
 void Init_bent_cent_marker();
 void Init_speech_trimmer();
-void Init_n_list();
+void Init_c_list();
 
 VALUE nmatrix_2_v(Nmat *d);
 Nmat * v_2_nmatrix(VALUE value);

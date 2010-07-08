@@ -12,7 +12,7 @@ SpeechTrimmer * new_speech_trimmer(int frequency) {
   self->bcm = new_bent_cent_marker();
   self->false_count = 0;
   self->true_count = 0;
-  self->queue = n_list_new();
+  self->queue = c_list_new();
   self->eos_reached = FALSE;
   self->scs = 20;
   self->ecs = 50;
@@ -23,7 +23,7 @@ SpeechTrimmer * new_speech_trimmer(int frequency) {
 void free_speech_trimmer(SpeechTrimmer *self) {
   free_bent_cent_marker(self->bcm);
   free_segmenter(self->seg);
-  n_list_free(self->queue);
+  c_list_free(self->queue);
   free(self);
 }
 
@@ -59,7 +59,7 @@ Nmat * speech_trimmer_apply(SpeechTrimmer *self, Narr* pcm) {
 void speech_trimmer_enqueue(SpeechTrimmer *self, Narr* pcm) {
   if (self->eos_reached)
     return;
-  n_list_add(self->queue, pcm);
+  c_list_add(self->queue, pcm);
   if (bent_cent_marker_apply(self->bcm, pcm)) {
     self->false_count = 0;
     self->true_count += 1;
@@ -70,25 +70,25 @@ void speech_trimmer_enqueue(SpeechTrimmer *self, Narr* pcm) {
   if (self->speech_started) {
     if (self->false_count == self->ecs) {
       self->eos_reached = TRUE;
-      int new_size = n_list_size(self->queue) - self->ecs + self->trailer;
-      n_list_remove(self->queue, new_size, n_list_size(self->queue));
+      int new_size = c_list_size(self->queue) - self->ecs + self->trailer;
+      c_list_remove(self->queue, new_size, c_list_size(self->queue));
     }
   } else if (self->true_count > self->scs) {
-    if (self->leader + self->scs < n_list_size(self->queue)) {
-      int start = n_list_size(self->queue) - self->leader - self->scs - 1;
-      n_list_remove(self->queue, 0, start);
+    if (self->leader + self->scs < c_list_size(self->queue)) {
+      int start = c_list_size(self->queue) - self->leader - self->scs - 1;
+      c_list_remove(self->queue, 0, start);
     }
     self->speech_started = TRUE;
   }
 }
 
 Narr * speech_trimmer_dequeue(SpeechTrimmer *self) {
-  if (n_list_size(self->queue) == 0)
+  if (c_list_size(self->queue) == 0)
     return NULL;
   if (self->eos_reached || (self->speech_started &&
-    n_list_size(self->queue) > self->ecs)) {
-    Narr * N = n_list_get(self->queue, 0);
-    n_list_remove(self->queue, 0, 1);
+    c_list_size(self->queue) > self->ecs)) {
+    Narr * N = c_list_get(self->queue, 0);
+    c_list_remove(self->queue, 0, 1);
     return N;
   }
   return NULL;
