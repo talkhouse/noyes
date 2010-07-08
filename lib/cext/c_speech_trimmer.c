@@ -36,7 +36,7 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
 	  return NULL;
   int centisecond_count = segment_matrix->rows;
   Carr **segments = mat2arrs(segment_matrix);
-  Carr ** speech_segments = malloc(sizeof(Cmat*) * segment_matrix->rows);
+  Carr ** speech_segments = malloc(sizeof(Cmat*) * centisecond_count);
   int speech_count = 0, i;
   for (i=0; i<centisecond_count ;++i) {
     speech_trimmer_enqueue(self, segments[i]);
