@@ -75,6 +75,7 @@ Nmat * arrs2mat(Narr **array, int size) {
   Nmat *mat = malloc(sizeof(Nmat));
   mat->data = malloc(sizeof(double*) * size);
   mat->rows = size;
+  mat->cols = array[0]->rows;
   int i;
   for (i=0; i<size; ++i) {
     mat->data[i] = array[i]->data;
