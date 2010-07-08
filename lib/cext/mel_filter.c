@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #include "rnoyes.h"
 #include "math.h"
 

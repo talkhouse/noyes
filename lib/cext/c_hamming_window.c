@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #include "math.h"
 
 HammingWindow * new_hamming_window(int window_size) {

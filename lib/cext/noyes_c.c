@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #include "rnoyes.h"
 
 // Wrappers for matrix class

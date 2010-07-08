@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 
 Fast8kMfcc * new_fast_8k_mfcc() {
   double factor = 0.97;

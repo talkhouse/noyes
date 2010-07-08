@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #undef TRUE
 #define TRUE 1
 #undef FALSE

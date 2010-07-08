@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 
 Preemphasizer * new_preemphasizer(double factor) {
   Preemphasizer *self = malloc(sizeof(Preemphasizer));

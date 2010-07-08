@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #include "math.h"
 
 DiscreteCosineTransform * new_dct(int rows, int cols) {

@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #include "memory.h"
 
 Segmenter * new_segmenter(int winsz, int winshift) {

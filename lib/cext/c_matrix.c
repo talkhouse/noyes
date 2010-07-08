@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #include "memory.h"
 
 // A 2 dimensional dense rectangular matrix "class".

@@ -1,4 +1,4 @@
-#include "noyes.h"
+#include "c_noyes.h"
 #include "math.h"
 
 LogCompressor * new_log_compressor(double log_zero) {
