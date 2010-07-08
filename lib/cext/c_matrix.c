@@ -81,6 +81,7 @@ Cmat * arrs2mat(Carr **array, int size) {
     mat->data[i] = array[i]->data;
     free(array[i]);
   }
+  free(array);
 
   return mat;
 }
