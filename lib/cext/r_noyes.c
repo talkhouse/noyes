@@ -1,5 +1,5 @@
 #include "c_noyes.h"
-#include "rnoyes.h"
+#include "r_noyes.h"
 
 // Wrappers for matrix class
 Cmat * r2cmat(VALUE value) {

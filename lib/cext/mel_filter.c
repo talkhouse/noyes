@@ -1,5 +1,5 @@
 #include "c_noyes.h"
-#include "rnoyes.h"
+#include "r_noyes.h"
 #include "math.h"
 
 static int id_push;
