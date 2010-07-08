@@ -78,7 +78,7 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Cmat *M = v_2_cmatrix(obj);
+  Cmat *M = r2cmat(obj);
   VALUE mel_filter = rb_iv_get(self, "@mel_filter");
   MelFilter *s;
   Data_Get_Struct(mel_filter, MelFilter, s);

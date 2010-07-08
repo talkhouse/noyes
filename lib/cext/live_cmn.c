@@ -29,12 +29,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Cmat *M = v_2_cmatrix(obj);
+  Cmat *M = r2cmat(obj);
   LiveCMN *cmn;
   VALUE cmnv = rb_iv_get(self, "@cmn");
   Data_Get_Struct(cmnv, LiveCMN, cmn);
   Cmat *N = live_cmn_apply(cmn, M);
-  VALUE result = cmatrix_2_v(N);
+  VALUE result = cmat2r(N);
   cmat_free(N);
   return result;
 }

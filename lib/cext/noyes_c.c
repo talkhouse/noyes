@@ -2,7 +2,7 @@
 #include "rnoyes.h"
 
 // Wrappers for matrix class
-Cmat * v_2_cmatrix(VALUE value) {
+Cmat * r2cmat(VALUE value) {
   Cmat *M = NULL;
   int rows = RARRAY_LEN(value);
   int cols = 0;
@@ -25,7 +25,7 @@ Cmat * v_2_cmatrix(VALUE value) {
   return M;
 }
 
-VALUE cmatrix_2_v(Cmat *M) {
+VALUE cmat2r(Cmat *M) {
   VALUE v = Qnil;
   if (M) {
     v = rb_ary_new2(M->rows);
@@ -42,7 +42,7 @@ VALUE cmatrix_2_v(Cmat *M) {
   return v;
 }
 
-Carr * v_2_cmatrix1(VALUE value) {
+Carr * r2carr(VALUE value) {
   Carr *M = NULL;
   int rows = RARRAY_LEN(value);
   if (rows > 0) {
@@ -61,7 +61,7 @@ Carr * v_2_cmatrix1(VALUE value) {
   return M;
 }
 
-VALUE cmatrix1_2_v(Carr *M) {
+VALUE carr2r(Carr *M) {
   VALUE v = Qnil;
   if (M) {
     v = rb_ary_new2(M->rows);

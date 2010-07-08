@@ -28,12 +28,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Carr *M = v_2_cmatrix1(obj); 
+  Carr *M = r2carr(obj); 
   VALUE segmenter = rb_iv_get(self, "@segmenter");
   Segmenter *s;
   Data_Get_Struct(segmenter, Segmenter, s);
   Cmat *N = segmenter_apply(s, M);
-  VALUE result = cmatrix_2_v(N);
+  VALUE result = cmat2r(N);
   cmat_free(N);
   narr_free(M);
   return result;

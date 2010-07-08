@@ -23,12 +23,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Cmat *M = v_2_cmatrix(obj);
+  Cmat *M = r2cmat(obj);
   LogCompressor *lc;
   VALUE lcv = rb_iv_get(self, "@log_compressor");
   Data_Get_Struct(lcv, LogCompressor, lc);
   Cmat *N = log_compressor_apply(lc, M);
-  VALUE result = cmatrix_2_v(N);
+  VALUE result = cmat2r(N);
   cmat_free(N);
   cmat_free(M);
   return result;

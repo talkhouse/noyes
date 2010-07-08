@@ -24,7 +24,7 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_enqueue(VALUE self, VALUE obj) {
-  Carr *M = v_2_cmatrix1(obj);
+  Carr *M = r2carr(obj);
   SpeechTrimmer *st;
   Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   speech_trimmer_enqueue(st, M);
@@ -35,7 +35,7 @@ static VALUE t_dequeue(VALUE self) {
   SpeechTrimmer *st;
   Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   Carr *N =speech_trimmer_dequeue(st);
-  VALUE result = cmatrix1_2_v(N);
+  VALUE result = carr2r(N);
   narr_free(N);
   return result;
 }
@@ -48,7 +48,7 @@ static VALUE t_eos(VALUE self) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Carr *M  = v_2_cmatrix1(obj);
+  Carr *M  = r2carr(obj);
   SpeechTrimmer *st;
   Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   Cmat *R = speech_trimmer_apply(st, M);
@@ -56,7 +56,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
     narr_free(M);
     return Qnil;
   }
-  VALUE result = cmatrix_2_v(R);
+  VALUE result = cmat2r(R);
   narr_free(M);
   cmat_free(R);
   return result;

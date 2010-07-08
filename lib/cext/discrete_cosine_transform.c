@@ -25,12 +25,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Cmat *M = v_2_cmatrix(obj);
+  Cmat *M = r2cmat(obj);
   DiscreteCosineTransform *dct;
   VALUE dctv = rb_iv_get(self, "@dct");
   Data_Get_Struct(dctv, DiscreteCosineTransform, dct);
   Cmat *N = dct_apply(dct, M);
-  VALUE result = cmatrix_2_v(N);
+  VALUE result = cmat2r(N);
   cmat_free(N);
   return result;
 }
@@ -44,13 +44,13 @@ static VALUE t_melcos(VALUE self) {
   for (i=0;i<dct->rows;++i) {
     memcpy(N->data[i],dct->melcos[i], dct->cols * sizeof(double));
   }
-  VALUE result = cmatrix_2_v(N);
+  VALUE result = cmat2r(N);
   cmat_free(N);
   return result;
 }
 
 static VALUE t_dft(VALUE classmod, VALUE data, VALUE size) {
-  Carr *M = v_2_cmatrix1(data);
+  Carr *M = r2carr(data);
   Cmat *R = dft(M->data, M->rows, FIX2INT(size));
   VALUE result = rb_ary_new2(R->cols);
   int i;

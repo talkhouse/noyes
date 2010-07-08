@@ -23,12 +23,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Carr *M = v_2_cmatrix1(obj);
+  Carr *M = r2carr(obj);
   Preemphasizer *pre;
   VALUE prev = rb_iv_get(self, "@preemphasizer");
   Data_Get_Struct(prev, Preemphasizer, pre);
   Carr *N = preemphasizer_apply(pre, M);
-  VALUE result = cmatrix1_2_v(N);
+  VALUE result = carr2r(N);
   narr_free(N);
   narr_free(M);
   return result;

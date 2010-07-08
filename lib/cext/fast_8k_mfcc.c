@@ -19,12 +19,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Carr *M = v_2_cmatrix1(obj); 
+  Carr *M = r2carr(obj);
   VALUE fast_8k_mfcc = rb_iv_get(self, "@fast_8k_mfcc");
   Fast8kMfcc *s;
   Data_Get_Struct(fast_8k_mfcc, Fast8kMfcc, s);
   Cmat *N = fast_8k_mfcc_apply(s, M);
-  VALUE result = cmatrix_2_v(N);
+  VALUE result = cmat2r(N);
   cmat_free(N);
   narr_free(M);
   return result;
