@@ -28,13 +28,13 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Narr *M = v_2_nmatrix1(obj); 
+  Narr *M = v_2_cmatrix1(obj); 
   VALUE segmenter = rb_iv_get(self, "@segmenter");
   Segmenter *s;
   Data_Get_Struct(segmenter, Segmenter, s);
-  Nmat *N = segmenter_apply(s, M);
-  VALUE result = nmatrix_2_v(N);
-  nmat_free(N);
+  Cmat *N = segmenter_apply(s, M);
+  VALUE result = cmatrix_2_v(N);
+  cmat_free(N);
   narr_free(M);
   return result;
 }

@@ -2,8 +2,8 @@
 #include "rnoyes.h"
 
 // Wrappers for matrix class
-Nmat * v_2_nmatrix(VALUE value) {
-  Nmat *M = NULL;
+Cmat * v_2_cmatrix(VALUE value) {
+  Cmat *M = NULL;
   int rows = RARRAY_LEN(value);
   int cols = 0;
   if (rows > 0) {
@@ -13,7 +13,7 @@ Nmat * v_2_nmatrix(VALUE value) {
       rb_raise(rb_eTypeError, "Matrix one dimensional instead of two");
     }
     cols = RARRAY_LEN(colzero);
-    M = nmat_new(rows,cols);
+    M = cmat_new(rows,cols);
      int i,j;
      for (i=0;i<rows;++i) {
        VALUE col = rb_ary_entry(value, i);
@@ -25,7 +25,7 @@ Nmat * v_2_nmatrix(VALUE value) {
   return M;
 }
 
-VALUE nmatrix_2_v(Nmat *M) {
+VALUE cmatrix_2_v(Cmat *M) {
   VALUE v = Qnil;
   if (M) {
     v = rb_ary_new2(M->rows);
@@ -42,7 +42,7 @@ VALUE nmatrix_2_v(Nmat *M) {
   return v;
 }
 
-Narr * v_2_nmatrix1(VALUE value) {
+Narr * v_2_cmatrix1(VALUE value) {
   Narr *M = NULL;
   int rows = RARRAY_LEN(value);
   if (rows > 0) {
@@ -61,7 +61,7 @@ Narr * v_2_nmatrix1(VALUE value) {
   return M;
 }
 
-VALUE nmatrix1_2_v(Narr *M) {
+VALUE cmatrix1_2_v(Narr *M) {
   VALUE v = Qnil;
   if (M) {
     v = rb_ary_new2(M->rows);

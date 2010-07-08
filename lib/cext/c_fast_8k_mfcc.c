@@ -38,18 +38,18 @@ void free_fast_8k_mfcc(Fast8kMfcc *self) {
   free(self);
 }
 
-Nmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr * data) {
-  Nmat *M = NULL;
-  Nmat *N = NULL;
+Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr * data) {
+  Cmat *M = NULL;
+  Cmat *N = NULL;
   Narr *data1 = preemphasizer_apply(self->pre, data);
   M = segmenter_apply(self->seg, data1); narr_free(data1);
   if (!M)
     return NULL;
-  N = hamming_window_apply(self->ham, M); nmat_free(M);
-  M = power_spectrum_apply(self->pow, N); nmat_free(N);
-  N = mel_filter_apply(self->mel, M); nmat_free(M);
-  M = log_compressor_apply(self->log, N); nmat_free(N);
-  N = dct_apply(self->dct, M); nmat_free(M);
-  M = live_cmn_apply(self->cmn, N); nmat_free(N);
+  N = hamming_window_apply(self->ham, M); cmat_free(M);
+  M = power_spectrum_apply(self->pow, N); cmat_free(N);
+  N = mel_filter_apply(self->mel, M); cmat_free(M);
+  M = log_compressor_apply(self->log, N); cmat_free(N);
+  N = dct_apply(self->dct, M); cmat_free(M);
+  M = live_cmn_apply(self->cmn, N); cmat_free(N);
   return M;
 }

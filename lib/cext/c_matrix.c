@@ -2,8 +2,8 @@
 #include "memory.h"
 
 // A 2 dimensional dense rectangular matrix "class".
-Nmat *nmat_new(int rows, int cols) {
-  Nmat *M = malloc(sizeof(Nmat));
+Cmat *cmat_new(int rows, int cols) {
+  Cmat *M = malloc(sizeof(Cmat));
   M->data = malloc(rows * sizeof(double*));
   int i;
   for (i=0;i<rows;++i) {
@@ -14,7 +14,7 @@ Nmat *nmat_new(int rows, int cols) {
   return M;
 }
 
-void nmat_free(Nmat *M) {
+void cmat_free(Cmat *M) {
   if (M) {
     int i;
     for (i=0;i<M->rows;++i) {
@@ -43,7 +43,7 @@ void narr_free(Narr *M) {
 // Converts a rectangular matrix to a list of one dimensional matrices.
 // Simultaneously frees the original rectangular matrix.  Actually, the matrix
 // does not have to be rectangular.  Column sizes may vary.
-Narr ** mat2arrs(Nmat *M) {
+Narr ** mat2arrs(Cmat *M) {
   Narr **arrs = malloc(sizeof(Narr*) * M->rows);
   int i;
   for (i=0;i<M->rows;++i) {
@@ -58,7 +58,7 @@ Narr ** mat2arrs(Nmat *M) {
 
 // Creates an array by appending columns of a rectangular matrix.  Does not
 // delete the original matrix.
-Narr *nmat_flatten(Nmat *M) {
+Narr *cmat_flatten(Cmat *M) {
   Narr *flat = narr_new(M->rows * M->cols);
   int i;
   for (i=0;i<M->rows; ++i)
@@ -69,10 +69,10 @@ Narr *nmat_flatten(Nmat *M) {
 
 // Converts an array of one dimensional arrays into a rectangular matrix.  It
 // frees these arrays in the process.  All arrays must have the same length.
-Nmat * arrs2mat(Narr **array, int size) {
+Cmat * arrs2mat(Narr **array, int size) {
   if (size ==0)
     return NULL;
-  Nmat *mat = malloc(sizeof(Nmat));
+  Cmat *mat = malloc(sizeof(Cmat));
   mat->data = malloc(sizeof(double*) * size);
   mat->rows = size;
   mat->cols = array[0]->rows;

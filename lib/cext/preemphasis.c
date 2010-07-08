@@ -23,12 +23,12 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Narr *M = v_2_nmatrix1(obj);
+  Narr *M = v_2_cmatrix1(obj);
   Preemphasizer *pre;
   VALUE prev = rb_iv_get(self, "@preemphasizer");
   Data_Get_Struct(prev, Preemphasizer, pre);
   Narr *N = preemphasizer_apply(pre, M);
-  VALUE result = nmatrix1_2_v(N);
+  VALUE result = cmatrix1_2_v(N);
   narr_free(N);
   narr_free(M);
   return result;

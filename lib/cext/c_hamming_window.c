@@ -18,8 +18,8 @@ void free_hamming_window(HammingWindow *hw) {
   free(hw);
 }
 
-Nmat * hamming_window_apply(HammingWindow *self, Nmat* N) {
-  Nmat *M = nmat_new(N->rows, N->cols);
+Cmat * hamming_window_apply(HammingWindow *self, Cmat* N) {
+  Cmat *M = cmat_new(N->rows, N->cols);
   int i,j;
   for (i=0;i<N->rows;++i) {
     for (j=0;j<N->cols;++j) {

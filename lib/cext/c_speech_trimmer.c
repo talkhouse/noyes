@@ -27,16 +27,16 @@ void free_speech_trimmer(SpeechTrimmer *self) {
   free(self);
 }
 
-Nmat * speech_trimmer_apply(SpeechTrimmer *self, Narr* pcm) {
+Cmat * speech_trimmer_apply(SpeechTrimmer *self, Narr* pcm) {
   if (self->eos_reached)
     return NULL;
 
-  Nmat *segment_matrix = segmenter_apply(self->seg, pcm);
+  Cmat *segment_matrix = segmenter_apply(self->seg, pcm);
   if (segment_matrix == NULL)
 	  return NULL;
   int centisecond_count = segment_matrix->rows;
   Narr **segments = mat2arrs(segment_matrix);
-  Narr ** speech_segments = malloc(sizeof(Nmat*) * segment_matrix->rows);
+  Narr ** speech_segments = malloc(sizeof(Cmat*) * segment_matrix->rows);
   int speech_count = 0, i;
   for (i=0; i<centisecond_count ;++i) {
     speech_trimmer_enqueue(self, segments[i]);

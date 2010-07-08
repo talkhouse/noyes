@@ -51,12 +51,12 @@ static void live_cmn_update(LiveCMN *self) {
     }
 }
 
-Nmat *live_cmn_apply(LiveCMN *self, Nmat *dct) {
+Cmat *live_cmn_apply(LiveCMN *self, Cmat *dct) {
   if (dct->cols != self->dimensions) {
       fprintf(stderr, "Wrong number of dimensions in live_cmn_apply\n");
       return NULL;
   }
-  Nmat *cmn = nmat_new(dct->rows, dct->cols);
+  Cmat *cmn = cmat_new(dct->rows, dct->cols);
   int i,j;
   for (i=0;i<dct->rows;++i) {
       for (j=0;j<dct->cols;++j) {

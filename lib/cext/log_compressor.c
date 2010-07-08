@@ -23,14 +23,14 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Nmat *M = v_2_nmatrix(obj);
+  Cmat *M = v_2_cmatrix(obj);
   LogCompressor *lc;
   VALUE lcv = rb_iv_get(self, "@log_compressor");
   Data_Get_Struct(lcv, LogCompressor, lc);
-  Nmat *N = log_compressor_apply(lc, M);
-  VALUE result = nmatrix_2_v(N);
-  nmat_free(N);
-  nmat_free(M);
+  Cmat *N = log_compressor_apply(lc, M);
+  VALUE result = cmatrix_2_v(N);
+  cmat_free(N);
+  cmat_free(M);
   return result;
 }
 

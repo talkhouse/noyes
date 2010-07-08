@@ -38,7 +38,7 @@ static VALUE t_to_linear(VALUE self, VALUE f) {
 
 static VALUE t_make_bank_parameters(VALUE self, VALUE srate, VALUE nfft,
                                     VALUE nfilt, VALUE lowerf, VALUE upperf) {
-  Nmat *d = make_bank_parameters(NUM2INT(srate), NUM2INT(nfft),
+  Cmat *d = make_bank_parameters(NUM2INT(srate), NUM2INT(nfft),
                 NUM2INT(nfilt), NUM2INT(lowerf), NUM2INT(upperf)); 
   if (d) {
     VALUE result = rb_ary_new2(d->rows);
@@ -50,7 +50,7 @@ static VALUE t_make_bank_parameters(VALUE self, VALUE srate, VALUE nfft,
         rb_ary_store(row, j, rb_float_new(d->data[i][j]));
       }
     }
-    nmat_free(d);
+    cmat_free(d);
     return result;
   }
   return Qnil;
@@ -78,11 +78,11 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Nmat *M = v_2_nmatrix(obj);
+  Cmat *M = v_2_cmatrix(obj);
   VALUE mel_filter = rb_iv_get(self, "@mel_filter");
   MelFilter *s;
   Data_Get_Struct(mel_filter, MelFilter, s);
-  Nmat *d = mel_filter_apply(s, M);
+  Cmat *d = mel_filter_apply(s, M);
 
   if (d) {
     VALUE result = rb_ary_new2(d->rows);
@@ -94,7 +94,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
         rb_ary_store(row, j, rb_float_new(d->data[i][j]));
       }
     }
-    nmat_free(d);
+    cmat_free(d);
     return result;
   }
   return Qnil;

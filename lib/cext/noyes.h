@@ -11,28 +11,28 @@ typedef struct {
   double **data;
   int rows;
   int cols;
-} Nmat;
+} Cmat;
 
 typedef struct {
   double ***data;
   int rows;
   int cols;
   int z;
-} Nmat3;
+} Cmat3;
 
 typedef struct {
   double *data;
   int rows;
 } Narr;
 
-Nmat *nmat_new(int rows, int cols);
-void nmat_free(Nmat *);
+Cmat *cmat_new(int rows, int cols);
+void cmat_free(Cmat *);
 
 Narr *narr_new(int rows);
 void narr_free(Narr *);
-Narr ** mat2arrs(Nmat *M);
-Nmat * arrs2mat(Narr **array, int size);
-Narr *nmat_flatten(Nmat *M);
+Narr ** mat2arrs(Cmat *M);
+Cmat * arrs2mat(Narr **array, int size);
+Narr *cmat_flatten(Cmat *M);
 
 // Preemphasizer
 typedef struct {
@@ -54,7 +54,7 @@ typedef struct {
 
 Segmenter * new_segmenter(int winsz, int winshift);
 void free_segmenter(Segmenter *s);
-Nmat * segmenter_apply(Segmenter* self, Narr *data);
+Cmat * segmenter_apply(Segmenter* self, Narr *data);
 
 // Hamming Window
 typedef struct {
@@ -64,7 +64,7 @@ typedef struct {
 
 HammingWindow * new_hamming_window(int window_size);
 void free_hamming_window(HammingWindow *s);
-Nmat * hamming_window_apply(HammingWindow* self, Nmat *data);
+Cmat * hamming_window_apply(HammingWindow* self, Cmat *data);
 
 // Power spectrum
 typedef struct {
@@ -73,8 +73,8 @@ typedef struct {
 
 PowerSpectrum * new_power_spectrum(int nfft);
 void free_power_spectrum(PowerSpectrum *);
-Nmat *power_spectrum_apply(PowerSpectrum *self, Nmat *data);
-Nmat * dft(double * data, int datalen, int size);
+Cmat *power_spectrum_apply(PowerSpectrum *self, Cmat *data);
+Cmat * dft(double * data, int datalen, int size);
 
 // Mel Filter
 typedef struct {
@@ -87,9 +87,9 @@ typedef struct {
 MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf,
                                                             int upperf);
 void free_mel_filter(MelFilter* mf);
-Nmat *make_bank_parameters(double srate, int nfft, int nfilt,
+Cmat *make_bank_parameters(double srate, int nfft, int nfilt,
                                       double lowerf, double upperf); 
-Nmat * mel_filter_apply(MelFilter* self, Nmat * power_spectrum);
+Cmat * mel_filter_apply(MelFilter* self, Cmat * power_spectrum);
 Narr * make_filter(double left, double center, double right,
                                double initFreq, double delta);
 double melinv(double m);
@@ -102,7 +102,7 @@ typedef struct {
 
 LogCompressor * new_log_compressor(double log_zero);
 void free_log_compressor(LogCompressor *lc);
-Nmat * log_compressor_apply(LogCompressor *self, Nmat *data);
+Cmat * log_compressor_apply(LogCompressor *self, Cmat *data);
 
 // Discrete Cosine Transform
 typedef struct {
@@ -113,7 +113,7 @@ typedef struct {
 
 DiscreteCosineTransform * new_dct(int order, int ncol);
 void free_dct(DiscreteCosineTransform *dct);
-Nmat * dct_apply(DiscreteCosineTransform *self, Nmat *data);
+Cmat * dct_apply(DiscreteCosineTransform *self, Cmat *data);
 
 typedef struct {
   double * sums;
@@ -127,7 +127,7 @@ typedef struct {
 
 LiveCMN * new_live_cmn(int dimensions, double init_mean, int window_size, int shift);
 void free_live_cmn(LiveCMN *lcmn);
-Nmat *live_cmn_apply(LiveCMN *self, Nmat *data);
+Cmat *live_cmn_apply(LiveCMN *self, Cmat *data);
 
 // Silence removal with BentCentMarker and SpeechTrimmer
 typedef struct {
@@ -165,7 +165,7 @@ void free_speech_trimmer(SpeechTrimmer *self);
 void speech_trimmer_enqueue(SpeechTrimmer *self, Narr* pcm);
 Narr * speech_trimmer_dequeue(SpeechTrimmer *self);
 int speech_trimmer_eos(SpeechTrimmer *self);
-Nmat * speech_trimmer_apply(SpeechTrimmer *self, Narr* pcm);
+Cmat * speech_trimmer_apply(SpeechTrimmer *self, Narr* pcm);
 
 // Fast 8k mfcc
 // This strings together all the algorithms necessary to make mfcc's from an 8k
@@ -183,7 +183,7 @@ typedef struct {
 
 Fast8kMfcc* new_fast_8k_mfcc();
 void free_fast_8k_mfcc(Fast8kMfcc *self);
-Nmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr *data);
+Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr *data);
 
 #ifdef __cplusplus
 }
