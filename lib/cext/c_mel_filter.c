@@ -3,7 +3,7 @@
 #include "memory.h"
 #include "math.h"
 
-Narr * make_filter(double left, double center, double right,
+Carr * make_filter(double left, double center, double right,
                                double initFreq, double delta);
 
 MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf, int upperf) {
@@ -15,7 +15,7 @@ MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf, int upper
   mf->weightlens = malloc(params->rows * sizeof(int));
   int i;
   for (i=0; i<params->rows;++i) {
-      Narr * temp = make_filter(params->data[i][0], params->data[i][1],
+      Carr * temp = make_filter(params->data[i][0], params->data[i][1],
                                     params->data[i][2], params->data[i][3],
                                     params->data[i][4]);
       mf->indices[i] = round(temp->data[0]);
@@ -128,10 +128,10 @@ Cmat *make_bank_parameters(double srate, int nfft, int nfilt,
 
 // Returns an array of weights with one additional element at the zero
 // location containing the starting index.
-Narr * make_filter(double left, double center, double right,
+Carr * make_filter(double left, double center, double right,
                                double initFreq, double delta) {
     int nElements = round((right - left)/ delta + 1);
-    Narr * filter = narr_new(nElements + 1);
+    Carr * filter = narr_new(nElements + 1);
     double height=1.0;
     double leftSlope = height / (center - left);
     double rightSlope = height / (center - right);

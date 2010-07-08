@@ -38,10 +38,10 @@ void free_fast_8k_mfcc(Fast8kMfcc *self) {
   free(self);
 }
 
-Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr * data) {
+Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Carr * data) {
   Cmat *M = NULL;
   Cmat *N = NULL;
-  Narr *data1 = preemphasizer_apply(self->pre, data);
+  Carr *data1 = preemphasizer_apply(self->pre, data);
   M = segmenter_apply(self->seg, data1); narr_free(data1);
   if (!M)
     return NULL;

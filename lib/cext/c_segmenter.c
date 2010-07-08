@@ -18,7 +18,7 @@ void free_segmenter(Segmenter *s) {
   free(s);
 }
 
-Cmat * segmenter_apply(Segmenter* self, Narr *data) {
+Cmat * segmenter_apply(Segmenter* self, Carr *data) {
   double * combo;
   int combolen = 0;
   if (self->buf != NULL) {

@@ -19,7 +19,7 @@ static VALUE t_init(VALUE self, VALUE args) {
 }
 
 static VALUE t_left_shift(VALUE self, VALUE obj) {
-  Narr *M = v_2_cmatrix1(obj); 
+  Carr *M = v_2_cmatrix1(obj); 
   VALUE fast_8k_mfcc = rb_iv_get(self, "@fast_8k_mfcc");
   Fast8kMfcc *s;
   Data_Get_Struct(fast_8k_mfcc, Fast8kMfcc, s);

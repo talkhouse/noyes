@@ -23,16 +23,16 @@ typedef struct {
 typedef struct {
   double *data;
   int rows;
-} Narr;
+} Carr;
 
 Cmat *cmat_new(int rows, int cols);
 void cmat_free(Cmat *);
 
-Narr *narr_new(int rows);
-void narr_free(Narr *);
-Narr ** mat2arrs(Cmat *M);
-Cmat * arrs2mat(Narr **array, int size);
-Narr *cmat_flatten(Cmat *M);
+Carr *narr_new(int rows);
+void narr_free(Carr *);
+Carr ** mat2arrs(Cmat *M);
+Cmat * arrs2mat(Carr **array, int size);
+Carr *cmat_flatten(Cmat *M);
 
 // Preemphasizer
 typedef struct {
@@ -42,7 +42,7 @@ typedef struct {
 
 Preemphasizer * new_preemphasizer(double factor);
 void free_preemphasizer(Preemphasizer *self);
-Narr *preemphasizer_apply(Preemphasizer *self, Narr *data);
+Carr *preemphasizer_apply(Preemphasizer *self, Carr *data);
 
 // Segmenter
 typedef struct {
@@ -54,7 +54,7 @@ typedef struct {
 
 Segmenter * new_segmenter(int winsz, int winshift);
 void free_segmenter(Segmenter *s);
-Cmat * segmenter_apply(Segmenter* self, Narr *data);
+Cmat * segmenter_apply(Segmenter* self, Carr *data);
 
 // Hamming Window
 typedef struct {
@@ -90,7 +90,7 @@ void free_mel_filter(MelFilter* mf);
 Cmat *make_bank_parameters(double srate, int nfft, int nfilt,
                                       double lowerf, double upperf); 
 Cmat * mel_filter_apply(MelFilter* self, Cmat * power_spectrum);
-Narr * make_filter(double left, double center, double right,
+Carr * make_filter(double left, double center, double right,
                                double initFreq, double delta);
 double melinv(double m);
 double mel(double m);
@@ -141,8 +141,8 @@ typedef struct {
 
 BentCentMarker * new_bent_cent_marker();
 void free_bent_cent_marker(BentCentMarker *self);
-double bent_cent_marker_log_rms(BentCentMarker *self, Narr *data);
-int bent_cent_marker_apply(BentCentMarker *self, Narr *data);
+double bent_cent_marker_log_rms(BentCentMarker *self, Carr *data);
+int bent_cent_marker_apply(BentCentMarker *self, Carr *data);
 
 #include "c_array_list.h"
 
@@ -162,10 +162,10 @@ typedef struct {
 
 SpeechTrimmer * new_speech_trimmer(int frequency);
 void free_speech_trimmer(SpeechTrimmer *self);
-void speech_trimmer_enqueue(SpeechTrimmer *self, Narr* pcm);
-Narr * speech_trimmer_dequeue(SpeechTrimmer *self);
+void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm);
+Carr * speech_trimmer_dequeue(SpeechTrimmer *self);
 int speech_trimmer_eos(SpeechTrimmer *self);
-Cmat * speech_trimmer_apply(SpeechTrimmer *self, Narr* pcm);
+Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm);
 
 // Fast 8k mfcc
 // This strings together all the algorithms necessary to make mfcc's from an 8k
@@ -183,7 +183,7 @@ typedef struct {
 
 Fast8kMfcc* new_fast_8k_mfcc();
 void free_fast_8k_mfcc(Fast8kMfcc *self);
-Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Narr *data);
+Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Carr *data);
 
 #ifdef __cplusplus
 }

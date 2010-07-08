@@ -16,5 +16,5 @@ void Init_c_list();
 VALUE cmatrix_2_v(Cmat *d);
 Cmat * v_2_cmatrix(VALUE value);
 
-VALUE cmatrix1_2_v(Narr *d);
-Narr * v_2_cmatrix1(VALUE value);
+VALUE cmatrix1_2_v(Carr *d);
+Carr * v_2_cmatrix1(VALUE value);

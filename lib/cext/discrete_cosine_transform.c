@@ -50,7 +50,7 @@ static VALUE t_melcos(VALUE self) {
 }
 
 static VALUE t_dft(VALUE classmod, VALUE data, VALUE size) {
-  Narr *M = v_2_cmatrix1(data);
+  Carr *M = v_2_cmatrix1(data);
   Cmat *R = dft(M->data, M->rows, FIX2INT(size));
   VALUE result = rb_ary_new2(R->cols);
   int i;

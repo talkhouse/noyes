@@ -26,14 +26,14 @@ void cmat_free(Cmat *M) {
 }
 
 // A 1 dimensional matrix "class".
-Narr *narr_new(int rows) {
-  Narr *M = malloc(sizeof(Narr));
+Carr *narr_new(int rows) {
+  Carr *M = malloc(sizeof(Carr));
   M->data = malloc(rows * sizeof(double));
   M->rows = rows;
   return M;
 }
 
-void narr_free(Narr *M) {
+void narr_free(Carr *M) {
   if (M) {
     free(M->data);
     free(M);
@@ -43,11 +43,11 @@ void narr_free(Narr *M) {
 // Converts a rectangular matrix to a list of one dimensional matrices.
 // Simultaneously frees the original rectangular matrix.  Actually, the matrix
 // does not have to be rectangular.  Column sizes may vary.
-Narr ** mat2arrs(Cmat *M) {
-  Narr **arrs = malloc(sizeof(Narr*) * M->rows);
+Carr ** mat2arrs(Cmat *M) {
+  Carr **arrs = malloc(sizeof(Carr*) * M->rows);
   int i;
   for (i=0;i<M->rows;++i) {
-    arrs[i] = malloc(sizeof(Narr));
+    arrs[i] = malloc(sizeof(Carr));
     arrs[i]->data = M->data[i];
     arrs[i]->rows = M->cols;
   }
@@ -58,8 +58,8 @@ Narr ** mat2arrs(Cmat *M) {
 
 // Creates an array by appending columns of a rectangular matrix.  Does not
 // delete the original matrix.
-Narr *cmat_flatten(Cmat *M) {
-  Narr *flat = narr_new(M->rows * M->cols);
+Carr *cmat_flatten(Cmat *M) {
+  Carr *flat = narr_new(M->rows * M->cols);
   int i;
   for (i=0;i<M->rows; ++i)
     memcpy(flat->data + (M->cols * i), M->data[i], sizeof(double) * M->cols);
@@ -69,7 +69,7 @@ Narr *cmat_flatten(Cmat *M) {
 
 // Converts an array of one dimensional arrays into a rectangular matrix.  It
 // frees these arrays in the process.  All arrays must have the same length.
-Cmat * arrs2mat(Narr **array, int size) {
+Cmat * arrs2mat(Carr **array, int size) {
   if (size ==0)
     return NULL;
   Cmat *mat = malloc(sizeof(Cmat));

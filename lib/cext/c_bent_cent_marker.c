@@ -17,7 +17,7 @@ void free_bent_cent_marker(BentCentMarker *self) {
   free(self);
 }
 
-double bent_cent_log_rms(BentCentMarker *self, Narr *pcm) {
+double bent_cent_log_rms(BentCentMarker *self, Carr *pcm) {
   double sum_of_squares = 0.0;
   int i;
   for (i=0;i<pcm->rows;++i) {
@@ -28,7 +28,7 @@ double bent_cent_log_rms(BentCentMarker *self, Narr *pcm) {
   return log(rms) * 20;
 }
 
-int bent_cent_marker_apply(BentCentMarker *self, Narr *pcm) {
+int bent_cent_marker_apply(BentCentMarker *self, Carr *pcm) {
   int is_speech = 0;
   double current = bent_cent_log_rms(self, pcm);
   if (current >= self->min_signal) {

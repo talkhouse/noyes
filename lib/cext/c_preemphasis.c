@@ -11,8 +11,8 @@ void free_preemphasizer(Preemphasizer *self) {
   free(self);
 }
 
-Narr *preemphasizer_apply(Preemphasizer *self, Narr *data) {
-    Narr *res = narr_new(data->rows);
+Carr *preemphasizer_apply(Preemphasizer *self, Carr *data) {
+    Carr *res = narr_new(data->rows);
     double current_prior = self->prior;
     self->prior = data->data[data->rows-1];
     int i;

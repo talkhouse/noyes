@@ -42,8 +42,8 @@ VALUE cmatrix_2_v(Cmat *M) {
   return v;
 }
 
-Narr * v_2_cmatrix1(VALUE value) {
-  Narr *M = NULL;
+Carr * v_2_cmatrix1(VALUE value) {
+  Carr *M = NULL;
   int rows = RARRAY_LEN(value);
   if (rows > 0) {
     VALUE colzero = rb_ary_entry(value, 0);
@@ -61,7 +61,7 @@ Narr * v_2_cmatrix1(VALUE value) {
   return M;
 }
 
-VALUE cmatrix1_2_v(Narr *M) {
+VALUE cmatrix1_2_v(Carr *M) {
   VALUE v = Qnil;
   if (M) {
     v = rb_ary_new2(M->rows);

@@ -11,7 +11,7 @@ static void mel_filter_free(void *p) {
 }
 
 static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right), VALUE(init_freq), VALUE(delta)) {
-  Narr *d = make_filter(NUM2DBL(left), NUM2DBL(center),
+  Carr *d = make_filter(NUM2DBL(left), NUM2DBL(center),
                 NUM2DBL(right), NUM2DBL(init_freq), NUM2DBL(delta)); 
   if (d) {
     VALUE result = rb_ary_new2(2);
