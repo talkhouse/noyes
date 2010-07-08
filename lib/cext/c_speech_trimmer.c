@@ -73,11 +73,19 @@ void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm) {
     if (self->false_count == self->ecs) {
       self->eos_reached = TRUE;
       int new_size = c_list_size(self->queue) - self->ecs + self->trailer;
+      int i;
+      for (i=new_size; i<c_list_size(self->queue); ++i)
+        narr_free(c_list_get(self->queue, i));
+
       c_list_remove(self->queue, new_size, c_list_size(self->queue));
     }
   } else if (self->true_count > self->scs) {
     if (self->leader + self->scs < c_list_size(self->queue)) {
       int start = c_list_size(self->queue) - self->leader - self->scs - 1;
+      int i;
+      for (i=0; i<start; ++i)
+        narr_free(c_list_get(self->queue, i));
+
       c_list_remove(self->queue, 0, start);
     }
     self->speech_started = TRUE;
