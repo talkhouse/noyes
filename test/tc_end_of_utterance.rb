@@ -27,7 +27,6 @@ module TestEndOfUtterance
     end
     @expected_speech = @segments[speech_start - leader,
                                speechlen + trailer + leader]
-
   end
   def test_bent_cent_marker
     cent_marker = BentCentMarker.new
@@ -55,7 +54,6 @@ module TestEndOfUtterance
     assert_m @expected_speech, speech, 5
     assert_equal @expected_speech, speech
   end
-
   def test_speech_trimmer_without_presegmenting
     # Get and test results from speech trimmer.
     trimmer = SpeechTrimmer.new 8000
