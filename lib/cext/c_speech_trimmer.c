@@ -49,8 +49,10 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
       break;
   }
 
-  if (speech_trimmer_eos(self) && speech_count == 0)
+  if (speech_trimmer_eos(self) && speech_count == 0) {
+    free(speech_segments);
     return NULL;
+  }
 
   return arrs2mat(speech_segments, speech_count);
 }
