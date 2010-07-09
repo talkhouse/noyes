@@ -1,10 +1,9 @@
 ## Overview
-Noyes is a signal processing library.  It is unique in that it is designed to
-be fast, efficient, portable, and expressive.  For more information on how this
-is accomplished please read the design section.  It has enough signal
-processing routines to produce features suitable for speech recognition, but it
-has many other uses.  This release contains independent implementations written
-in Ruby, C, and Java.
+Noyes is a signal processing library.  It is designed to be fast, efficient,
+portable, and expressive.  For more information on how this is accomplished
+please read the design section.  It has enough signal processing routines to
+produce features suitable for speech recognition, but it has many other uses.
+This release contains independent implementations written in Ruby, C, and Java.
 
 ## Pronunciation
 Typically pronounced the same as 'noise'.  But "No!... Yes!" is
