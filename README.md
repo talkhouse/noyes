@@ -10,6 +10,16 @@ Typically pronounced the same as 'noise'.  But "No!... Yes!" is
 considered acceptable if you say it with sufficient conviction to make people
 think you have truly changed your mind.
 
+## Why use Noyes?
+
+* You need something small -- Not an entire recognition system or framework.
+* You want a high degree of test coverage
+* You want to be able to design and test using a scripting language.
+* You want a version in pure C.
+* You want a version in pure Java.
+* You want Ruby wrappers for the above versions
+* You want a version in pure Ruby.
+
 ## Raison d'être
 Noyes is a general purpose signal processing tool that is flexible enough for
 many purposes.  However, it exists because there is a need for low-latency high
