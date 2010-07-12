@@ -41,3 +41,9 @@ none of the core routines use it.
 
 ## Build instructions
   rake -T
+
+## Additional Information
+
+[Documentation](http://rdoc.info/projects/talkhouse/noyes),
+[Source Code](http://github.com/talkhouse/noyes),
+[Ruby Gem](http://rubygems.org/gems/noyes)
