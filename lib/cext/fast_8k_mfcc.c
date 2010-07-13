@@ -6,13 +6,13 @@ static int id_push;
 
 VALUE cFast8kMfcc;
 
-static void fast_8k_mfcc_free(Fast8kMfcc *p) {
-  free_fast_8k_mfcc(p);
+static void _fast_8k_mfcc_free(Fast8kMfcc *p) {
+  fast_8k_mfcc_free(p);
 }
 
 static VALUE t_init(VALUE self, VALUE args) {
   Fast8kMfcc *s = new_fast_8k_mfcc();
-  VALUE fast_8k_mfcc = Data_Wrap_Struct(cFast8kMfcc, 0, fast_8k_mfcc_free, s);
+  VALUE fast_8k_mfcc = Data_Wrap_Struct(cFast8kMfcc, 0, _fast_8k_mfcc_free, s);
   rb_iv_set(self, "@fast_8k_mfcc", fast_8k_mfcc);
 
   return self;

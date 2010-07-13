@@ -1,7 +1,7 @@
 #include "c_noyes.h"
 #include "math.h"
 
-DiscreteCosineTransform * new_dct(int rows, int cols) {
+DiscreteCosineTransform * dct_new(int rows, int cols) {
   DiscreteCosineTransform *dct = malloc(sizeof(DiscreteCosineTransform));
   dct->melcos = malloc(rows *sizeof(double*));
   dct->rows = rows;
@@ -18,7 +18,7 @@ DiscreteCosineTransform * new_dct(int rows, int cols) {
   return dct;
 }
 
-void free_dct(DiscreteCosineTransform *dct) {
+void dct_free(DiscreteCosineTransform *dct) {
   int i;
   for (i=0;i<dct->rows;++i) {
     free(dct->melcos[i]);

@@ -6,13 +6,13 @@ static int id_push;
 
 VALUE cBentCentMarker;
 
-static void bent_cent_marker_free(void *p) {
-  free_bent_cent_marker(p);
+static void _bent_cent_marker_free(void *p) {
+  bent_cent_marker_free(p);
 }
 
 static VALUE t_init(VALUE self) {
-  BentCentMarker *pre = new_bent_cent_marker();
-  VALUE prev = Data_Wrap_Struct(cBentCentMarker, 0, bent_cent_marker_free, pre);
+  BentCentMarker *pre = bent_cent_marker_new();
+  VALUE prev = Data_Wrap_Struct(cBentCentMarker, 0, _bent_cent_marker_free, pre);
   rb_iv_set(self, "@bent_cent_marker", prev);
   return self;
 }

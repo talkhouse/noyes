@@ -9,7 +9,7 @@ PowerSpectrum * new_power_spectrum(int nfft) {
   return ps;
 }
 
-void free_power_spectrum(PowerSpectrum * self) {
+void power_spectrum_free(PowerSpectrum * self) {
   free(self);
 }
 

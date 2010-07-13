@@ -2,7 +2,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-LiveCMN * new_live_cmn(int dimensions, double init_mean, int window_size,
+LiveCMN * live_cmn_new(int dimensions, double init_mean, int window_size,
                                                          int shift) {
   LiveCMN *cmn = malloc(sizeof(LiveCMN));
   cmn->init_mean = init_mean; 
@@ -16,7 +16,7 @@ LiveCMN * new_live_cmn(int dimensions, double init_mean, int window_size,
   return cmn;
 }
 
-void free_live_cmn(LiveCMN *cmn) {
+void live_cmn_free(LiveCMN *cmn) {
   free(cmn->sums);
   free(cmn->means);
   free(cmn);

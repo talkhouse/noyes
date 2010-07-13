@@ -1,11 +1,11 @@
 #include "c_noyes.h"
 #include "math.h"
 
-LogCompressor * new_log_compressor(double log_zero) {
+LogCompressor * log_compressor_new(double log_zero) {
   return malloc(sizeof(LogCompressor));
 }
 
-void free_log_compressor(LogCompressor *lc) {
+void log_compressor_free(LogCompressor *lc) {
   free(lc);
 }
 

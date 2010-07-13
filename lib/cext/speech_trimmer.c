@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cSpeechTrimmer;
 
-static void speech_trimmer_free(void *p) {
-  free_speech_trimmer(p);
+static void _speech_trimmer_free(void *p) {
+  speech_trimmer_free(p);
 }
 
 static VALUE t_init(VALUE self, VALUE args) {
@@ -18,7 +18,7 @@ static VALUE t_init(VALUE self, VALUE args) {
   else
     st = new_speech_trimmer(16000);
 
-  VALUE stv = Data_Wrap_Struct(cSpeechTrimmer, 0, speech_trimmer_free, st);
+  VALUE stv = Data_Wrap_Struct(cSpeechTrimmer, 0, _speech_trimmer_free, st);
   rb_iv_set(self, "@speech_trimmer", stv);
   return self;
 }

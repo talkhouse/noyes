@@ -18,16 +18,16 @@ Fast8kMfcc * new_fast_8k_mfcc() {
   Fast8kMfcc *self = malloc(sizeof(Fast8kMfcc));
   self->pre = new_preemphasizer(factor);
   self->seg = new_segmenter(frame_size, shift);
-  self->ham = new_hamming_window(frame_size);
+  self->ham = hamming_window_new(frame_size);
   self->pow = new_power_spectrum(nfft);
   self->mel = new_mel_filter(freq, nfft, nfilt, min_freq, max_freq);
-  self->log = new_log_compressor(log_zero);
-  self->dct = new_dct(dimensions, nfilt);
-  self->cmn = new_live_cmn(dimensions, cmn_init_mean, cmn_window_size, cmn_shift);
+  self->log = log_compressor_new(log_zero);
+  self->dct = dct_new(dimensions, nfilt);
+  self->cmn = live_cmn_new(dimensions, cmn_init_mean, cmn_window_size, cmn_shift);
   return self;
 }
 
-void free_fast_8k_mfcc(Fast8kMfcc *self) {
+void fast_8k_mfcc_free(Fast8kMfcc *self) {
   free(self->seg);
   free(self->ham);
   free(self->pow);

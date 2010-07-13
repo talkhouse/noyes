@@ -2,18 +2,19 @@
 #include "math.h"
 #include "stdlib.h"
 
-BentCentMarker * new_bent_cent_marker() {
+BentCentMarker * bent_cent_marker_new() {
   BentCentMarker *self = malloc(sizeof(BentCentMarker));
   self->adjustment = 0.003;
   self->average_number = 1.0;
   self->background = 100.0;
   self->level = 0.0;
   self->min_signal = 0.0;
-  self->threshold = 20.0;
+  //self->threshold = 20.0;
+  self->threshold = 10.0;
   return self;
 }
 
-void free_bent_cent_marker(BentCentMarker *self) {
+void bent_cent_marker_free(BentCentMarker *self) {
   free(self);
 }
 

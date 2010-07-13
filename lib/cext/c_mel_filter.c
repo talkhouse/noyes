@@ -55,7 +55,7 @@ Cmat * mel_filter_apply(MelFilter* self, Cmat * power_spectrum) {
     return melbanks;
 }
 
-void free_mel_filter(MelFilter* mf) {
+void mel_filter_free(MelFilter* mf) {
   int i;
   for (i=0;i<mf->len;++i) {
     free(mf->weights[i]);

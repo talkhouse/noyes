@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cHammingWindow;
 
-static void hamming_window_free(void *p) {
-  free_hamming_window(p);
+static void _hamming_window_free(void *p) {
+  hamming_window_free(p);
 }
 static VALUE t_init(VALUE self, VALUE args) {
   int len = RARRAY_LEN(args);
@@ -15,8 +15,8 @@ static VALUE t_init(VALUE self, VALUE args) {
   if (len > 0) {
      winsz = NUM2INT(rb_ary_entry(args, 0));
   }
-  HammingWindow *hw = new_hamming_window(winsz);
-  VALUE hwv = Data_Wrap_Struct(cHammingWindow, 0, hamming_window_free, hw);
+  HammingWindow *hw = hamming_window_new(winsz);
+  VALUE hwv = Data_Wrap_Struct(cHammingWindow, 0, _hamming_window_free, hw);
   rb_iv_set(self, "@hw", hwv);
   return self;
 }

@@ -9,7 +9,7 @@ SpeechTrimmer * new_speech_trimmer(int frequency) {
   self->leader = 5;
   self->trailer = 5;
   self->speech_started = FALSE;
-  self->bcm = new_bent_cent_marker();
+  self->bcm = bent_cent_marker_new();
   self->false_count = 0;
   self->true_count = 0;
   self->queue = c_list_new();
@@ -20,9 +20,9 @@ SpeechTrimmer * new_speech_trimmer(int frequency) {
   return self;
 }
 
-void free_speech_trimmer(SpeechTrimmer *self) {
-  free_bent_cent_marker(self->bcm);
-  free_segmenter(self->seg);
+void speech_trimmer_free(SpeechTrimmer *self) {
+  bent_cent_marker_free(self->bcm);
+  segmenter_free(self->seg);
   c_list_free(self->queue);
   free(self);
 }

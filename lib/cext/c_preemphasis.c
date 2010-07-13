@@ -7,7 +7,7 @@ Preemphasizer * new_preemphasizer(double factor) {
   return self;
 }
 
-void free_preemphasizer(Preemphasizer *self) {
+void preemphasizer_free(Preemphasizer *self) {
   free(self);
 }
 

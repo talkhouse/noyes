@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cPreemphasizer;
 
-static void preemphasizer_free(void *p) {
-  free_preemphasizer(p);
+static void _preemphasizer_free(void *p) {
+  preemphasizer_free(p);
 }
 
 static VALUE t_init(VALUE self, VALUE args) {
@@ -17,7 +17,7 @@ static VALUE t_init(VALUE self, VALUE args) {
      factor = NUM2DBL(rb_ary_entry(args, 0));
   }
   Preemphasizer *pre = new_preemphasizer(factor);
-  VALUE prev = Data_Wrap_Struct(cPreemphasizer, 0, preemphasizer_free, pre);
+  VALUE prev = Data_Wrap_Struct(cPreemphasizer, 0, _preemphasizer_free, pre);
   rb_iv_set(self, "@preemphasizer", prev);
   return self;
 }

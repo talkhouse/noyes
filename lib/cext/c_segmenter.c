@@ -10,7 +10,7 @@ Segmenter * new_segmenter(int winsz, int winshift) {
   return s;
 };
 
-void free_segmenter(Segmenter *s) {
+void segmenter_free(Segmenter *s) {
   if (s->buf) {
     free(s->buf);
   }

@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cSegmenter;
 
-static void segmenter_free(void *p) {
-  free_segmenter(p);
+static void _segmenter_free(void *p) {
+  segmenter_free(p);
 }
 static VALUE t_init(VALUE self, VALUE args) {
   int winsz = 205;
@@ -21,7 +21,7 @@ static VALUE t_init(VALUE self, VALUE args) {
   }
 
   Segmenter *s = new_segmenter(winsz, winshift);
-  VALUE segmenter = Data_Wrap_Struct(cSegmenter, 0, segmenter_free, s);
+  VALUE segmenter = Data_Wrap_Struct(cSegmenter, 0, _segmenter_free, s);
   rb_iv_set(self, "@segmenter", segmenter);
 
   return self;

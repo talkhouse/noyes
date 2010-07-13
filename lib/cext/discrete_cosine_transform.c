@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cDiscreteCosineTransform;
 
-static void dct_free(void *p) {
-  free_dct(p);
+static void _dct_free(void *p) {
+  dct_free(p);
 }
 
 static VALUE t_init(VALUE self, VALUE args) {
@@ -18,8 +18,8 @@ static VALUE t_init(VALUE self, VALUE args) {
   if (len > 1)
      cols = NUM2INT(rb_ary_entry(args, 1));
 
-  DiscreteCosineTransform *dct = new_dct(rows,cols);
-  VALUE dctv = Data_Wrap_Struct(cDiscreteCosineTransform, 0, dct_free, dct);
+  DiscreteCosineTransform *dct = dct_new(rows,cols);
+  VALUE dctv = Data_Wrap_Struct(cDiscreteCosineTransform, 0, _dct_free, dct);
   rb_iv_set(self, "@dct", dctv);
   return self;
 }

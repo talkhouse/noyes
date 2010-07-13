@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cMelFilter;
 
-static void mel_filter_free(void *p) {
-  free_mel_filter(p);
+static void _mel_filter_free(void *p) {
+  mel_filter_free(p);
 }
 
 static VALUE t_make_filter(VALUE self, VALUE(left), VALUE(center), VALUE(right), VALUE(init_freq), VALUE(delta)) {
@@ -71,7 +71,7 @@ static VALUE t_init(VALUE self, VALUE args) {
     upperf = NUM2INT(rb_ary_entry(args, 4));
 
   MelFilter *s = new_mel_filter(srate, nfft, nfilt, lowerf, upperf);
-  VALUE mel_filter = Data_Wrap_Struct(cMelFilter, 0, mel_filter_free, s);
+  VALUE mel_filter = Data_Wrap_Struct(cMelFilter, 0, _mel_filter_free, s);
   rb_iv_set(self, "@mel_filter", mel_filter);
 
   return self;

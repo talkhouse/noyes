@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cLiveCMN;
 
-static void live_cmn_free(void *p) {
-  free_live_cmn(p);
+static void _live_cmn_free(void *p) {
+  live_cmn_free(p);
 }
 
 static VALUE t_init(VALUE self, VALUE args) {
@@ -22,8 +22,8 @@ static VALUE t_init(VALUE self, VALUE args) {
   if (len > 3)
      shift = NUM2INT(rb_ary_entry(args, 3));
 
-  LiveCMN *cmn = new_live_cmn(dimensions, init_mean, window_size, shift);
-  VALUE cmnv = Data_Wrap_Struct(cLiveCMN, 0, live_cmn_free, cmn);
+  LiveCMN *cmn = live_cmn_new(dimensions, init_mean, window_size, shift);
+  VALUE cmnv = Data_Wrap_Struct(cLiveCMN, 0, _live_cmn_free, cmn);
   rb_iv_set(self, "@cmn", cmnv);
   return self;
 }

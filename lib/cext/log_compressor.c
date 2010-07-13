@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cLogCompressor;
 
-static void log_compressor_free(void *p) {
-  free_log_compressor(p);
+static void _log_compressor_free(void *p) {
+  log_compressor_free(p);
 }
 
 static VALUE t_init(VALUE self, VALUE args) {
@@ -16,8 +16,8 @@ static VALUE t_init(VALUE self, VALUE args) {
   if (len > 0) {
      log_zero = NUM2DBL(rb_ary_entry(args, 0));
   }
-  LogCompressor *lc = new_log_compressor(log_zero);
-  VALUE lcv = Data_Wrap_Struct(cLogCompressor, 0, log_compressor_free, lc);
+  LogCompressor *lc = log_compressor_new(log_zero);
+  VALUE lcv = Data_Wrap_Struct(cLogCompressor, 0, _log_compressor_free, lc);
   rb_iv_set(self, "@log_compressor", lcv);
   return self;
 }

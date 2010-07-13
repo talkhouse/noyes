@@ -6,8 +6,8 @@ static int id_push;
 
 VALUE cPowerSpectrum;
 
-static void power_spectrum_free(void *p) {
-  free_power_spectrum(p);
+static void _power_spectrum_free(void *p) {
+  power_spectrum_free(p);
 }
 
 static VALUE t_init(VALUE self, VALUE args) {
@@ -17,7 +17,7 @@ static VALUE t_init(VALUE self, VALUE args) {
      nfft = NUM2INT(rb_ary_entry(args, 0));
   }
   PowerSpectrum *ps = new_power_spectrum(nfft);
-  VALUE psv = Data_Wrap_Struct(cPowerSpectrum, 0, power_spectrum_free, ps);
+  VALUE psv = Data_Wrap_Struct(cPowerSpectrum, 0, _power_spectrum_free, ps);
   rb_iv_set(self, "@ps", psv);
   return self;
 }
