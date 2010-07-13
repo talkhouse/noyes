@@ -9,7 +9,7 @@ BentCentMarker * new_bent_cent_marker() {
   self->background = 100.0;
   self->level = 0.0;
   self->min_signal = 0.0;
-  self->threshold = 10.0;
+  self->threshold = 20.0;
   return self;
 }
 
