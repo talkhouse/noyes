@@ -179,11 +179,11 @@ typedef struct {
   LogCompressor *log;
   DiscreteCosineTransform *dct;
   LiveCMN *cmn;
-} Fast8kMfcc;
+} Mfcc16x8;
 
-Fast8kMfcc* new_fast_8k_mfcc();
-void fast_8k_mfcc_free(Fast8kMfcc *self);
-Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Carr *data);
+Mfcc16x8* mfcc_16x8_new();
+void mfcc_16x8_free(Mfcc16x8 *self);
+Cmat *mfcc_16x8_apply(Mfcc16x8 *self, Carr *data);
 
 #ifdef __cplusplus
 }

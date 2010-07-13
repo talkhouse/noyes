@@ -7,7 +7,7 @@ void Init_power_spectrum();
 void Init_mel_filter();
 void Init_log_compressor();
 void Init_live_cmn();
-void Init_fast_8k_mfcc();
+void Init_mfcc_16x8();
 void Init_dct();
 void Init_bent_cent_marker();
 void Init_speech_trimmer();

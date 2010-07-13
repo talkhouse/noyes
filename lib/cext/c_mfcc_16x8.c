@@ -1,6 +1,8 @@
 #include "c_noyes.h"
 
-Fast8kMfcc * new_fast_8k_mfcc() {
+// Mfcc16x8 is a convenience class that encapsulates an entire front end that
+// takes 16kHz audio and transforms it to work with 8kHz models.
+Mfcc16x8 * mfcc_16x8_new() {
   double factor = 0.97;
   int nfilt = 32;
   int min_freq = 200;
@@ -15,7 +17,7 @@ Fast8kMfcc * new_fast_8k_mfcc() {
   int cmn_window_size=100;
   int cmn_shift=160;
   
-  Fast8kMfcc *self = malloc(sizeof(Fast8kMfcc));
+  Mfcc16x8 *self = malloc(sizeof(Mfcc16x8));
   self->pre = new_preemphasizer(factor);
   self->seg = new_segmenter(frame_size, shift);
   self->ham = hamming_window_new(frame_size);
@@ -27,7 +29,7 @@ Fast8kMfcc * new_fast_8k_mfcc() {
   return self;
 }
 
-void fast_8k_mfcc_free(Fast8kMfcc *self) {
+void mfcc_16x8_free(Mfcc16x8 *self) {
   free(self->seg);
   free(self->ham);
   free(self->pow);
@@ -38,7 +40,7 @@ void fast_8k_mfcc_free(Fast8kMfcc *self) {
   free(self);
 }
 
-Cmat *fast_8k_mfcc_apply(Fast8kMfcc *self, Carr * data) {
+Cmat *mfcc_16x8_apply(Mfcc16x8 *self, Carr * data) {
   Cmat *M = NULL;
   Cmat *N = NULL;
   Carr *data1 = preemphasizer_apply(self->pre, data);
