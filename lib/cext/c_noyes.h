@@ -139,7 +139,9 @@ typedef struct {
   double threshold;
 } BentCentMarker;
 
-BentCentMarker * bent_cent_marker_new();
+BentCentMarker * bent_cent_marker_new(double threshold, double adjustment,
+                                      double average_number, double background,
+                                      double level, double min_signal);
 void bent_cent_marker_free(BentCentMarker *self);
 double bent_cent_marker_log_rms(BentCentMarker *self, Carr *data);
 int bent_cent_marker_apply(BentCentMarker *self, Carr *data);

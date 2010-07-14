@@ -9,7 +9,7 @@ SpeechTrimmer * new_speech_trimmer(int frequency) {
   self->leader = 5;
   self->trailer = 5;
   self->speech_started = FALSE;
-  self->bcm = bent_cent_marker_new();
+  self->bcm = bent_cent_marker_new(10, 0.003, 1.0, 100.0, 0.0, 0.0);
   self->false_count = 0;
   self->true_count = 0;
   self->queue = c_list_new();
