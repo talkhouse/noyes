@@ -13,11 +13,14 @@ static void _speech_trimmer_free(void *p) {
 static VALUE t_init(VALUE self, VALUE args) {
   int len = RARRAY_LEN(args);
   SpeechTrimmer *st;
-  if (len == 1)
-    st = new_speech_trimmer(NUM2INT(rb_ary_entry(args, 0)));
-  else
-    st = new_speech_trimmer(16000);
+  int frequency = 16000;
+  double threshold = 10;
+  if (len > 0)
+    frequency = NUM2INT(rb_ary_entry(args, 0));
+  if (len > 1)
+    frequency = rb_float_new(rb_ary_entry(args, 0));
 
+  st = new_speech_trimmer(frequency, threshold);
   VALUE stv = Data_Wrap_Struct(cSpeechTrimmer, 0, _speech_trimmer_free, st);
   rb_iv_set(self, "@speech_trimmer", stv);
   return self;

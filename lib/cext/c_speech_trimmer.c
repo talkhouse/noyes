@@ -4,12 +4,12 @@
 #undef FALSE
 #define FALSE 0
 
-SpeechTrimmer * new_speech_trimmer(int frequency) {
+SpeechTrimmer * new_speech_trimmer(int frequency, double threshold) {
   SpeechTrimmer *self = malloc(sizeof(SpeechTrimmer));
   self->leader = 5;
   self->trailer = 5;
   self->speech_started = FALSE;
-  self->bcm = bent_cent_marker_new(10, 0.003, 1.0, 100.0, 0.0, 0.0);
+  self->bcm = bent_cent_marker_new(threshold, 0.003, 1.0, 100.0, 0.0, 0.0);
   self->false_count = 0;
   self->true_count = 0;
   self->queue = c_list_new();

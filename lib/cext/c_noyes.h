@@ -162,7 +162,7 @@ typedef struct {
   int eos_reached;
 } SpeechTrimmer;
 
-SpeechTrimmer * new_speech_trimmer(int frequency);
+SpeechTrimmer * new_speech_trimmer(int frequency, double threshold);
 void speech_trimmer_free(SpeechTrimmer *self);
 void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm);
 Carr * speech_trimmer_dequeue(SpeechTrimmer *self);
