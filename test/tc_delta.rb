@@ -1,5 +1,4 @@
 module TestDelta
-  include Noyes
   # Velocity and change should always be zero for unchanging data.
   def test_flatline
     double_delta_filter = DoubleDeltaFilter.new

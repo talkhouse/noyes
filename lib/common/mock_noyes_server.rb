@@ -6,6 +6,7 @@ class MockNoyesServer
     attr_accessor :file
     attr_accessor :data
     attr_accessor :magic
+   
     def initialize file
       @file = file
       @data = ''
@@ -18,6 +19,7 @@ class MockNoyesServer
     @descriptors = [@server_socket]
     @sessions = {}
     @file_counter = 0
+    @verbose = true
   end
   def run
     while true
@@ -35,6 +37,7 @@ class MockNoyesServer
   end
 
   def accept_new_connection
+    puts "Accepting new connection."
     newsock = @server_socket.accept
     @descriptors.push newsock
     session = Session.new open("session_#{@file_counter+=1}.raw", 'w')
@@ -43,6 +46,7 @@ class MockNoyesServer
 
   def process_available_data sock
     msg, from = sock.recvfrom 1024
+    return if msg.size == 0
     session = @sessions[sock]
     session.data << msg
 
@@ -56,29 +60,42 @@ class MockNoyesServer
     id = session.data.slice(0,4)
     id = session.data.slice!(0,4) if id == TSTART
       
+    # We just don't really do anything with the cepstra in the mock server.
     cepstra = []
     while id == TCEPSTRA && session.data.size >=8
       cep_count = 13 * session.data.slice(4,4).unpack('N')[0]
+      puts "cep_count = #{cep_count}" if @verbose
       break unless cep_count * 4 + TCEPSTRA.size + 4 <= session.data.size
       session.data.slice!(0,8)
-      cep_count.times do |i|
-        cepstra << session.data.slice!(0,4).unpack('g')[0]
-      end
+      cepstra.push session.data.slice!(0,cep_count * 4).unpack('g*')
+      puts "cepval = #{cepstra.last}" if @verbose
       id = session.data.slice(0,4)
     end
+    while (id == TA16_44 || id == TA16_16) && session.data.size >=8
+      count = session.data.slice(4,4).unpack('N')[0]
+      break unless count * 2 + TA16_44.size + 4 <= session.data.size
+      print '.'
+      puts "count = #{count}"
+      session.data.slice!(0,8)
+      audio = session.data.slice!(0,count*2).unpack('n*')
+      session.file.write audio.pack 'n*'
+      id = session.data.slice(0,4)
+    end
+    puts "id = #{id.unpack 'N'}" if @verbose
     if id == TEND
+      puts "Connection closed."
+      session.file.flush
+      session.file.close
       session.data.slice!(0,4) 
       sock.puts 'new england patriots'
       close_socket sock
     end
-    session.data.slice!(0,4) if id == TDONE
-    
+    session.data.slice!(0,4) if id == TBYE
   rescue IOError => e
-   p e
+    puts "Connection IOError"
   end
   def close_socket sock
     @descriptors.delete sock
-    @sessions[sock].file.close
     @sessions.delete sock
     sock.close
   end

@@ -1,6 +1,7 @@
 .DS_Store
 *.swp
 *.swo
+*.swn
 *.gemspec
 doc
 pkg
@@ -9,3 +10,10 @@ build
 out
 ship
 .tags
+*.o
+*.gem
+lib/cext/Makefile
+lib/cext/*.bundle
+lib/cext/*.dll
+lib/cext/*.so
+.yardoc

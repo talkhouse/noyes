@@ -1,40 +1,84 @@
 #!/usr/bin/env ruby
 # vim: set filetype=ruby :
 ROOT = File.dirname(File.dirname(__FILE__))
+VERSION_FILE = "#{ROOT}/VERSION"
 $: << "#{ROOT}/lib" << "#{ROOT}/ship"
 
-require 'optparse'
-options = {:port => 2348, :address => '174.129.244.159'}
-OptionParser.new do |opt|
-  opt.banner = 'Usage: nrec [options] file1 file2 ...'
-  opt.on '-v', '--verbose', 'Output more information' do 
-    options[:verbose] = true
-  end
-  options[:implementation] = :ruby
-  opt.on '-j', '--java', 'Use java implementation' do
-    options[:implementation] = :java
-  end
-  opt.on '-p', '--port [PORT]', 'Port' do |port|
-    options[:port] = port
-  end
-  opt.on '-a', '--address [ADDRESS]', 'Internet Address' do |address|
-    options[:address] = address
-  end
-  opt.on( '-h', '--help', 'Display this screen' ) do
-    puts opt
-    exit
-  end
-end.parse!
+require 'trollop'
+
+options = Trollop::options do
+  version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010 Talkhouse"
+  banner 'Usage: nrec [options] file1 file2 ...'
+  opt :implementation, "ruby, c, or java", :default => 'ruby'
+  opt :address, "address", :default => '174.129.244.159'
+  opt :port, "port", :default => 2348
+  opt :bits, "bit depth", :default => 16
+  opt :frequency, "sampling frequency", :default => 16000
+  opt :payload, "mfcc, or pcm", :default => 'mfcc'
+  opt :verbose, "verbose", :default => false
+end
+
+if options[:bits] != 16 && options[:payload] == 'mfcc'
+  Trollop::die :bits, "must be 16 for mfcc"
+end
+
+if options[:payload] == 'mfcc' && ((options[:frequency] % 8000) != 0)
+  Trollop::die :frequency, "(#{options[:frequency]}) for mfcc must be divisible by 8000"
+end
 
 # Must set implementation specific library path before requiring libraries.
-case options[:implementation]
+case options[:implementation].to_sym
+when :fastc
+  if RUBY_PLATFORM == 'java'
+    puts "The Java implementation is not accessable from Ruby, only JRuby."
+    puts "You'll need to check your environment carefully.  If you've"
+    puts "installed this gem under both ruby and jruby and both are in"
+    puts "your current environment you may have created a conflict."
+    puts "You must make sure the Ruby path preceeds the JRuby path."
+    exit
+  end
+  puts "Using Fast C implementation" if options[:verbose]
+  require 'noyes_c'
+  include NoyesC
+  def send_incremental_features file, to_server, from_server, bits, freq
+    puts "bits and freq #{bits} #{freq}"
+    feature_maker = NoyesC::Fast8kMfcc.new
+    pcm = file2pcm file, bits, freq
+    to_server.write TMAGIC
+    to_server.write TSTART
+    pcm.each_slice 1230 do |data|
+      data >>= feature_maker
+      next unless data
+      to_server.write TCEPSTRA
+      to_server.write [data.size].pack('N')
+      print '.'
+      data.each {|cmn| to_server.write cmn.pack('g*')} 
+      to_server.flush
+    end
+    to_server.write TEND
+    to_server.write TBYE
+    to_server.flush
+    from_server.read
+  end
+when :c
+  if RUBY_PLATFORM == 'java'
+    puts "The Java implementation is not accessable from Ruby, only JRuby."
+    puts "You'll need to check your environment carefully.  If you've"
+    puts "installed this gem under both ruby and jruby and both are in"
+    puts "your current environment you may have created a conflict."
+    puts "You must make sure the Ruby path preceeds the JRuby path."
+    exit
+  end
+  puts "Using C implementation" if options[:verbose]
+  require 'noyes_c'
+  include NoyesC
 when :java
   if RUBY_PLATFORM != 'java'
     puts "The Java implementation is not accessable from Ruby, only JRuby."
     puts "You'll need to check your environment carefully.  If you've"
     puts "installed this gem under both ruby and jruby and both are in"
     puts "your current environment you may have created a conflict."
-    puts "you must make sure the jruby path preceeds the ruby path."
+    puts "You must make sure the JRuby path preceeds the Ruby path."
     exit
   end
   puts "Using Java implementation" if options[:verbose]
@@ -54,14 +98,28 @@ when :ruby
 end
 require 'socket'
 
-def recognize file, node, port
-  TCPSocket.open(node, port) do |client|
-    send_incremental_features file, client, client
+def recognize file, options
+  TCPSocket.open(options[:address], options[:port]) do |client|
+    bits, rate = options[:bits], options[:frequency]
+    if options[:pcm]
+      send_incremental_pcm file, client, client, bits, rate
+    else
+      send_incremental_features file, client, client, bits, rate
+    end
   end
+rescue Errno::ECONNREFUSED
+  puts "Connection refused."
+  puts "Possibly the IP address and port are incorrect."
+  puts "Or maybe the server is down.  Contact Talkhouse if this persists."
+  exit 2
 end
 
 ARGV.each do |file|
   puts "recognizing file #{file}" if options[:verbose]
-  result = recognize file, options[:address], options[:port]
-  puts "\n#{result}"
+  result = recognize file, options
+  if options[:verbose]
+    puts "\n#{result}"
+  else
+    puts "\n#{result[:transcript]}"
+  end
 end

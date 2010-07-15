@@ -1,0 +1,14 @@
+--protected
+--no-private
+--markup markdown
+lib/**/*.rb
+lib/**/*.java
+lib/**/*.c
+lib/**/*.h
+-
+docs/design.md
+docs/dsl.md
+docs/commandline_utilities.md
+docs/wireless_performance.md
+COPYING
+release_notes.md

@@ -2,8 +2,8 @@ require 'rake/clean'
 require 'rake/testtask' 
 require 'fileutils'
 
-CLEAN.include 'build'
-CLOBBER.include 'pkg', 'ship', 'noyes.gemspec'
+CLEAN.include 'lib/**/*.o', 'build'
+CLOBBER.include 'pkg', 'ship', 'noyes.gemspec', 'lib/cext/*.bundle'
 directory 'ship'
 
 def ensure_dir file
@@ -34,11 +34,17 @@ module JavaBuild
   file 'ship/noyes.jar' => OBJ
 end
 
+desc 'Build c extension'
+task :cext do
+  `cd lib/cext; ruby extconf.rb; make`
+end
+
 task :jar => 'ship/noyes.jar'
 task :default => :build
 
 module Tags
-  FILES = FileList['lib/**/*.rb']
+  FILES = FileList['lib/**/*.rb'] << FileList['lib/**/*.java'] <<
+          FileList['lib/**/*.c'] << FileList['lib/**/*.h']
 end
 
 task :tags do
@@ -46,46 +52,53 @@ task :tags do
 end
 
 namespace :test do
-  description = 'Full Ruby implementation test.'
-  desc description
+  ruby_desc = 'Full Ruby implementation test.'
+  desc ruby_desc
   task :ruby do
-    puts description
+    puts ruby_desc
     sh "ruby -Ilib:test test/ts_all_ruby.rb"
   end
-  description = 'Full Java implementation test.'
-  desc description
+  
+  c_desc = 'Test C implementation' 
+  desc c_desc 
+  task :c => :cext do
+    puts c_desc 
+    sh "ruby -Ilib:test:ext test/ts_all_c.rb"
+  end
+  java_desc = 'Full Java implementation test.'
+  desc java_desc 
   task :java => :jar do
-    puts "Testing Java implementation."
+    puts java_desc 
     sh "jruby -Ilib:test:ship test/ts_all_java.rb"
   end
-  description = 'Full JRuby implementation test.'
-  desc description
+  jruby_desc = 'Full JRuby implementation test.'
+  desc jruby_desc
   task :jruby do
     puts "Testing JRuby implementation."
     sh "jruby -Ilib:test test/ts_all_ruby.rb"
   end
   namespace :ruby do
-    description = 'Fast (but less thorough) Ruby implementation test.'
-    desc description
+    fast_ruby_desc = 'Fast (but less thorough) Ruby implementation test.'
+    desc fast_ruby_desc
     task :fast do
-      puts description
+      puts fast_ruby_desc
       sh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :jruby do
-    description = 'Fast (but less thorough) JRuby implementation test.'
-    desc description
+    fast_jruby_desc = 'Fast (but less thorough) JRuby implementation test.'
+    desc fast_jruby_desc 
     task :fast do
-      puts description
+      puts fast_jruby_desc 
       sh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :java do
-    description = 'Fast (but less thorough) Java implementation test.'
-    desc description
+    fast_java_desc = 'Fast (but less thorough) Java implementation test.'
+    desc fast_java_desc 
     task :fast do
-      puts description
-      sh "jruby -Ilib:test test/ts_fast_java.rb"
+      puts fast_java_desc 
+      sh "jruby -Ilib:test:ship test/ts_fast_java.rb"
     end
   end
   desc 'Run fast (but less thorough) tests for all implementations.'
@@ -142,15 +155,21 @@ begin
   Jeweler::Tasks.new do |s|
     s.name = "noyes"
     s.summary = "A signal processing library"
-    s.description = "Currently sufficient to create features for speech recognition"
+    s.description = "A fast portable signal processing library
+                     sufficient for creating features for
+                     speech recognition, etc.".sub(/\n/, ' ').squeeze ' '
     s.email = "joe@talkhouse.com"
     s.homepage = "http://github.com/talkhouse/noyes"
     s.authors = ["Joe Woelfel"]
-    s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] << 
-        Dir['lib/java_impl/*.rb'] << Dir['lib/*.rb'] << Dir['ship/*.jar']
+    s.files = Dir['lib/ruby_impl/*rb'] + Dir['lib/common/*.rb'] <<
+        Dir['lib/java_impl/*.rb'] << Dir['lib/*.rb'] << Dir['ship/*.jar'] <<
+        Dir['lib/cext/*.c'] << Dir['lib/cext/*.h'] <<
+        Dir['lib/cext/extconf.rb'] << 'VERSION'
+    s.extensions = ['lib/cext/extconf.rb']
     s.test_files = []
     s.require_paths = ['lib','ship']
     s.extra_rdoc_files = ['README', 'FAQ', 'COPYING']
+    s.add_dependency "trollop", ">= 1.0.0"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

@@ -11,4 +11,11 @@ require 'java_impl/discrete_fourier_transform'
 require 'java_impl/power_spec'
 require 'java_impl/preemphasis'
 require 'java_impl/segment'
+require 'java_impl/bent_cent_marker'
+require 'java_impl/speech_trimmer'
 require 'noyes.jar'
+
+# The NoyesJava module encapsulates the Java implementation of the Noyes
+# library.  It is otherwise identical to the Noyes and NoyesC modules.
+module NoyesJava
+end
