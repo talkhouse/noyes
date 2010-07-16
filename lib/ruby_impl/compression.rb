@@ -11,7 +11,7 @@ module Noyes
     end
   end
 
-  class Compression
+  class Compressor
     def << data
       @last = Array.new(data.first.size){0.0} unless @last
       result = data.map do |signal|
@@ -21,6 +21,12 @@ module Noyes
       end
       @last = data.last
       result
+    end
+  end
+
+  class NullCompressor
+    def << data
+      data
     end
   end
 end
