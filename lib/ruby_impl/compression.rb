@@ -59,10 +59,10 @@ module Noyes
   class FloatSplitter
     def << data
       data.pack('g*').unpack('N*').map do |bits|
-        signbit = bits & 0x80000000 >> 31
+        signbit = bits >> 31
         exponent = (bits & 0x7F800000) >> 23
-        significand = (bits & 0x007FFFFF)
-        [signbit, exponent, significand]
+        significand = bits & 0x007FFFFF
+        [signbit, exponent - 127, significand]
     end
     end
   end
@@ -70,7 +70,7 @@ module Noyes
   class FloatAssembler
     def << data
       data.map do |signbit, exponent, significand|
-        bits = (signbit << 31) | (exponent << 23) | significand
+        bits = signbit << 31 | 127 + exponent << 23 | significand
       end.pack('N*').unpack('g*')
     end
   end
