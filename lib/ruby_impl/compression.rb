@@ -24,8 +24,49 @@ module Noyes
     end
   end
 
+  class DeltaEncoder
+    def initialize dimensions=13
+      @dimensions = dimensions
+      @delta = Array.new dimensions, 0.0
+    end
+
+    def << data
+      data.each_slice(@dimensions).map do |array|
+        array.each_with_index.map do |element, index|
+          current_delta = @delta[index]
+          @delta[index] = element
+          element - current_delta
+        end
+      end
+    end
+  end
+
+  class DeltaDecoder
+    def initialize dimensions=13
+      @dimensions = dimensions
+      @delta = Array.new dimensions, 0.0
+    end
+
+    def << data
+      data.each_slice(@dimensions).map do |array|
+        array.each_with_index.map do |element, index|
+          @delta[index] += element
+        end
+      end
+    end
+  end
+
   class NullCompressor
     def << data
+      delta = 0
+      deltas = data.each_slice(13).map do |x|
+        o = x[0]
+        z= x[0]
+        z -= delta
+        delta=x[0]
+        z
+      end
+      puts deltas.pack('g*').unpack('B*')[0].scan(/................................/)
       data
     end
   end
