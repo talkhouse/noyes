@@ -26,4 +26,12 @@ class TestCompress < Test::Unit::TestCase
     dec = decoder << enc.flatten
     assert_m @cmn, dec.flatten, 5
   end
+  def test_float_splitter
+    fs = Noyes::FloatSplitter.new
+    fa = Noyes::FloatAssembler.new
+    @cmn = [2.34]
+    splits = fs << @cmn
+    reassembled = fa << splits
+    assert_m @cmn, reassembled, 5
+  end
 end

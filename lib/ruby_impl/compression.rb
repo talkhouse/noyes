@@ -56,17 +56,27 @@ module Noyes
     end
   end
 
+  class FloatSplitter
+    def << data
+      data.pack('g*').unpack('N*').map do |bits|
+        signbit = bits & 0x80000000 >> 31
+        exponent = (bits & 0x7F800000) >> 23
+        significand = (bits & 0x007FFFFF)
+        [signbit, exponent, significand]
+    end
+    end
+  end
+
+  class FloatAssembler
+    def << data
+      data.map do |signbit, exponent, significand|
+        bits = (signbit << 31) | (exponent << 23) | significand
+      end.pack('N*').unpack('g*')
+    end
+  end
+
   class NullCompressor
     def << data
-      delta = 0
-      deltas = data.each_slice(13).map do |x|
-        o = x[0]
-        z= x[0]
-        z -= delta
-        delta=x[0]
-        z
-      end
-      puts deltas.pack('g*').unpack('B*')[0].scan(/................................/)
       data
     end
   end
