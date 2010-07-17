@@ -88,6 +88,19 @@ module Noyes
     def interleave x
       x < 0 ? 2 * x.abs - 1 : 2 * x.abs
     end
+
+    def encode X, M
+      bits = ''
+      X.each do |x|
+        q = x/M
+        bits += q * '1' + '0'
+        v = 1
+        Math.log2(M).times do |i|
+          bits += v & x ? '1' : '0'
+          v <<= 1
+        end
+      bits
+    end
   end
 
   class GolumbRiceDecoder
@@ -102,6 +115,10 @@ module Noyes
     def deinterleave x
       x.odd? ? (x + 1)/-2 : x/2
     end
+#    def decode bits, M
+#      xbits = bits.unpack '*B'
+#      q = 0
+#      nr = 0
   end
 
   class NullCompressor
