@@ -29,9 +29,20 @@ class TestCompress < Test::Unit::TestCase
   def test_float_splitter
     fs = Noyes::FloatSplitter.new
     fa = Noyes::FloatAssembler.new
-    @cmn = [2.34]
+    gre = Noyes::GolumbRiceEncoder.new
     splits = fs << @cmn
     reassembled = fa << splits
-    assert_m @cmn, reassembled, 5
+    assert_equal @cmn, reassembled
+  end
+  def test_golumb_rice
+    fs = Noyes::FloatSplitter.new
+    fa = Noyes::FloatAssembler.new
+    gre = Noyes::GolumbRiceEncoder.new
+    grd = Noyes::GolumbRiceDecoder.new
+    splits = fs << @cmn
+    coded = gre << splits
+    uncoded = grd << coded
+    reassembled = fa << uncoded
+    assert_equal @cmn, reassembled
   end
 end

@@ -75,6 +75,35 @@ module Noyes
     end
   end
 
+  class GolumbRiceEncoder
+    def << data
+      data.map do |b,e,s|
+        exp_sign_combo = b |(e << 1)
+        [interleave(exp_sign_combo), s]
+      end
+    end
+
+    # Map negative nubers to odd postive numbers and postive numbers to even
+    # positive numbers
+    def interleave x
+      x < 0 ? 2 * x.abs - 1 : 2 * x.abs
+    end
+  end
+
+  class GolumbRiceDecoder
+    def << data
+      data.map do |exp_sign_combo, significand|
+        exp_sign_combo = deinterleave exp_sign_combo
+        sign = exp_sign_combo & 0x00000001
+        exp =  exp_sign_combo >> 1
+        [sign, exp, significand]
+      end
+    end
+    def deinterleave x
+      x.odd? ? (x + 1)/-2 : x/2
+    end
+  end
+
   class NullCompressor
     def << data
       data
