@@ -89,17 +89,66 @@ module Noyes
       x < 0 ? 2 * x.abs - 1 : 2 * x.abs
     end
 
-    def encode X, M
+    def encode _X, _M
       bits = ''
-      X.each do |x|
-        q = x/M
+      _X.each do |x|
+        q = x/_M
         bits += q * '1' + '0'
         v = 1
-        Math.log2(M).times do |i|
+        Math.log2(_M).times do |i|
           bits += v & x ? '1' : '0'
           v <<= 1
         end
-      bits
+        bits
+      end
+    end
+  end
+
+  class BitArray
+    def initialize
+      @array = []
+      @end_bit = 0
+      @start_bit = 0
+    end
+
+    def size
+      end_bit + start_bit
+    end
+
+    def to_s
+      @array.pack('N*').unpack('B*').join[@start_bit...@end_bit]
+    end
+
+    # Add a bit to the end of the bit array.  Bits may be anything that
+    # evaluates to either 1 or 0. Anything else is undefined.  If you can't
+    # afford zeros and only have the letter O, amazingly, that works too.
+    def push bit
+      @array.push 0 if @array.size <= @end_bit / 32
+      @array[-1] = set_bit(@array.last, @end_bit % 32) if bit == 1
+      @end_bit +=1
+    end
+
+    # Our bit array is packed into an array of 32 bit integers.  This
+    # function sets the ith bit of an integer.
+    def set_bit integer, i
+      integer | 0x80000000 >> i
+    end
+
+    # Returns the first bit and removes it, shifting all bits by one.
+    def shift
+      bit = @array.first[@start_bit]
+      if @start_bit == 31
+        @start_bit = 0
+        @end_bit -= 32
+        @array.shift
+      else
+        @start_bit += 1
+      end
+      bit
+    end
+
+    def [] x
+      @array[x/32][x % 32]
     end
   end
 
