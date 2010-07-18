@@ -147,8 +147,9 @@ module Noyes
       bit
     end
 
-    def [] x
-      @array[x/32][x % 32]
+    # Returns the ith bit of the array.
+    def [] i
+      @array[i/32][i % 32]
     end
   end
 
