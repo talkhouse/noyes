@@ -75,35 +75,6 @@ module Noyes
     end
   end
 
-  class GolumbRiceEncoder
-    def << data
-      data.map do |b,e,s|
-        exp_sign_combo = b |(e << 1)
-        [interleave(exp_sign_combo), s]
-      end
-    end
-
-    # Map negative nubers to odd postive numbers and postive numbers to even
-    # positive numbers
-    def interleave x
-      x < 0 ? 2 * x.abs - 1 : 2 * x.abs
-    end
-
-    def encode _X, _M
-      bits = ''
-      _X.each do |x|
-        q = x/_M
-        bits += q * '1' + '0'
-        v = 1
-        Math.log2(_M).times do |i|
-          bits += v & x ? '1' : '0'
-          v <<= 1
-        end
-        bits
-      end
-    end
-  end
-
   class BitArray
     def initialize
       @array = []
@@ -153,7 +124,48 @@ module Noyes
     end
   end
 
+  # Takes disassembled floats and compresses them.  We want them dissassembled
+  # because compressing exponents and signs have you unique properties and can
+  # be efficiently compressed with rice coding.  The same is not true of the
+  # significand.
+  class GolumbRiceEncoder
+    def initialize m = 4
+      @M = m
+    end
+    def << data
+      data.map do |b,e,s|
+        exp_sign_combo = b |(e << 1)
+        [interleave(exp_sign_combo), s]
+      end
+    end
+
+    # Map negative nubers to odd postive numbers and postive numbers to even
+    # positive numbers.  We need to do this because negative numbers don't
+    # compress well with rice encoding.
+    def interleave x
+      x < 0 ? 2 * x.abs - 1 : 2 * x.abs
+    end
+
+    # Actual rice encoding.
+    def encode _X, _M
+      bits = ''
+      _X.each do |x|
+        q = x/_M
+        bits += q * '1' + '0'
+        v = 1
+        Math.log2(_M).times do |i|
+          bits += v & x ? '1' : '0'
+          v <<= 1
+        end
+        bits
+      end
+    end
+  end
+
   class GolumbRiceDecoder
+    def initialize m = 4
+      @M = m
+    end
     def << data
       data.map do |exp_sign_combo, significand|
         exp_sign_combo = deinterleave exp_sign_combo
