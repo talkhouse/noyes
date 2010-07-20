@@ -133,8 +133,9 @@ module Noyes
   # be efficiently compressed with rice coding.  The same is not true of the
   # significand.
   class GolombRiceEncoder
-    def initialize m = 4
+    def initialize m = 8
       @M = m
+      @b = Math.log2(m).to_i
     end
     def << data
       data.map do |b,e,s|
@@ -158,18 +159,15 @@ module Noyes
         q = x/@M
         q.times {bits.push 1}
         bits.push 0
-        v = 1
-        Math.log2(@M).to_i.times do |i|
-          bits.push( v & x ? 1 : 0)
-          v <<= 1
-        end
+        r = x % @M
+        (@b-1).downto(0){|i| bits.push r[i]}
       end
       bits
     end
   end
 
   class GolombRiceDecoder
-    def initialize m = 4
+    def initialize m = 8
       @M = m
     end
     def << data
