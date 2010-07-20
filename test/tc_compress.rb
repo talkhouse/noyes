@@ -29,16 +29,32 @@ class TestCompress < Test::Unit::TestCase
   def test_float_splitter
     fs = Noyes::FloatSplitter.new
     fa = Noyes::FloatAssembler.new
-    gre = Noyes::GolumbRiceEncoder.new
+    gre = Noyes::GolombRiceEncoder.new
     splits = fs << @cmn
     reassembled = fa << splits
     assert_equal @cmn, reassembled
   end
-  def test_golumb_rice
+  def test_interleave
+    gre = Noyes::GolombRiceEncoder.new
+    grd = Noyes::GolombRiceDecoder.new
+    data = (-100..100).to_a
+    interleaved = data.map {|x| gre.interleave x}
+    deinterleaved = interleaved.map {|x| grd.deinterleave x}
+    assert_equal data, deinterleaved
+  end
+  def test_golomb_rice_integers
+    gre = Noyes::GolombRiceEncoder.new
+    grd = Noyes::GolombRiceDecoder.new
+    data = (0..100).to_a
+    encoded = gre.encode data
+    decoded = grd.decode encoded
+    assert_equal data, decoded
+  end
+  def test_golomb_rice_floats
     fs = Noyes::FloatSplitter.new
     fa = Noyes::FloatAssembler.new
-    gre = Noyes::GolumbRiceEncoder.new
-    grd = Noyes::GolumbRiceDecoder.new
+    gre = Noyes::GolombRiceEncoder.new
+    grd = Noyes::GolombRiceDecoder.new
     splits = fs << @cmn
     coded = gre << splits
     uncoded = grd << coded

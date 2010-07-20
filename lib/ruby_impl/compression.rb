@@ -83,7 +83,11 @@ module Noyes
     end
 
     def size
-      end_bit + start_bit
+      @end_bit + @start_bit
+    end
+
+    def empty?
+      size == 0
     end
 
     def to_s
@@ -128,7 +132,7 @@ module Noyes
   # because compressing exponents and signs have you unique properties and can
   # be efficiently compressed with rice coding.  The same is not true of the
   # significand.
-  class GolumbRiceEncoder
+  class GolombRiceEncoder
     def initialize m = 4
       @M = m
     end
@@ -146,23 +150,25 @@ module Noyes
       x < 0 ? 2 * x.abs - 1 : 2 * x.abs
     end
 
-    # Actual rice encoding.
-    def encode _X, _M
-      bits = ''
-      _X.each do |x|
-        q = x/_M
-        bits += q * '1' + '0'
+    # Rice encoding returned as a BitArray.
+    def encode integer_array
+      integer_array = integer_array.clone
+      bits = BitArray.new
+      integer_array.each do |x|
+        q = x/@M
+        q.times {bits.push 1}
+        bits.push 0
         v = 1
-        Math.log2(_M).times do |i|
-          bits += v & x ? '1' : '0'
+        Math.log2(@M).to_i.times do |i|
+          bits.push( v & x ? 1 : 0)
           v <<= 1
         end
-        bits
       end
+      bits
     end
   end
 
-  class GolumbRiceDecoder
+  class GolombRiceDecoder
     def initialize m = 4
       @M = m
     end
@@ -177,10 +183,23 @@ module Noyes
     def deinterleave x
       x.odd? ? (x + 1)/-2 : x/2
     end
-#    def decode bits, M
-#      xbits = bits.unpack '*B'
-#      q = 0
-#      nr = 0
+
+    def decode bits
+      int_array = []
+    puts "bit array = #{bits}"
+      while !bits.empty?
+        q = 0
+        nr = 0
+        q+=1 while bits.shift == 1
+        Math.log2(@M).to_i.times do |a|
+          nr += 1 << a if bits.shift == 1
+        end
+        nr += q * @M
+        puts "nr = #{nr}"
+        int_array.push nr
+      end
+      int_array.reverse
+    end
   end
 
   class NullCompressor
