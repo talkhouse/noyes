@@ -83,11 +83,11 @@ module Noyes
     end
 
     def size
-      @end_bit + @start_bit
+      @end_bit - @start_bit
     end
 
     def empty?
-      size == 0
+      size <= 0
     end
 
     def to_s
@@ -111,7 +111,8 @@ module Noyes
 
     # Returns the first bit and removes it, shifting all bits by one.
     def shift
-      bit = @array.first[@start_bit]
+      return if @array.empty?
+      bit = @array.first & 0x80000000 >> @start_bit == 0 ? 0 : 1
       if @start_bit == 31
         @start_bit = 0
         @end_bit -= 32
@@ -124,7 +125,7 @@ module Noyes
 
     # Returns the ith bit of the array.
     def [] i
-      @array[i/32][i % 32]
+      @array[i/32] & (0x80000000 >> (i + @start_bit)) != 0 ? 1 : 0
     end
   end
 
@@ -169,6 +170,7 @@ module Noyes
   class GolombRiceDecoder
     def initialize m = 8
       @M = m
+      @b = Math.log2(m).to_i
     end
     def << data
       data.map do |exp_sign_combo, significand|
@@ -184,19 +186,18 @@ module Noyes
 
     def decode bits
       int_array = []
-    puts "bit array = #{bits}"
       while !bits.empty?
         q = 0
         nr = 0
         q+=1 while bits.shift == 1
-        Math.log2(@M).to_i.times do |a|
-          nr += 1 << a if bits.shift == 1
+        (@b-1).downto(0) do |a|
+          break if bits.empty?
+          nr += (1 << a) if bits.shift == 1
         end
         nr += q * @M
-        puts "nr = #{nr}"
         int_array.push nr
       end
-      int_array.reverse
+      int_array
     end
   end
 

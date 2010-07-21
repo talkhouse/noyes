@@ -45,17 +45,20 @@ class TestCompress < Test::Unit::TestCase
   def test_golumb_encode
     gre = Noyes::GolombRiceEncoder.new 8
     code = gre.encode(1..9).to_s  # Long enough to unary portion of code.
-    assert_equal '0001001000110100010101100111', code
+    expected = '0001 0010 0011 0100 0101 0110 0111 10000 10001'.gsub(/ /,'')
+    assert_equal expected, code
+  end
+  def test_unary_code
+    gre = Noyes::GolombRiceEncoder.new 1
+    assert_equal '111110', gre.encode([5]).to_s
   end
   def test_golomb_rice_integers
     gre = Noyes::GolombRiceEncoder.new
     grd = Noyes::GolombRiceDecoder.new
     data = (0..100).to_a
-    data = [1,2,3,4]
     encoded = gre.encode data
-    puts "encoded = #{encoded.to_s}"
-    #decoded = grd.decode encoded
-    #assert_equal data, decoded
+    decoded = grd.decode encoded
+    assert_equal data, decoded
   end
   def test_golomb_rice_floats
     fs = Noyes::FloatSplitter.new
@@ -76,5 +79,12 @@ class TestCompress < Test::Unit::TestCase
     ba = Noyes::BitArray.new
     50.times {|i| ba.push (i + 1) % 2}
     assert_equal '10' * 25, ba.to_s
+
+    ba = Noyes::BitArray.new
+    4.times {ba.push 1}
+    ba.push 0
+    3.times {ba.shift}
+    assert_equal 1, ba[0]
+    assert_equal 0, ba[1]
   end
 end
