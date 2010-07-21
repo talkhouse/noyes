@@ -60,6 +60,12 @@ class TestCompress < Test::Unit::TestCase
     decoded = grd.decode encoded
     assert_equal data, decoded
   end
+  def test_compression_ratio
+    gre = Noyes::GolombRiceEncoder.new 8
+    data = (1..9).to_a
+    code = gre.encode(data).to_s  # Long enough to unary portion of code.
+    assert code.size / (data.size * 32) < 15
+  end
   def test_golomb_rice_floats
     fs = Noyes::FloatSplitter.new
     fa = Noyes::FloatAssembler.new

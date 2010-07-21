@@ -138,6 +138,8 @@ module Noyes
       @M = m
       @b = Math.log2(m).to_i
     end
+
+    # data is a list of disassembled floats
     def << data
       data.map do |b,e,s|
         exp_sign_combo = b |(e << 1)
