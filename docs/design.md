@@ -5,7 +5,7 @@ decisions taken to achieve these goals.
 
 ## Noyes Has Multiple Independent Language Implementations
 Noyes is written in C, Ruby, and Java.  These implementations are completely
-independent.  However, the algorithms and designs patterns are identical.  This
+independent.  However, the algorithms and design patterns are identical.  This
 means you can develop in any language you like but your final implentations is
 extremely portable.  This kind of portability is increasingly important with
 the explosion of new devices supporting limited languages as well as the
