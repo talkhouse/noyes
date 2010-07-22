@@ -1,7 +1,6 @@
 require 'test/unit'
 require 'noyes'
 
-
 class TestCompress < Test::Unit::TestCase
   DD = 'data/noyes'
   def setup

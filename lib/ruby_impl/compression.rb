@@ -56,6 +56,8 @@ module Noyes
     end
   end
 
+  # Splits a float into an array containint its sign bit, its exponent, and its
+  # significand
   class FloatSplitter
     def << data
       data.pack('g*').unpack('N*').map do |bits|
@@ -67,6 +69,7 @@ module Noyes
     end
   end
 
+  # Reassembles a float that has been dissassembled using FloatSplitter.
   class FloatAssembler
     def << data
       data.map do |signbit, exponent, significand|
