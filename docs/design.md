@@ -6,10 +6,11 @@ decisions taken to achieve these goals.
 ## Noyes Has Multiple Independent Language Implementations
 Noyes is written in C, Ruby, and Java.  These implementations are completely
 independent.  However, the algorithms and design patterns are identical.  This
-means you can develop in any language you like but your final implentations is
-extremely portable.  This kind of portability is increasingly important with
-the explosion of new devices supporting limited languages as well as the
-ability to work with companies that limit allowed language choices.
+means you can develop in any language you like but ship versions in different
+languages to suit your performance and portability needs with minimal effort.
+This kind of portability is increasingly important with the explosion of new
+devices supporting limited languages as well as the ability to work with
+companies that limit allowed language choices.
 
 ## All language implementations are wrapped with Ruby
 You do not need to use the Ruby wrappers.  Even the core C implementation does
@@ -19,7 +20,7 @@ develop process much more expressive and efficient.  So even if you plan on
 shipping a pure C product you are probably better off working in Ruby until all
 your tests pass and you are feature complete. 
 
-## Ruby wrappers choose implementations via modules.
+## Ruby wrappers separate implementations via modules.
 The Ruby, C, and Java implementations are wrapped using the modules Noyes,
 NoyesC, and NoyesJava, respectively.  Each module contains an identical set of
 classes and functions.  Implementations can be intermixed.  That is, it is
@@ -44,8 +45,9 @@ you can compile either C, Java, or Ruby then you can use probably use Noyes
 without writing any additional code.
 
 ## There are very few internal dependencies.
-As much as possible every class stands by itself.  If all you need is a windowing
-routine that's all you need to take.  This leads to a very disentangled system.
+As much as possible every class stands by itself.  If all you need is a
+windowing routine that's all you need to take.  This leads to a very
+disentangled system.
 
 [1] There is a dependency on Trollop, which is only used for some command line
 utilities.  But none of the algorithms or the libraries have any dependencies
