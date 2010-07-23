@@ -44,7 +44,7 @@ Cmat *mfcc_16x8_apply(Mfcc16x8 *self, Carr * data) {
   Cmat *M = NULL;
   Cmat *N = NULL;
   Carr *data1 = preemphasizer_apply(self->pre, data);
-  M = segmenter_apply(self->seg, data1); narr_free(data1);
+  M = segmenter_apply(self->seg, data1); carr_free(data1);
   if (!M)
     return NULL;
   N = hamming_window_apply(self->ham, M); cmat_free(M);

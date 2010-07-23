@@ -60,7 +60,7 @@ static VALUE t_dft(VALUE classmod, VALUE data, VALUE size) {
     VALUE imag = rb_float_new(R->data[1][i]);
     rb_ary_store(result, i, rb_complex_new(real, imag));
   }
-  narr_free(M);
+  carr_free(M);
   cmat_free(R);
   return result;
 }

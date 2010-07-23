@@ -12,7 +12,7 @@ void preemphasizer_free(Preemphasizer *self) {
 }
 
 Carr *preemphasizer_apply(Preemphasizer *self, Carr *data) {
-    Carr *res = narr_new(data->rows);
+    Carr *res = carr_new(data->rows);
     double current_prior = self->prior;
     self->prior = data->data[data->rows-1];
     int i;

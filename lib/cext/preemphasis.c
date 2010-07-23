@@ -29,8 +29,8 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Data_Get_Struct(prev, Preemphasizer, pre);
   Carr *N = preemphasizer_apply(pre, M);
   VALUE result = carr2r(N);
-  narr_free(N);
-  narr_free(M);
+  carr_free(N);
+  carr_free(M);
   return result;
 }
 

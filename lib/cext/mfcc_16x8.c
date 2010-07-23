@@ -26,7 +26,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Cmat *N = mfcc_16x8_apply(s, M);
   VALUE result = cmat2r(N);
   cmat_free(N);
-  narr_free(M);
+  carr_free(M);
   return result;
 }
 

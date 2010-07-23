@@ -51,7 +51,7 @@ Carr * r2carr(VALUE value) {
     if (!NIL_P(colzero)) {
       rb_raise(rb_eTypeError, "Matrix two dimensional instead of one");
     }
-    M = narr_new(rows);
+    M = carr_new(rows);
      int i;
      for (i=0;i<rows;++i) {
        VALUE val = rb_ary_entry(value, i);

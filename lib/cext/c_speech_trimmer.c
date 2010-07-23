@@ -26,7 +26,7 @@ void speech_trimmer_free(SpeechTrimmer *self) {
 
   int i;
   for (i=0; i<c_list_size(self->queue); ++i)
-    narr_free(c_list_get(self->queue, i));
+    carr_free(c_list_get(self->queue, i));
   c_list_free(self->queue);
 
   free(self);
@@ -81,7 +81,7 @@ void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm) {
       int new_size = c_list_size(self->queue) - self->ecs + self->trailer;
       int i;
       for (i=new_size; i<c_list_size(self->queue); ++i)
-        narr_free(c_list_get(self->queue, i));
+        carr_free(c_list_get(self->queue, i));
 
       c_list_remove(self->queue, new_size, c_list_size(self->queue));
     }
@@ -90,7 +90,7 @@ void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm) {
       int start = c_list_size(self->queue) - self->leader - self->scs - 1;
       int i;
       for (i=0; i<start; ++i)
-        narr_free(c_list_get(self->queue, i));
+        carr_free(c_list_get(self->queue, i));
 
       c_list_remove(self->queue, 0, start);
     }

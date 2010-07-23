@@ -27,7 +27,7 @@ MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf, int upper
           double foo = temp->data[j+1];
           mf->weights[i][j] = foo;
       }
-      narr_free(temp);
+      carr_free(temp);
   }
   cmat_free(params);
   return mf;
@@ -133,7 +133,7 @@ Cmat *make_bank_parameters(double srate, int nfft, int nfilt,
 Carr * make_filter(double left, double center, double right,
                                double initFreq, double delta) {
     int nElements = round((right - left)/ delta + 1);
-    Carr * filter = narr_new(nElements + 1);
+    Carr * filter = carr_new(nElements + 1);
     double height=1.0;
     double leftSlope = height / (center - left);
     double rightSlope = height / (center - right);

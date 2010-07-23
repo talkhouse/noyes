@@ -45,7 +45,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   VALUE prev = rb_iv_get(self, "@bent_cent_marker");
   Data_Get_Struct(prev, BentCentMarker, pre);
   int res = bent_cent_marker_apply(pre, M);
-  narr_free(M);
+  carr_free(M);
   return res ? Qtrue : Qfalse;
 }
 

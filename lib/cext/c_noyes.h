@@ -28,8 +28,8 @@ typedef struct {
 Cmat *cmat_new(int rows, int cols);
 void cmat_free(Cmat *);
 
-Carr *narr_new(int rows);
-void narr_free(Carr *);
+Carr *carr_new(int rows);
+void carr_free(Carr *);
 Carr ** mat2arrs(Cmat *M);
 Cmat * arrs2mat(Carr **array, int size);
 Carr *cmat_flatten(Cmat *M);

@@ -26,14 +26,14 @@ void cmat_free(Cmat *M) {
 }
 
 // A 1 dimensional matrix "class".
-Carr *narr_new(int rows) {
+Carr *carr_new(int rows) {
   Carr *M = malloc(sizeof(Carr));
   M->data = malloc(rows * sizeof(double));
   M->rows = rows;
   return M;
 }
 
-void narr_free(Carr *M) {
+void carr_free(Carr *M) {
   if (M) {
     free(M->data);
     free(M);
@@ -59,7 +59,7 @@ Carr ** mat2arrs(Cmat *M) {
 // Creates an array by appending columns of a rectangular matrix.  Does not
 // delete the original matrix.
 Carr *cmat_flatten(Cmat *M) {
-  Carr *flat = narr_new(M->rows * M->cols);
+  Carr *flat = carr_new(M->rows * M->cols);
   int i;
   for (i=0;i<M->rows; ++i)
     memcpy(flat->data + (M->cols * i), M->data[i], sizeof(double) * M->cols);
@@ -70,7 +70,7 @@ Carr *cmat_flatten(Cmat *M) {
 // Converts an array of one dimensional arrays into a rectangular matrix.  It
 // frees these arrays in the process.  All arrays must have the same length.
 Cmat * arrs2mat(Carr **array, int size) {
-  if (size ==0) {
+  if (size == 0) {
     if (array != NULL)
       free(array);
     return NULL;
