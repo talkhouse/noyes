@@ -27,7 +27,9 @@ MelFilter * new_mel_filter(int srate, int nfft, int nfilt, int lowerf, int upper
           double foo = temp->data[j+1];
           mf->weights[i][j] = foo;
       }
+      narr_free(temp);
   }
+  cmat_free(params);
   return mf;
 }
 

@@ -36,6 +36,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Cmat *N = live_cmn_apply(cmn, M);
   VALUE result = cmat2r(N);
   cmat_free(N);
+  cmat_free(M);
   return result;
 }
 

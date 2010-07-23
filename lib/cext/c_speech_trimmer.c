@@ -23,7 +23,12 @@ SpeechTrimmer * new_speech_trimmer(int frequency, double threshold) {
 void speech_trimmer_free(SpeechTrimmer *self) {
   bent_cent_marker_free(self->bcm);
   segmenter_free(self->seg);
+
+  int i;
+  for (i=0; i<c_list_size(self->queue); ++i)
+    narr_free(c_list_get(self->queue, i));
   c_list_free(self->queue);
+
   free(self);
 }
 
@@ -48,6 +53,7 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
     if (speech_trimmer_eos(self))
       break;
   }
+  free(segments);
 
   if (speech_trimmer_eos(self) && speech_count == 0) {
     free(speech_segments);
