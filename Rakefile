@@ -56,8 +56,9 @@ namespace :test do
   desc mem_desc
   task :memory do
     puts mem_desc
+    full_check = '--leak-check=full --show-reachable=yes --track-origins=yes -v'
     vparams = '--tool=memcheck --leak-check=yes --num-callers=15 --track-fds=yes'
-    sh "valgrind #{vparams} ruby -Ilib:test:ext test/ts_all_c.rb"
+    sh "valgrind #{vparams} #{full_check} ruby -Ilib:test:ext test/ts_all_c.rb"
   end
   ruby_desc = 'Full Ruby implementation test.'
   desc ruby_desc
