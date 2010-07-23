@@ -70,8 +70,11 @@ Carr *cmat_flatten(Cmat *M) {
 // Converts an array of one dimensional arrays into a rectangular matrix.  It
 // frees these arrays in the process.  All arrays must have the same length.
 Cmat * arrs2mat(Carr **array, int size) {
-  if (size ==0)
+  if (size ==0) {
+    if (array != NULL)
+      free(array);
     return NULL;
+  }
   Cmat *mat = malloc(sizeof(Cmat));
   mat->data = malloc(sizeof(double*) * size);
   mat->rows = size;

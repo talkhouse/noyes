@@ -30,6 +30,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   Cmat *N = power_spectrum_apply(ps, M);
   VALUE result = cmat2r(N);
   cmat_free(N);
+  cmat_free(M);
   return result;
 }
 

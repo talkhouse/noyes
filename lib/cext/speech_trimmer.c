@@ -55,7 +55,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   SpeechTrimmer *st;
   Data_Get_Struct(rb_iv_get(self, "@speech_trimmer"), SpeechTrimmer, st);
   Cmat *R = speech_trimmer_apply(st, M);
-  if (!R) {
+  if (R == NULL) {
     narr_free(M);
     return Qnil;
   }

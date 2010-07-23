@@ -37,7 +37,10 @@ Cmat * segmenter_apply(Segmenter* self, Carr *data) {
       self->buflen = combolen;
       return NULL;
   } else {
-      self->buf = NULL;
+      if (self->buf != NULL) {
+        free(self->buf);
+        self->buf = NULL;
+      }
   }
   Cmat *M = cmat_new((combolen - self->winsz)/ self->winshift+1, self->winsz);
   int i = 0;

@@ -83,6 +83,7 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   MelFilter *s;
   Data_Get_Struct(mel_filter, MelFilter, s);
   Cmat *d = mel_filter_apply(s, M);
+  cmat_free(M);
 
   if (d) {
     VALUE result = rb_ary_new2(d->rows);
