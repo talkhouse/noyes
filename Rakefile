@@ -52,6 +52,13 @@ task :tags do
 end
 
 namespace :test do
+  mem_desc = 'Test for memory leaks in C version'
+  desc mem_desc
+  task :memory do
+    puts mem_desc
+    vparams = '--tool=memcheck --leak-check=yes --num-callers=15 --track-fds=yes'
+    sh "valgrind #{vparams} ruby -Ilib:test:ext test/ts_all_c.rb"
+  end
   ruby_desc = 'Full Ruby implementation test.'
   desc ruby_desc
   task :ruby do
