@@ -4,6 +4,9 @@
 
 * Renamed many of the internal c array and matrix management functions.
 
+* Fixed bug in c-implementation of segmenter that caused incorrect
+  segment counts.
+
 
 # 0.9.2     June 30, 20101
 
