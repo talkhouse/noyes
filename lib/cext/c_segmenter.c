@@ -18,6 +18,8 @@ void segmenter_free(Segmenter *s) {
   free(s);
 }
 
+
+#include "stdio.h"
 Cmat * segmenter_apply(Segmenter* self, Carr *data) {
   double * combo;
   int combolen = 0;
@@ -31,7 +33,7 @@ Cmat * segmenter_apply(Segmenter* self, Carr *data) {
       combolen = data->rows;
       memcpy(combo, data->data, combolen * sizeof(double));
   }
-  if (combolen < self->winsz + self->winshift * 5) {
+  if (combolen < self->winsz + self->winshift * 3) {
       self->buf = realloc(self->buf, combolen * sizeof(double));
       memcpy(self->buf, combo, combolen*sizeof(double));
       self->buflen = combolen;
@@ -42,15 +44,17 @@ Cmat * segmenter_apply(Segmenter* self, Carr *data) {
         self->buf = NULL;
       }
   }
-  Cmat *M = cmat_new((combolen - self->winsz)/ self->winshift+1, self->winsz);
+  // Proof if combolen >= winsize:
+  // combolen = winsize + winshift * (numsegs - 1) + comblen % winshift
+  // combolen - combolen % winshift - winsize = winshift * numsegs - winshift
+  // (combolen - combolen % winshift - winsize + winshift)/winshift = numsegs
+  Cmat *M = cmat_new((combolen - combolen % self->winshift - self->winsz + self->winshift)/ self->winshift, self->winsz);
   int i = 0;
-  int j=0;
-  while (i+self->winsz <= combolen) {
-    memcpy(M->data[j++], combo + i, self->winsz * sizeof(double));
-    i+=self->winshift;
+  for (i=0;i<M->rows;++i) {
+    memcpy(M->data[i], combo + i*self->winshift, self->winsz * sizeof(double));
   }
   
-  int bufsize = combolen- i;
+  int bufsize = combolen - M->rows * self->winshift;
   if (bufsize > 0) {
       // Copy the tail end of combo into buf.
       self->buf = realloc(self->buf, bufsize * sizeof(double));
