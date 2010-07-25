@@ -4,6 +4,7 @@ public class Segmenter {
   private double[] buf=null;
   int winsz;
   int winshift;
+  static final int MIN_SEGMENTS = 3;
 
   public Segmenter(int winsz, int winshift) {
     this.winsz = winsz;
@@ -19,7 +20,7 @@ public class Segmenter {
     } else {
         combo = data;
     }
-    if (combo.length < winsz + winshift * 5) {
+    if (combo.length < winsz + winshift * MIN_SEGMENTS){
         buf = combo;
         return null;
     } else {

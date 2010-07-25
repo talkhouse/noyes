@@ -18,6 +18,7 @@ void segmenter_free(Segmenter *s) {
   free(s);
 }
 
+#define MIN_SEGMENTS 3
 
 #include "stdio.h"
 Cmat * segmenter_apply(Segmenter* self, Carr *data) {
@@ -33,7 +34,7 @@ Cmat * segmenter_apply(Segmenter* self, Carr *data) {
       combolen = data->rows;
       memcpy(combo, data->data, combolen * sizeof(double));
   }
-  if (combolen < self->winsz + self->winshift * 3) {
+  if (combolen < self->winsz + self->winshift * MIN_SEGMENTS ) {
       self->buf = realloc(self->buf, combolen * sizeof(double));
       memcpy(self->buf, combo, combolen*sizeof(double));
       self->buflen = combolen;
