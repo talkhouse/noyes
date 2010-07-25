@@ -44,11 +44,9 @@ Cmat * segmenter_apply(Segmenter* self, Carr *data) {
         self->buf = NULL;
       }
   }
-  // Proof if combolen >= winsize:
-  // combolen = winsize + winshift * (numsegs - 1) + comblen % winshift
-  // combolen - combolen % winshift - winsize = winshift * numsegs - winshift
-  // (combolen - combolen % winshift - winsize + winshift)/winshift = numsegs
-  Cmat *M = cmat_new((combolen - combolen % self->winshift - self->winsz + self->winshift)/ self->winshift, self->winsz);
+
+  Cmat *M = cmat_new((combolen - combolen % self->winshift - self->winsz +
+                        self->winshift)/ self->winshift, self->winsz);
   int i = 0;
   for (i=0;i<M->rows;++i) {
     memcpy(M->data[i], combo + i*self->winshift, self->winsz * sizeof(double));

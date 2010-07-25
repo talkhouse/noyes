@@ -1,6 +1,15 @@
 module Noyes
   # Segments an array of data into an array of arrays.  Inner arrays are the
   # size of the window.
+  #
+  # if combolen >= winsize:
+  #    combolen = winsize + winshift * (numsegs - 1) + comblen % winshift
+  # else
+  #   combolen = 0
+  #
+  # From this we have:
+  # combolen - combolen % winshift - winsize = winshift * numsegs - winshift
+  # numsegs = (combolen - combolen % winshift - winsize + winshift)/winshift
   class Segmenter
     def initialize window_size, shift
       @winsz = window_size; @winshift = shift
