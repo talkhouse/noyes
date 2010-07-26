@@ -1,5 +1,7 @@
 package talkhouse;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SpeechTrimmer {
   int leader = 5;
@@ -23,27 +25,25 @@ public class SpeechTrimmer {
       return null;
 
     double[][] segments = seg.apply(pcm);
-    double[][] speechSegments= new double[segments.length][];
-    int speechCount=0;
+    if (segments == null)
+      return null;
+
+    List<double[]> resultQ = new ArrayList<double[]>(segments.length);
     for (int i=0;i<segments.length;++i) {
       enqueue(segments[i]);
       double[] centispeech = dequeue();
       while (centispeech != null) {
-        speechSegments[speechCount++] = centispeech;
+        resultQ.add(centispeech);
         centispeech = dequeue();
       }
       if (eos())
         break;
     }
 
-    if (eos() && speechCount == 0)
+    if (eos() && resultQ.size() == 0)
       return null;
 
-    double[][] result = new double[speechCount][];
-    for (int i=0;i<speechCount;++i) {
-      result[i] = speechSegments[i];
-    }
-    return result;
+    return resultQ.toArray(new double[resultQ.size()][]);
   }
 
   public void enqueue(double[] pcm) {
