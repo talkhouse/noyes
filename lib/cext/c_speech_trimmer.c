@@ -39,15 +39,17 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
   Cmat *segment_matrix = segmenter_apply(self->seg, pcm);
   if (segment_matrix == NULL)
 	  return NULL;
+
+  NList *speech_segments = c_list_new();
   int centisecond_count = segment_matrix->rows;
   Carr **segments = mat2arrs(segment_matrix);
-  Carr ** speech_segments = malloc(sizeof(Cmat*) * centisecond_count);
   int speech_count = 0, i;
   for (i=0; i<centisecond_count ;++i) {
     speech_trimmer_enqueue(self, segments[i]);
     Carr *centispeech = speech_trimmer_dequeue(self);
     while (centispeech != NULL) {
-      speech_segments[speech_count++] = centispeech;
+      c_list_add(speech_segments, centispeech);
+      speech_count++;
       centispeech = speech_trimmer_dequeue(self);
     }
     if (speech_trimmer_eos(self))
@@ -56,13 +58,17 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
   free(segments);
 
   if (speech_trimmer_eos(self) && speech_count == 0) {
-    free(speech_segments);
+    for (i=0; i<c_list_size(speech_segments); ++i)
+      carr_free(c_list_get(speech_segments, i));
+    c_list_free(speech_segments);
+
     return NULL;
   }
 
-  return arrs2mat(speech_segments, speech_count);
+  Cmat *result = arrs2mat((Carr**)speech_segments->data, speech_count);
+  free(speech_segments);
+  return result;
 }
-
 
 void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm) {
   if (self->eos_reached)
