@@ -26,17 +26,17 @@ public class Segmenter {
     } else {
         buf = null;
     }
-    double[][] result = new double[(combo.length-winsz)/winshift+1][];
-    int i = 0;
-    int j=0;
-    while (i+winsz <= combo.length) {
+    int rows = (combo.length - combo.length % winshift - winsz +
+          winshift)/ winshift;
+    double[][] result = new double[rows][];
+
+    for (int i=0;i<rows;++i) {
       double[] seg = new double[winsz];
-      System.arraycopy(combo, i, seg, 0, winsz);
-      result[j++] = seg;
-      i+=winshift;
+      System.arraycopy(combo, i*winshift, seg, 0, winsz);
+      result[i] = seg;
     }
     
-    int bufsize = combo.length - i;
+    int bufsize = combo.length - rows * winshift;
     if (bufsize > 0) {
         if (buf == null || buf.length != bufsize) {
           buf = new double[bufsize];
