@@ -5,14 +5,14 @@ typedef struct {
   int capacity;
   void **data;
   int size;
-} NList;
+} Clist;
 
-NList * c_list_new();
-void c_list_free(NList * self);
-int c_list_size(const NList * self);
-int c_list_add(NList * self, void * object);
-int c_list_remove(NList * self, int start, int finish);
-void * c_list_get(const NList * self, const int index);
-int c_list_is_empty(const NList * self);
+Clist * c_list_new();
+void c_list_free(Clist * self);
+int c_list_size(const Clist * self);
+int c_list_add(Clist * self, void * object);
+int c_list_remove(Clist * self, int start, int finish);
+void * c_list_get(const Clist * self, const int index);
+int c_list_is_empty(const Clist * self);
 
 #endif

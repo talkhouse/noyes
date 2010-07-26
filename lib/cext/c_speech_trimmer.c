@@ -40,7 +40,7 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
   if (segment_matrix == NULL)
 	  return NULL;
 
-  NList *speech_segments = c_list_new();
+  Clist *speech_segments = c_list_new();
   int centisecond_count = segment_matrix->rows;
   Carr **segments = mat2arrs(segment_matrix);
   int speech_count = 0, i;

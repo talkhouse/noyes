@@ -158,7 +158,7 @@ typedef struct {
   int ecs;
   BentCentMarker *bcm;
   Segmenter *seg;
-  NList *queue;
+  Clist *queue;
   int eos_reached;
 } SpeechTrimmer;
 

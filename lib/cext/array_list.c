@@ -11,38 +11,38 @@ static void free_c_list(void *p) {
 }
 
 static VALUE t_init(VALUE self) {
-  NList *st = c_list_new();
+  Clist *st = c_list_new();
   VALUE stv = Data_Wrap_Struct(cArrayList, 0, free_c_list, st);
   rb_iv_set(self, "@c_list", stv);
   return self;
 }
 
 static VALUE t_size(VALUE self) {
-  NList *array;
+  Clist *array;
   VALUE arrayv = rb_iv_get(self, "@c_list");
-  Data_Get_Struct(arrayv, NList, array);
+  Data_Get_Struct(arrayv, Clist, array);
   return INT2FIX(c_list_size(array));
 }
 
 static VALUE t_add(VALUE self, VALUE obj) {
-  NList *array;
+  Clist *array;
   VALUE arrayv = rb_iv_get(self, "@c_list");
-  Data_Get_Struct(arrayv, NList, array);
+  Data_Get_Struct(arrayv, Clist, array);
   c_list_add(array, (void*)obj);
   return Qnil;
 }
 
 static VALUE t_get(VALUE self, VALUE obj) {
-  NList *array;
+  Clist *array;
   VALUE arrayv = rb_iv_get(self, "@c_list");
-  Data_Get_Struct(arrayv, NList, array);
+  Data_Get_Struct(arrayv, Clist, array);
   return (VALUE)c_list_get(array, FIX2INT(obj));
 }
 
 static VALUE t_remove(VALUE self, VALUE start, VALUE finish) {
-  NList *array;
+  Clist *array;
   VALUE arrayv = rb_iv_get(self, "@c_list");
-  Data_Get_Struct(arrayv, NList, array);
+  Data_Get_Struct(arrayv, Clist, array);
   int b = FIX2INT(start);
   int e = FIX2INT(finish);
   if (c_list_remove(array, b, e)) {
