@@ -20,7 +20,6 @@ void segmenter_free(Segmenter *s) {
 
 #define MIN_SEGMENTS 3
 
-#include "stdio.h"
 Cmat * segmenter_apply(Segmenter* self, Carr *data) {
   double * combo;
   int combolen = 0;
