@@ -52,16 +52,19 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
       speech_count++;
       centispeech = speech_trimmer_dequeue(self);
     }
-    if (speech_trimmer_eos(self))
+    if (speech_trimmer_eos(self)) {
+      for (i+=1;i<centisecond_count; ++i)
+        carr_free(segments[i]);
       break;
+    }
   }
   free(segments);
 
   if (speech_trimmer_eos(self) && speech_count == 0) {
     for (i=0; i<clist_size(speech_segments); ++i)
       carr_free(clist_get(speech_segments, i));
-    clist_free(speech_segments);
 
+    clist_free(speech_segments);
     return NULL;
   }
 
@@ -71,8 +74,10 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
 }
 
 void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm) {
-  if (self->eos_reached)
+  if (self->eos_reached) {
+    carr_free(pcm);
     return;
+  }
   clist_add(self->queue, pcm);
   if (bent_cent_marker_apply(self->bcm, pcm)) {
     self->false_count = 0;
