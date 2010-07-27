@@ -10,7 +10,7 @@
 #undef FALSE
 #define FALSE 0
 
-Clist * c_list_new() {
+Clist * clist_new() {
   Clist * self;
   self = malloc(sizeof(Clist));
   self->capacity = NLIST_INITIAL_CAPACITY;
@@ -19,13 +19,13 @@ Clist * c_list_new() {
   return self;
 }
 
-void c_list_free(Clist * self) {
+void clist_free(Clist * self) {
   free(self->data);
   free(self);
 }
 
-int c_list_add(Clist * self, void * object) {
-  int old_size = c_list_size(self);
+int clist_add(Clist * self, void * object) {
+  int old_size = clist_size(self);
   int new_capacity;
   void ** new_data;
 
@@ -42,7 +42,7 @@ int c_list_add(Clist * self, void * object) {
   return TRUE;
 }
 
-int c_list_remove(Clist * self, int start, int finish) {
+int clist_remove(Clist * self, int start, int finish) {
   if (start > finish || finish > self->size)
     return 1;
 
@@ -57,16 +57,16 @@ int c_list_remove(Clist * self, int start, int finish) {
   return 0;
 }
 
-void * c_list_get(const Clist * self, const int index) {
+void * clist_get(const Clist * self, const int index) {
   if (index < 0 || index > self->size)
     return NULL;
   return self->data[index];
 }
 
-int c_list_is_empty(const Clist * self) {
-  return 0 == c_list_size(self);
+int clist_is_empty(const Clist * self) {
+  return 0 == clist_size(self);
 }
 
-int c_list_size(const Clist * self) {
+int clist_size(const Clist * self) {
   return self->size;
 }

@@ -12,7 +12,7 @@ SpeechTrimmer * new_speech_trimmer(int frequency, double threshold) {
   self->bcm = bent_cent_marker_new(threshold, 0.003, 1.0, 100.0, 0.0, 0.0);
   self->false_count = 0;
   self->true_count = 0;
-  self->queue = c_list_new();
+  self->queue = clist_new();
   self->eos_reached = FALSE;
   self->scs = 20;
   self->ecs = 50;
@@ -25,9 +25,9 @@ void speech_trimmer_free(SpeechTrimmer *self) {
   segmenter_free(self->seg);
 
   int i;
-  for (i=0; i<c_list_size(self->queue); ++i)
-    carr_free(c_list_get(self->queue, i));
-  c_list_free(self->queue);
+  for (i=0; i<clist_size(self->queue); ++i)
+    carr_free(clist_get(self->queue, i));
+  clist_free(self->queue);
 
   free(self);
 }
@@ -40,7 +40,7 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
   if (segment_matrix == NULL)
 	  return NULL;
 
-  Clist *speech_segments = c_list_new();
+  Clist *speech_segments = clist_new();
   int centisecond_count = segment_matrix->rows;
   Carr **segments = mat2arrs(segment_matrix);
   int speech_count = 0, i;
@@ -48,7 +48,7 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
     speech_trimmer_enqueue(self, segments[i]);
     Carr *centispeech = speech_trimmer_dequeue(self);
     while (centispeech != NULL) {
-      c_list_add(speech_segments, centispeech);
+      clist_add(speech_segments, centispeech);
       speech_count++;
       centispeech = speech_trimmer_dequeue(self);
     }
@@ -58,9 +58,9 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
   free(segments);
 
   if (speech_trimmer_eos(self) && speech_count == 0) {
-    for (i=0; i<c_list_size(speech_segments); ++i)
-      carr_free(c_list_get(speech_segments, i));
-    c_list_free(speech_segments);
+    for (i=0; i<clist_size(speech_segments); ++i)
+      carr_free(clist_get(speech_segments, i));
+    clist_free(speech_segments);
 
     return NULL;
   }
@@ -73,7 +73,7 @@ Cmat * speech_trimmer_apply(SpeechTrimmer *self, Carr* pcm) {
 void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm) {
   if (self->eos_reached)
     return;
-  c_list_add(self->queue, pcm);
+  clist_add(self->queue, pcm);
   if (bent_cent_marker_apply(self->bcm, pcm)) {
     self->false_count = 0;
     self->true_count += 1;
@@ -84,33 +84,33 @@ void speech_trimmer_enqueue(SpeechTrimmer *self, Carr* pcm) {
   if (self->speech_started) {
     if (self->false_count == self->ecs) {
       self->eos_reached = TRUE;
-      int new_size = c_list_size(self->queue) - self->ecs + self->trailer;
+      int new_size = clist_size(self->queue) - self->ecs + self->trailer;
       int i;
-      for (i=new_size; i<c_list_size(self->queue); ++i)
-        carr_free(c_list_get(self->queue, i));
+      for (i=new_size; i<clist_size(self->queue); ++i)
+        carr_free(clist_get(self->queue, i));
 
-      c_list_remove(self->queue, new_size, c_list_size(self->queue));
+      clist_remove(self->queue, new_size, clist_size(self->queue));
     }
   } else if (self->true_count > self->scs) {
-    if (self->leader + self->scs < c_list_size(self->queue)) {
-      int start = c_list_size(self->queue) - self->leader - self->scs - 1;
+    if (self->leader + self->scs < clist_size(self->queue)) {
+      int start = clist_size(self->queue) - self->leader - self->scs - 1;
       int i;
       for (i=0; i<start; ++i)
-        carr_free(c_list_get(self->queue, i));
+        carr_free(clist_get(self->queue, i));
 
-      c_list_remove(self->queue, 0, start);
+      clist_remove(self->queue, 0, start);
     }
     self->speech_started = TRUE;
   }
 }
 
 Carr * speech_trimmer_dequeue(SpeechTrimmer *self) {
-  if (c_list_size(self->queue) == 0)
+  if (clist_size(self->queue) == 0)
     return NULL;
   if (self->eos_reached || (self->speech_started &&
-    c_list_size(self->queue) > self->ecs)) {
-    Carr * N = c_list_get(self->queue, 0);
-    c_list_remove(self->queue, 0, 1);
+    clist_size(self->queue) > self->ecs)) {
+    Carr * N = clist_get(self->queue, 0);
+    clist_remove(self->queue, 0, 1);
     return N;
   }
   return NULL;

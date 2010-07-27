@@ -11,7 +11,7 @@ void Init_mfcc_16x8();
 void Init_dct();
 void Init_bent_cent_marker();
 void Init_speech_trimmer();
-void Init_c_list();
+void Init_clist();
 
 VALUE cmat2r(Cmat *d);
 Cmat * r2cmat(VALUE value);
