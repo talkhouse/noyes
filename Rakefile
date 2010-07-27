@@ -104,7 +104,7 @@ namespace :test do
   namespace :java do
     fast_java_desc = 'Fast (but less thorough) Java implementation test.'
     desc fast_java_desc 
-    task :fast do
+    task :fast => :jar do
       puts fast_java_desc 
       sh "jruby -Ilib:test:ship test/ts_fast_java.rb"
     end
