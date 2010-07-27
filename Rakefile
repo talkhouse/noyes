@@ -111,10 +111,15 @@ namespace :test do
   end
   desc 'Run fast (but less thorough) tests for all implementations.'
   task :fast  => ['ruby:fast', 'java:fast', 'jruby:fast']
+
+  desc 'Run all tests for all implementations.'
+  task :all  => ['test:ruby', 'test:java', 'test:jruby']
 end
 
-desc 'Run all tests for all implementations.'
-task :test  => ['test:ruby', 'test:java', 'test:jruby']
+desc 'Run full tests with no extensions.'
+task :test do
+  sh "ruby -Ilib:test test/ts_all_ruby.rb"
+end
 
 namespace :wc do
   desc 'Number of lines, words, and bytes of Java code'
