@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cPowerSpectrum;
 
 static void _power_spectrum_free(void *p) {
@@ -39,5 +37,4 @@ void Init_power_spectrum() {
   cPowerSpectrum = rb_define_class_under(m_noyes_c, "PowerSpectrumFilter", rb_cObject);
   rb_define_method(cPowerSpectrum, "initialize", t_init, -2);
   rb_define_method(cPowerSpectrum, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }

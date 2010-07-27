@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cLogCompressor;
 
 static void _log_compressor_free(void *p) {
@@ -39,5 +37,4 @@ void Init_log_compressor() {
   cLogCompressor = rb_define_class_under(m_noyes_c, "LogCompressor", rb_cObject);
   rb_define_method(cLogCompressor, "initialize", t_init, -2);
   rb_define_method(cLogCompressor, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }

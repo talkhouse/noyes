@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cBentCentMarker;
 
 static void _bent_cent_marker_free(void *p) {
@@ -54,5 +52,4 @@ void Init_bent_cent_marker() {
   cBentCentMarker = rb_define_class_under(m_noyes_c, "BentCentMarker", rb_cObject);
   rb_define_method(cBentCentMarker, "initialize", t_init, -2);
   rb_define_method(cBentCentMarker, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }

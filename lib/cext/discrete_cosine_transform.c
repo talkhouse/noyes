@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cDiscreteCosineTransform;
 
 static void _dct_free(void *p) {
@@ -73,5 +71,4 @@ void Init_dct() {
   rb_define_method(cDiscreteCosineTransform, "<<", t_left_shift, 1);
   rb_define_method(cDiscreteCosineTransform, "melcos", t_melcos, 0);
   rb_define_module_function(m_noyes_c, "dft", t_dft, 2);
-  id_push = rb_intern("push");
 }

@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cLiveCMN;
 
 static void _live_cmn_free(void *p) {
@@ -45,6 +43,4 @@ void Init_live_cmn() {
   cLiveCMN = rb_define_class_under(m_noyes_c, "LiveCMN", rb_cObject);
   rb_define_method(cLiveCMN, "initialize", t_init, -2);
   rb_define_method(cLiveCMN, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }
-

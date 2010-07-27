@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cHammingWindow;
 
 static void _hamming_window_free(void *p) {
@@ -38,5 +36,4 @@ void Init_hamming_window() {
   cHammingWindow = rb_define_class_under(m_noyes_c, "HammingWindow", rb_cObject);
   rb_define_method(cHammingWindow, "initialize", t_init, -2);
   rb_define_method(cHammingWindow, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }

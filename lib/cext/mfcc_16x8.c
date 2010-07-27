@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cMfcc16x8;
 
 static void _mfcc_16x8_free(Mfcc16x8 *p) {
@@ -35,5 +33,4 @@ void Init_mfcc_16x8() {
   cMfcc16x8 = rb_define_class_under(m_noyes_c, "Mfcc16x8", rb_cObject);
   rb_define_method(cMfcc16x8, "initialize", t_init, -2);
   rb_define_method(cMfcc16x8, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }

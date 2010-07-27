@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cSpeechTrimmer;
 
 static void _speech_trimmer_free(void *p) {
@@ -73,5 +71,4 @@ void Init_speech_trimmer() {
   rb_define_method(cSpeechTrimmer, "dequeue", t_dequeue, 0);
   rb_define_method(cSpeechTrimmer, "eos?", t_eos, 0);
   rb_define_method(cSpeechTrimmer, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }

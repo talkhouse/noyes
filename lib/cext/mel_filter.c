@@ -2,8 +2,6 @@
 #include "r_noyes.h"
 #include "math.h"
 
-static int id_push;
-
 VALUE cMelFilter;
 
 static void _mel_filter_free(void *p) {
@@ -101,7 +99,6 @@ static VALUE t_left_shift(VALUE self, VALUE obj) {
   return Qnil;
 }
 
-
 void Init_mel_filter() {
   VALUE m_noyes_c = rb_define_module("NoyesC");
   cMelFilter = rb_define_class_under(m_noyes_c, "MelFilter", rb_cObject);
@@ -111,6 +108,4 @@ void Init_mel_filter() {
   rb_define_module_function(cMelFilter, "make_filter", t_make_filter, 5);
   rb_define_module_function(cMelFilter, "to_linear", t_to_linear, 1);
   rb_define_module_function(cMelFilter, "to_mel", t_to_mel, 1);
-  id_push = rb_intern("push");
 }
-

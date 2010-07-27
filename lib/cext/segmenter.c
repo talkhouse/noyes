@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cSegmenter;
 
 static void _segmenter_free(void *p) {
@@ -44,5 +42,4 @@ void Init_segmenter() {
   cSegmenter = rb_define_class_under(m_noyes_c, "Segmenter", rb_cObject);
   rb_define_method(cSegmenter, "initialize", t_init, -2);
   rb_define_method(cSegmenter, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }

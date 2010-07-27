@@ -2,8 +2,6 @@
 #include "c_noyes.h"
 #include "r_noyes.h"
 
-static int id_push;
-
 VALUE cPreemphasizer;
 
 static void _preemphasizer_free(void *p) {
@@ -39,5 +37,4 @@ void Init_preemphasis() {
   cPreemphasizer = rb_define_class_under(m_noyes_c, "Preemphasizer", rb_cObject);
   rb_define_method(cPreemphasizer, "initialize", t_init, -2);
   rb_define_method(cPreemphasizer, "<<", t_left_shift, 1);
-  id_push = rb_intern("push");
 }
