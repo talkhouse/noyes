@@ -45,8 +45,9 @@ Cmat * segmenter_apply(Segmenter* self, Carr *data) {
       }
   }
 
-  Cmat *M = cmat_new((combolen - combolen % self->winshift - self->winsz +
-                        self->winshift)/ self->winshift, self->winsz);
+  int nseg = 1 + (combolen - self->winsz - (combolen - self->winsz)
+                  % self->winshift) / self->winshift;
+  Cmat *M = cmat_new(nseg, self->winsz);
   int i = 0;
   for (i=0;i<M->rows;++i) {
     memcpy(M->data[i], combo + i*self->winshift, self->winsz * sizeof(double));

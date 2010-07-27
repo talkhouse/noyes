@@ -1,16 +1,16 @@
 module Noyes
   # Segments an array of data into an array of arrays.  Inner arrays are the
   # size of the window.  The segmenter will not return less than three
-  # segments at a time.
+  # segments at a time.  Here is the forumla for determining the number
+  # of segments produced by an array of data:
   #
   # if combolen >= winsize:
-  #    combolen = winsize + winshift * (numsegs - 1) + comblen % winshift
+  #   nsegs = 1 + (arrlen - wsize - (arrlen - wise) % shift)/shift
   # else
   #   combolen = 0
   #
-  # From this we have:
-  # combolen - combolen % winshift - winsize = winshift * numsegs - winshift
-  # numsegs = (combolen - combolen % winshift - winsize + winshift)/winshift
+  # This formula is derived from the following equation:
+  # arrlen = wsize + shift (nsegs - 1) + (arrlen - wsize) % shift
   class Segmenter
     @@MIN_SEGMENTS = 3
     def initialize window_size, shift

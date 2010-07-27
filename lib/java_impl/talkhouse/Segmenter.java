@@ -26,8 +26,9 @@ public class Segmenter {
     } else {
         buf = null;
     }
-    int rows = (combo.length - combo.length % winshift - winsz +
-          winshift)/ winshift;
+
+    int rows = 1 + (combo.length - winsz - (combo.length - winsz) % winshift)
+                    /winshift;
     double[][] result = new double[rows][];
 
     for (int i=0;i<rows;++i) {
