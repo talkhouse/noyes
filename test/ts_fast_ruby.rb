@@ -11,3 +11,5 @@ make_test 'Noyes', 'LogCompress'
 make_test 'Noyes', 'DCT'
 make_test 'Noyes', 'LiveCMN'
 make_test 'Noyes', 'EndOfUtterance'
+
+require 'tc_compress'
