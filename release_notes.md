@@ -7,6 +7,9 @@
 * Fixed bug in c-implementation of segmenter that caused incorrect
   segment counts.
 
+* Changed the organization of test suites.  Added 'rake test:all' and
+  changed 'rake test' to test only pure ruby on the default interpreter.
+
 
 # 0.9.2     June 30, 20101
 
