@@ -82,7 +82,7 @@ class TestCompress < Test::Unit::TestCase
     assert_equal '01' * 25, ba.to_s
 
     ba = Noyes::BitArray.new
-    50.times {|i| ba.push (i + 1) % 2}
+    50.times {|i| ba.push(i + 1) % 2}
     assert_equal '10' * 25, ba.to_s
 
     ba = Noyes::BitArray.new
