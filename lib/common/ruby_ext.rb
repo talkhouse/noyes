@@ -17,3 +17,12 @@ module CMath
     a < b ? a : b
   end
 end
+
+# log2 apparently exists in ruby 1.9.x, but not ruby 1.8.x
+if !Math.respond_to? :log2
+  module Math
+    def Math.log2 n
+      log(n)/log(2)
+    end
+  end
+end
