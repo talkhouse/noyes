@@ -18,22 +18,15 @@
 
 * Version 1.0.0 Test matrix
 
-Environment        | full test | quick | C-ext.| Java ext. |
--------------------|-----------|---------------|-----------|
-Ruby  1.9.1 OS X   |  pass     | pass  | pass  |  NA       |
--------------------|-----------|-------|-------|-----------|
-Ruby  1.8.7 OS X   |  pass     | pass  | pass  |  NA       |
--------------------|-----------|-------|-------|-----------|
-JRuby 1.4.0 OS X   |  pass     | pass  | NA    |  pass     |
--------------------|-----------|-------|-------|-----------|
-Ruby  1.9.1 Ubuntu |  pass     | pass  | pass  |  NA       |
--------------------|-----------|-------|-------|-----------|
-JRuby 1.4.0 Ubuntu |  pass     | pass  | NA    |  pass     |
--------------------|-----------|-------|-------|-----------|
-Ruby  1.9.1 Vista  |  fail     | fail  | fail  |  NA       |
--------------------|-----------|-------|-------|-----------|
-Ruby  1.8.7 Vista  |  fail     | fail  | fail  |  NA       |
--------------------|-----------|-------|-------|-----------|
+    Test Environment   | full | quick | C    | Java |
+    :------------------|:----:|:-----:|:----:|:----:|
+    Ruby  1.9.1 OS X   | pass | pass  | pass | NA   |
+    Ruby  1.8.7 OS X   | pass | pass  | pass | NA   |
+    JRuby 1.4.0 OS X   | pass | pass  | NA   | pass |
+    Ruby  1.9.1 Ubuntu | pass | pass  | pass | NA   |
+    JRuby 1.4.0 Ubuntu | pass | pass  | NA   | pass |
+    Ruby  1.9.1 Vista  | fail | fail  | fail | NA   |
+    Ruby  1.8.7 Vista  | fail | fail  | fail | NA   |
 
 
 # 0.9.2     June 30, 2010
