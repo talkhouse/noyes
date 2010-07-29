@@ -1,21 +1,46 @@
 # 1.0.0    In progress 
 
-* Renamed c_impl to cext.  Didn't like typing c_impl so much.
+* Numerous refinements to the API, bug fixes, and additional documentation.
 
-* Renamed many of the internal c array and matrix management functions.
+* Writing with Noyes should flow easily from the keyboard and should feel
+  constent and meaningful.  Renamed c_impl to cext.  Didn't like typing c_impl
+  so much.  Renamed many of the internal c array and matrix management
+  functions for similar effect.
 
 * Fixed bug in c-implementation of segmenter that caused incorrect
   segment counts.
 
+* Fixed a number of leaks and memory errors by running the test
+  suites under Valgrind.
+
 * Changed the organization of test suites.  Added 'rake test:all' and
   changed 'rake test' to test only pure ruby on the default interpreter.
 
+* Version 1.0.0 Test matrix
 
-# 0.9.2     June 30, 20101
+Environment        | full test | quick | C-ext.| Java ext. |
+-------------------|-----------|---------------|-----------|
+Ruby  1.9.1 OS X   |  pass     | pass  | pass  |  NA       |
+-------------------|-----------|-------|-------|-----------|
+Ruby  1.8.7 OS X   |  pass     | pass  | pass  |  NA       |
+-------------------|-----------|-------|-------|-----------|
+JRuby 1.4.0 OS X   |  pass     | pass  | NA    |  pass     |
+-------------------|-----------|-------|-------|-----------|
+Ruby  1.9.1 Ubuntu |  pass     | pass  | pass  |  NA       |
+-------------------|-----------|-------|-------|-----------|
+JRuby 1.4.0 Ubuntu |  pass     | pass  | NA    |  pass     |
+-------------------|-----------|-------|-------|-----------|
+Ruby  1.9.1 Vista  |  fail     | fail  | fail  |  NA       |
+-------------------|-----------|-------|-------|-----------|
+Ruby  1.8.7 Vista  |  fail     | fail  | fail  |  NA       |
+-------------------|-----------|-------|-------|-----------|
+
+
+# 0.9.2     June 30, 2010
 
 * Update gem description.
 
-# 0.9.1     June 30, 20101
+# 0.9.1     June 30, 2010
 
 * Make end point detection more convenient for real time systems.  This is
   accomplished by adding a left shift operator that takes any size chunk of
