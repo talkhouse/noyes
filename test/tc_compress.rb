@@ -76,7 +76,7 @@ class TestCompress < Test::Unit::TestCase
     reassembled = fa << uncoded
     assert_equal @cmn, reassembled
   end
-  def test_bit_array
+  def xtest_bit_array
     ba = Noyes::BitArray.new
     50.times {|i| ba.push i % 2}
     assert_equal '01' * 25, ba.to_s
