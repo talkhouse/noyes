@@ -123,7 +123,7 @@ end
 
 desc 'Run full tests with no extensions.'
 task :test do
-  psh "ruby -Ilibtest test/ts_all_ruby.rb"
+  psh "ruby -Ilib:test test/ts_all_ruby.rb"
 end
 
 namespace :wc do
