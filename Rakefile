@@ -51,6 +51,11 @@ task :tags do
     sh "ctags --extra=+q -f .tags #{Tags::FILES}", :verbose => false
 end
 
+# Crude portable shell command
+def psh cmd
+  sh cmd.gsub(':', File::PATH_SEPARATOR)
+end
+
 namespace :test do
   mem_desc = 'Test for memory leaks in C version'
   desc mem_desc
@@ -58,39 +63,39 @@ namespace :test do
     puts mem_desc
     full_check = '--leak-check=full --show-reachable=yes --track-origins=yes -v'
     vparams = '--tool=memcheck --leak-check=yes --num-callers=15 --track-fds=yes'
-    sh "valgrind #{vparams} #{full_check} ruby -Ilib:test:ext test/ts_all_c.rb"
+    psh "valgrind #{vparams} #{full_check} ruby -Ilib:test:ext test/ts_all_c.rb"
   end
   ruby_desc = 'Full Ruby implementation test.'
   desc ruby_desc
   task :ruby do
     puts ruby_desc
-    sh "ruby -Ilib:test test/ts_all_ruby.rb"
+    psh "ruby -Ilib:test test/ts_all_ruby.rb"
   end
   
   c_desc = 'Test C implementation' 
   desc c_desc 
   task :c => :cext do
     puts c_desc 
-    sh "ruby -Ilib:test:ext test/ts_all_c.rb"
+    psh "ruby -Ilib:test:ext test/ts_all_c.rb"
   end
   java_desc = 'Full Java implementation test.'
   desc java_desc 
   task :java => :jar do
     puts java_desc 
-    sh "jruby -Ilib:test:ship test/ts_all_java.rb"
+    psh "jruby -Ilib:test:ship test/ts_all_java.rb"
   end
   jruby_desc = 'Full JRuby implementation test.'
   desc jruby_desc
   task :jruby do
     puts "Testing JRuby implementation."
-    sh "jruby -Ilib:test test/ts_all_ruby.rb"
+    psh "jruby -Ilib:test test/ts_all_ruby.rb"
   end
   namespace :ruby do
     fast_ruby_desc = 'Fast (but less thorough) Ruby implementation test.'
     desc fast_ruby_desc
     task :fast do
       puts fast_ruby_desc
-      sh "ruby -Ilib:test test/ts_fast_ruby.rb"
+      psh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :jruby do
@@ -98,7 +103,7 @@ namespace :test do
     desc fast_jruby_desc 
     task :fast do
       puts fast_jruby_desc 
-      sh "ruby -Ilib:test test/ts_fast_ruby.rb"
+      psh "ruby -Ilib:test test/ts_fast_ruby.rb"
     end
   end
   namespace :java do
@@ -106,7 +111,7 @@ namespace :test do
     desc fast_java_desc 
     task :fast => :jar do
       puts fast_java_desc 
-      sh "jruby -Ilib:test:ship test/ts_fast_java.rb"
+      psh "jruby -Ilib:test:ship test/ts_fast_java.rb"
     end
   end
   desc 'Run fast (but less thorough) tests for all implementations.'
@@ -118,7 +123,7 @@ end
 
 desc 'Run full tests with no extensions.'
 task :test do
-  sh "ruby -Ilib:test test/ts_all_ruby.rb"
+  psh "ruby -Ilibtest test/ts_all_ruby.rb"
 end
 
 namespace :wc do
