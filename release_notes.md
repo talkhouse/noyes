@@ -27,6 +27,7 @@
     JRuby 1.4.0 Ubuntu | pass | pass  | NA   | pass |
     Ruby  1.9.1 Vista  | fail | fail  | fail | NA   |
     Ruby  1.8.7 Vista  | fail | fail  | fail | NA   |
+    iPhone 3G          | NA   | NA    | pass | NA   |
 
 
 # 0.9.2     June 30, 2010
