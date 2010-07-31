@@ -28,6 +28,7 @@
     Ruby  1.9.1 Vista  | fail | fail  | fail | NA   |
     Ruby  1.8.7 Vista  | fail | fail  | fail | NA   |
     iPhone 3G          | NA   | NA    | pass | NA   |
+    iPhone 4G          | NA   | NA    | pass | NA   |
 
 
 # 0.9.2     June 30, 2010
