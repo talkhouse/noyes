@@ -1,8 +1,11 @@
 module Noyes
+  # Normalizes cepstrum means and applies them.  Dimensionality remains
+  # unchanged.  NOTE:  This class resets itself automatically if bounds drift
+  # too much.  Possibly these bounds should be parameterized.
   class LiveCMN
-    # Normalizes cepstrum means and applies them.  Dimensionality remains
-    # unchanged.  NOTE:  This class resets itself automatically if bounds drift
-    # too much.  Possibly these bounds should be parameterized.
+    attr_reader :means
+    attr_reader :frame_count
+
     def initialize dimensions=13, init_mean=45.0, window_size=100, shift=160
       @init_mean = init_mean; @shift = shift; @ws = window_size
       @sums = Array.new dimensions, 0
