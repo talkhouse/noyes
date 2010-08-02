@@ -3,6 +3,7 @@
 *.swo
 *.swn
 *.gemspec
+*~
 doc
 pkg
 *#
