@@ -19,15 +19,15 @@ module Noyes
     def << power_spectra
       power_spectra.map do |spectrum|
         mel_bank = Array.new @indices.size
-	@indices.size.times do |i|
-	  initial_index, weights = @indices[i], @weights[i]
-	  output = 0.0
-	  weights.size.times do |j|
-	    index = initial_index + j
-	    output += spectrum[index] * weights[j] if index < spectrum.length 
-	  end
-	  mel_bank[i] = output
-	end
+        @indices.size.times do |i|
+          initial_index, weights = @indices[i], @weights[i]
+          output = 0.0
+          weights.size.times do |j|
+            index = initial_index + j
+            output += spectrum[index] * weights[j] if index < spectrum.length
+          end
+          mel_bank[i] = output
+        end
         mel_bank
       end
     end

@@ -52,7 +52,11 @@ module TestMelFilter
     end
   end
   def test_mel_filter
-    flat_power = IO.read('data/watchtower/pow.dat').unpack 'g*'
+    # precision is much lower on windows for this test due to expected roundoff
+    # error.
+    precision = Config::CONFIG['host_os'] =~ /mswin|mingw/ ? 4 : 1
+    f = open('data/watchtower/pow.dat', 'rb')
+    flat_power = f.read.unpack 'g*'
     power = []
     0.step flat_power.size-1025, 1025 do |i|
       power << flat_power[i, 1025]
@@ -61,6 +65,6 @@ module TestMelFilter
     mel = mel_filter << power
     ex_mel = IO.read('data/watchtower/mel.dat').unpack 'g*'
     mel_flat = mel.flatten
-    assert_m ex_mel, mel_flat, 4
+    assert_m ex_mel, mel_flat, precision
   end
 end
