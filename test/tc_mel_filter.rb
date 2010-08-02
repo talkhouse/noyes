@@ -54,7 +54,7 @@ module TestMelFilter
   def test_mel_filter
     # precision is much lower on windows for this test due to expected roundoff
     # error.
-    precision = Config::CONFIG['host_os'] =~ /mswin|mingw/ ? 4 : 1
+    precision = Config::CONFIG['host_os'] =~ /mswin|mingw/ ? 1 : 4
     f = open('data/watchtower/pow.dat', 'rb')
     flat_power = f.read.unpack 'g*'
     power = []
