@@ -3,9 +3,6 @@ module Noyes
   # unchanged.  NOTE:  This class resets itself automatically if bounds drift
   # too much.  Possibly these bounds should be parameterized.
   class LiveCMN
-    attr_reader :means
-    attr_reader :frame_count
-
     def initialize dimensions=13, init_mean=45.0, window_size=100, shift=160
       @init_mean = init_mean; @shift = shift; @ws = window_size
       @sums = Array.new dimensions, 0
@@ -32,7 +29,7 @@ module Noyes
       
       if @means.first > 70 || @means.first < 5
         reset
-      elsif @frame_count >= @shift
+      else
         @sums = @sums.map {|x| x * per_frame * @ws}
         @frame_count = @ws
       end
