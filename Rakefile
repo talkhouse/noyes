@@ -72,11 +72,17 @@ namespace :test do
     psh "ruby -Ilib:test test/ts_all_ruby.rb"
   end
   
-  c_desc = 'Test C implementation' 
+  c_desc = 'Test C implementation'
   desc c_desc 
   task :c => :cext do
-    puts c_desc 
+    puts c_desc
     psh "ruby -Ilib:test:ext test/ts_all_c.rb"
+  end
+  jc_desc = 'Test Experimental JRuby C implementation'
+  desc jc_desc
+  task :jrubyc => :cext do
+    puts c_desc
+    psh "jruby -Ilib:test:ext test/ts_all_c.rb"
   end
   java_desc = 'Full Java implementation test.'
   desc java_desc 
