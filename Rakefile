@@ -17,7 +17,7 @@ def make_jar objs, lang
   task :default => :jar
   objtrunc = objs.map {|obj| obj.sub /^build\/#{lang}\//, ''}
   file jar => 'ship' do
-    sh "jar -cf #{jar} -C build/#{lang}_impl/ ."
+    sh "jar -cf #{jar} -C build/#{lang}_impl ."
   end
 end
 
