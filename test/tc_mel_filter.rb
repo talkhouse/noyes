@@ -55,15 +55,14 @@ module TestMelFilter
     # precision is much lower on windows for this test due to expected roundoff
     # error.
     precision = Config::CONFIG['host_os'] =~ /mswin|mingw/ ? 1 : 4
-    f = open('data/watchtower/pow.dat', 'rb')
-    flat_power = f.read.unpack 'g*'
+    flat_power = open('data/watchtower/pow.dat', 'rb').read.unpack 'g*'
     power = []
     0.step flat_power.size-1025, 1025 do |i|
       power << flat_power[i, 1025]
     end
     mel_filter = MelFilter.new 44100, 2048, 40, 130, 6800
     mel = mel_filter << power
-    ex_mel = IO.read('data/watchtower/mel.dat').unpack 'g*'
+    ex_mel = open('data/watchtower/mel.dat', 'rb').read.unpack 'g*'
     mel_flat = mel.flatten
     assert_m ex_mel, mel_flat, precision
   end

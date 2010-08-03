@@ -4,8 +4,7 @@ module TestEndOfUtterance
   DD = 'data/noyes'
   def setup
     # Unback some PCM
-    packed = IO.read("#{DD}/raw.dat")
-    @pcm = packed.unpack 'n*'
+    @pcm = open("#{DD}/raw.dat", 'rb').read.unpack 'n*'
     @pcm = @pcm.map{|d| to_signed_short(d).to_f}
     @frames_per_10_millisecs = 80
 
