@@ -10,14 +10,14 @@ module TestFrontEnd8k
     frame_size = 205
     
     preemphasizer = Preemphasizer.new 0.97
-    packed = IO.read("#{DD}/raw.dat")
-    pcm = packed.unpack 'n*'
+
+    pcm = open("#{DD}/raw.dat", 'rb').read.unpack 'n*'
     pcm = pcm.map{|d| to_signed_short(d).to_f}
 
     #puts "pcm dimensions = #{pcm.size}"
     pre = preemphasizer << pcm
     #puts "pre dimensions = #{pre.size}"
-    ex_pre = IO.read("#{DD}/pre.dat").unpack 'g*'
+    ex_pre = open("#{DD}/pre.dat", 'rb').read.unpack 'g*'
     assert_m ex_pre, pre, 2
 
     segmenter = Segmenter.new frame_size, shift
@@ -29,18 +29,18 @@ module TestFrontEnd8k
     #puts "hamming dimensions #{ham.size} #{ham[0].size}"
     ham_flat = ham.flatten
     assert_equal ham_flat.size, seg.flatten.size
-    ex_ham = IO.read("#{DD}/ham.dat").unpack 'g*'
+    ex_ham = open("#{DD}/ham.dat", 'rb').read.unpack 'g*'
     assert_m ex_ham, ham_flat, 2
 
     power_spectrum_filter = PowerSpectrumFilter.new nfft
     pow = power_spectrum_filter << ham
-    ex_pow = IO.read("#{DD}/pow.dat").unpack 'g*'
+    ex_pow = open("#{DD}/pow.dat", 'rb').read.unpack 'g*'
     pow_flat = pow.flatten
     assert_m ex_pow, pow_flat, 2
 
     mel_filter = MelFilter.new freq, nfft, nfilt, min_freq, max_freq
     mel = mel_filter << pow
-    ex_mel = IO.read("#{DD}/mel.dat").unpack 'g*'
+    ex_mel = open("#{DD}/mel.dat", 'rb').read.unpack 'g*'
     mel_flat = mel.flatten
     assert_m ex_mel, mel_flat, 2
 
@@ -49,14 +49,14 @@ module TestFrontEnd8k
 
     discrete_cosine_transform = DCT.new 13, nfilt
     dct = discrete_cosine_transform << log_mel
-    ex_dct = IO.read("#{DD}/dct.dat").unpack 'g*'
+    ex_dct = open("#{DD}/dct.dat", 'rb').read.unpack 'g*'
     dct_flat = dct.flatten
     assert_m ex_dct, dct_flat, 2
     
     live_cmn = LiveCMN.new
     cmn = live_cmn << dct
     #puts "cmn dimensions = #{cmn.size} x #{cmn[0].size}"
-    ex_cmn = IO.read("#{DD}/cmn.dat").unpack 'g*'
+    ex_cmn = open("#{DD}/cmn.dat", 'rb').read.unpack 'g*'
     cmn_flat = cmn.flatten
     assert_m ex_cmn, cmn_flat, 2
 
@@ -64,7 +64,7 @@ module TestFrontEnd8k
     dd = ddf << cmn
     dd += ddf.final_estimate
     #puts "dd dimensions = #{dd.size} x #{dd[0].size} x #{dd[0][0].size}"
-    ex_dd = IO.read("#{DD}/dd.dat").unpack 'g*'
+    ex_dd = open("#{DD}/dd.dat", 'rb').read.unpack 'g*'
     dd_flat = dd.flatten
     assert_m ex_dd, dd_flat, 2
   end
