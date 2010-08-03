@@ -9,7 +9,7 @@ module TestIncremental
     @shift = 80
     @frame_size = 205
     
-    packed = IO.read("#{DD}/raw.dat")
+    packed = open("#{DD}/raw.dat", 'rb').read
     @pcm = packed.unpack('n*').map {|x| to_signed_short x}
     @preemphasizer = Preemphasizer.new 0.97
     @segmenter = Segmenter.new @frame_size, @shift
@@ -27,7 +27,7 @@ module TestIncremental
     @pcm.each_slice 20 do |pcm|
         pre += @preemphasizer << pcm
     end
-    ex_pre = IO.read("#{DD}/pre.dat").unpack 'g*'
+    ex_pre = open("#{DD}/pre.dat", 'rb').read.unpack 'g*'
     assert_m ex_pre, pre, 2
   end
 
@@ -58,7 +58,7 @@ module TestIncremental
         dd += @ddf << cmn
     end
     dd += @ddf.final_estimate
-    ex_dd = IO.read("#{DD}/dd.dat").unpack 'g*'
+    ex_dd = open("#{DD}/dd.dat", 'rb').read.unpack 'g*'
     dd_flat = dd.flatten
     assert_m ex_dd[0,5616], dd_flat[0, 5616], 4
   end
