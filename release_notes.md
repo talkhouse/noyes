@@ -1,4 +1,4 @@
-# 1.0.0    In progress 
+# 1.0.0    August 3, 2010
 
 * Numerous refinements to the API, bug fixes, and additional documentation.
 
@@ -20,13 +20,18 @@
 
     Test Environment   | full | quick | C    | Java |
     :------------------|:----:|:-----:|:----:|:----:|
-    Ruby  1.9.1 OS X   | pass | pass  | pass | NA   |
-    Ruby  1.8.7 OS X   | pass | pass  | pass | NA   |
-    JRuby 1.4.0 OS X   | pass | pass  | NA   | pass |
     Ruby  1.9.1 Ubuntu | pass | pass  | pass | NA   |
     JRuby 1.4.0 Ubuntu | pass | pass  | NA   | pass |
-    Ruby  1.9.1 Vista  | fail | fail  | fail | NA   |
-    Ruby  1.8.7 Vista  | fail | fail  | fail | NA   |
+    JRuby 1.5.1 Ubuntu | pass | pass  | NA   | pass |
+    Ruby  1.9.1 OS X   | pass | pass  | pass | NA   |
+    Ruby  1.8.7 OS X   | pass | pass  | pass | NA   |
+    JRuby 1.5.1 OS X   | pass | pass  | NA   | pass |
+    JRuby 1.4.0 OS X   | pass | pass  | NA   | pass |
+    Ruby  1.9.1 Win XP | pass | pass  | Unk  | NA   |
+    Ruby  1.8.7 Win XP | fail | fail  | Unk  | NA   |
+    JRuby 1.5.1 Win XP | pass | pass  | Unk  | pass |
+    Ruby  1.9.1 Vista  | Unk  | Unk   | Unk  | NA   |
+    Ruby  1.8.7 Vista  | Unk  | Unk   | Unk  | NA   |
     iPhone 3G          | NA   | NA    | pass | NA   |
     iPhone 4G          | NA   | NA    | pass | NA   |
 
@@ -42,7 +47,6 @@
   audio rather than something that is pre-segmented into centisecond chunks.
 
 * Swith to yardoc.
-
 
 # 0.9.0     May 28, 2010
 
