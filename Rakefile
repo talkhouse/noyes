@@ -56,8 +56,15 @@ def psh cmd
   sh cmd.gsub(':', File::PATH_SEPARATOR)
 end
 
+# These tests test against the default ruby version, which is assumed to
+# be called 'ruby'.  This works great if you use RVM.
+desc 'Run basic tests with no extensions on current Ruby version.'
+task :test do
+  psh "ruby -Ilib:test test/ts_fast_ruby.rb"
+end
+
 namespace :test do
-  mem_desc = 'Test for memory leaks in C version'
+  mem_desc = 'Test for memory leaks in C extension version'
   desc mem_desc
   task :memory do
     puts mem_desc
@@ -67,7 +74,7 @@ namespace :test do
   end
   ruby_desc = 'Full Ruby implementation test.'
   desc ruby_desc
-  task :ruby do
+  task :full do
     puts ruby_desc
     psh "ruby -Ilib:test test/ts_all_ruby.rb"
   end
@@ -78,58 +85,20 @@ namespace :test do
     puts c_desc
     psh "ruby -Ilib:test:ext test/ts_all_c.rb"
   end
-  jc_desc = 'Test Experimental JRuby C implementation'
-  desc jc_desc
-  task :jrubyc => :cext do
-    puts c_desc
-    psh "jruby -Ilib:test:ext test/ts_all_c.rb"
-  end
   java_desc = 'Full Java implementation test.'
   desc java_desc 
   task :java => :jar do
     puts java_desc 
-    psh "jruby -Ilib:test:ship test/ts_all_java.rb"
-  end
-  jruby_desc = 'Full JRuby implementation test.'
-  desc jruby_desc
-  task :jruby do
-    puts "Testing JRuby implementation."
-    psh "jruby -Ilib:test test/ts_all_ruby.rb"
-  end
-  namespace :ruby do
-    fast_ruby_desc = 'Fast (but less thorough) Ruby implementation test.'
-    desc fast_ruby_desc
-    task :fast do
-      puts fast_ruby_desc
-      psh "ruby -Ilib:test test/ts_fast_ruby.rb"
-    end
-  end
-  namespace :jruby do
-    fast_jruby_desc = 'Fast (but less thorough) JRuby implementation test.'
-    desc fast_jruby_desc 
-    task :fast do
-      puts fast_jruby_desc 
-      psh "ruby -Ilib:test test/ts_fast_ruby.rb"
-    end
+    psh "ruby -Ilib:test:ship test/ts_fast_java.rb"
   end
   namespace :java do
-    fast_java_desc = 'Fast (but less thorough) Java implementation test.'
+    fast_java_desc = 'Full set of Java extension tests.'
     desc fast_java_desc 
-    task :fast => :jar do
+    task :full => :jar do
       puts fast_java_desc 
-      psh "jruby -Ilib:test:ship test/ts_fast_java.rb"
+      psh "ruby -Ilib:test:ship test/ts_all_java.rb"
     end
   end
-  desc 'Run fast (but less thorough) tests for all implementations.'
-  task :fast  => ['ruby:fast', 'java:fast', 'jruby:fast']
-
-  desc 'Run all tests for all implementations.'
-  task :all  => ['test:ruby', 'test:java', 'test:jruby']
-end
-
-desc 'Run full tests with no extensions.'
-task :test do
-  psh "ruby -Ilib:test test/ts_fast_ruby.rb"
 end
 
 namespace :wc do
