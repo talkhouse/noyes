@@ -52,51 +52,44 @@ task :tags do
 end
 
 # Crude portable shell command
-def psh cmd
+def tcmd cmd
   sh cmd.gsub(':', File::PATH_SEPARATOR)
 end
 
 # These tests test against the default ruby version, which is assumed to
 # be called 'ruby'.  This works great if you use RVM.
-desc 'Run basic tests with no extensions on current Ruby version.'
+desc 'Basic pure Ruby implementation tests.'
 task :test do
-  psh "ruby -Ilib:test test/ts_fast_ruby.rb"
+  tcmd "ruby -Ilib:test test/ts_fast_ruby.rb"
 end
 
 namespace :test do
-  mem_desc = 'Test for memory leaks in C extension version'
-  desc mem_desc
+  desc 'Test for memory leaks in C extension version'
   task :memory do
-    puts mem_desc
     full_check = '--leak-check=full --show-reachable=yes --track-origins=yes -v'
     vparams = '--tool=memcheck --leak-check=yes --num-callers=15 --track-fds=yes'
-    psh "valgrind #{vparams} #{full_check} ruby -Ilib:test:ext test/ts_all_c.rb"
+    tcmd "valgrind #{vparams} #{full_check} ruby -Ilib:test:ext test/ts_all_c.rb"
   end
-  ruby_desc = 'Full Ruby implementation test.'
-  desc ruby_desc
+
+  desc 'Full (extreme) Ruby implementation tests.'
   task :full do
-    puts ruby_desc
-    psh "ruby -Ilib:test test/ts_all_ruby.rb"
+    tcmd "ruby -Ilib:test test/ts_all_ruby.rb"
   end
   
-  c_desc = 'Test C implementation'
-  desc c_desc 
+  desc 'C-extension tests.'
   task :c => :cext do
-    puts c_desc
-    psh "ruby -Ilib:test:ext test/ts_all_c.rb"
+    tcmd "ruby -Ilib:test:ext test/ts_all_c.rb"
   end
-  java_desc = 'Full Java implementation test.'
-  desc java_desc 
+
+  desc 'Basic Java implementation test.'
   task :java => :jar do
-    puts java_desc 
-    psh "ruby -Ilib:test:ship test/ts_fast_java.rb"
+    tcmd "ruby -Ilib:test:ship test/ts_fast_java.rb"
   end
+
   namespace :java do
-    fast_java_desc = 'Full set of Java extension tests.'
-    desc fast_java_desc 
+    desc 'Full (extreme) Java extension tests.'
     task :full => :jar do
-      puts fast_java_desc 
-      psh "ruby -Ilib:test:ship test/ts_all_java.rb"
+      tcmd "ruby -Ilib:test:ship test/ts_all_java.rb"
     end
   end
 end
