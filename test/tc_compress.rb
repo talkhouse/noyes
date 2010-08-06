@@ -92,4 +92,12 @@ class TestCompress < Test::Unit::TestCase
     assert_equal 1, ba[0]
     assert_equal 0, ba[1]
   end
+  def test_float_compressor
+    cmn = IO.read("data/noyes/cmn.dat").unpack 'g*'
+    compressor = Noyes::NullCompressor.new
+    decompressor = Noyes::NullDecompressor.new
+    compressed = compressor << cmn
+    uncompressed = decompressor << cmn
+    assert_equal cmn, uncompressed
+  end
 end

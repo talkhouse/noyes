@@ -211,4 +211,9 @@ module Noyes
       data
     end
   end
+  class NullDecompressor
+    def << data
+      data
+    end
+  end
 end
