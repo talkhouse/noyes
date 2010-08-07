@@ -1,5 +1,5 @@
 module TestSegment
-  def test_ruby_array
+  def test_short_array
     seg = Segmenter.new 4, 2
     data = (1..14).to_a
     r = seg << data
@@ -7,7 +7,7 @@ module TestSegment
             [9,10,11,12],[11,12,13,14]]
     assert_m expected, r, 8
   end
-  def test_incremental_seg
+  def test_incremental_segmenting
     pcm = (0..1000)
     frame_size = 205
     shift = 160
@@ -22,7 +22,7 @@ module TestSegment
         assert_equal a, b
     end
   end
-  def test_impedence_mismatch1
+  def test_segmenter_cache
     seg = Segmenter.new 4, 2
     data = (1..15).to_a
     r1 = seg << data
@@ -33,9 +33,9 @@ module TestSegment
     xp2 = [[13,14,15,16],[15,16,17,18],[17,18,19,20],[19,20,21,22],
             [21,22,23,24],[23,24,25,26]]
     assert_m xp1, r1, 5
-    assert_m r2, xp2, 5
+    assert_m xp2, r2, 5
   end
-  def txst_impedence_mismatch2
+  def txst_segmenter_cache2
     seg = Segmenter.new 4, 2 
     data = (1..13).to_a
     r1 = seg << data
