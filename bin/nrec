@@ -11,6 +11,7 @@ options = Trollop::options do
   banner 'Usage: nrec [options] file1 file2 ...'
   opt :implementation, "ruby, c, or java", :default => 'ruby'
   opt :address, "address", :default => '174.129.244.159'
+  opt :file, "Output file (overrides default TCP/IP)", :type => :string
   opt :port, "port", :default => 2348
   opt :bits, "bit depth", :default => 16
   opt :frequency, "sampling frequency", :default => 16000
@@ -99,12 +100,18 @@ end
 require 'socket'
 
 def recognize file, options
-  TCPSocket.open(options[:address], options[:port]) do |client|
-    bits, rate = options[:bits], options[:frequency]
-    if options[:pcm]
-      send_incremental_pcm file, client, client, bits, rate
-    else
-      send_incremental_features file, client, client, bits, rate
+  bits, rate = options[:bits], options[:frequency]
+  if options[:file]
+    open(options[:file], 'wb') do |client|
+      send_incremental_features file, client, nil, bits, rate
+    end
+  else
+    TCPSocket.open(options[:address], options[:port]) do |client|
+      if options[:pcm]
+        send_incremental_pcm file, client, client, bits, rate
+      else
+        send_incremental_features file, client, client, bits, rate
+      end
     end
   end
 rescue Errno::ECONNREFUSED
