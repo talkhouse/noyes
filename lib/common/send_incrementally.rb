@@ -19,13 +19,12 @@ require 'common/file2pcm'
 # Takes a file and two IO-like objects.
 def send_incremental_features file, to_server, from_server, bits, freq
   stats = {}
-  nfilt = 32
-  min_freq = 200
-  max_freq = 3700
-  freq_adjustment = freq.to_i/8000
-  nfft = 256 * freq_adjustment
-  shift = 80 * freq_adjustment
-  frame_size = 205 * freq_adjustment
+  nfilt = 40
+  min_freq = 133.33334
+  max_freq = 6855.4976
+  nfft = 512
+  shift = 160
+  frame_size = 410
   preemphasizer = Preemphasizer.new 0.97
   segmenter = Segmenter.new frame_size, shift
   hamming_windower = HammingWindow.new frame_size
@@ -61,9 +60,9 @@ def send_incremental_features file, to_server, from_server, bits, freq
   to_server.write TBYE
   to_server.flush
   latency_start = Time.new
-  stats[:transcript] = from_server.read
+  stats[:transcript] = from_server ? from_server.read : ""
   stats[:latency] = Time.new - latency_start
-  return stats
+  stats
 end
 
 def send_incremental_pcm file, to_server, from_server, depth, rate
