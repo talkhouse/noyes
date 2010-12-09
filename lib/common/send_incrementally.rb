@@ -17,14 +17,9 @@ require 'common/file2pcm'
 # Use sox to convert a file of almost any common type int pcm.
 # Not sure this works for anything beside 16 bits.
 # Takes a file and two IO-like objects.
-def send_incremental_features file, to_server, from_server, bits, freq
+def send_incremental_features file, to_server, from_server, bits, freqinfo
   stats = {}
-  nfilt = 40
-  min_freq = 133.33334
-  max_freq = 6855.4976
-  nfft = 512
-  shift = 160
-  frame_size = 410
+  nfilt, min_freq, max_freq, nfft, freq, shift, frame_size  = *freqinfo
   preemphasizer = Preemphasizer.new 0.97
   segmenter = Segmenter.new frame_size, shift
   hamming_windower = HammingWindow.new frame_size
