@@ -105,9 +105,9 @@ require 'socket'
 def recognize file, options
   bits, rate = options[:bits], options[:frequency]
   if rate == 8000
-    rateinfo =  [32, 200, 3700, 256*2, 8000*2, 80*2, 205*2]
+    rateinfo =  FEAT8M16R
   elsif rate == 16000
-    rateinfo = [40, 133.33, 6855.5, 512, 8000*2, 80*2, 205*2]
+    rateinfo =  FEAT16M16R
   end
   if options[:file]
     open(options[:file], 'wb') do |client|

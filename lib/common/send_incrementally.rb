@@ -1,6 +1,12 @@
 require 'noyes'
 require 'common/file2pcm'
 
+
+# Parameters for 8 kHz models and 16 kHz data
+FEAT8M16R =  [32, 200, 3700, 256*2, 8000*2, 80*2, 205*2]
+# Paramenters for 16 kHz models and 16 kHz data
+FEAT16M16R = [40, 133.33, 6855.5, 512, 8000*2, 80*2, 205*2]
+
 # The following flags are in network byte order (big endian) and are 4 bytes
 # long. 
 #
