@@ -56,4 +56,3 @@ def make_test impl_mod, test_mod
     STRING
   eval test_unit
 end
-
