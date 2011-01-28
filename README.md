@@ -47,4 +47,5 @@ none of the core routines use it.
 [Documentation](http://rdoc.info/projects/talkhouse/noyes),
 [Source Code](http://github.com/talkhouse/noyes),
 [Ruby Gem](http://rubygems.org/gems/noyes),
-[Talkhouse Blog: A Ruby DSL for Signal Processing](http://www.talkhouse.com/blog/2010/03/10/a-ruby-dsl-for-signal-processing.html)
+[Talkhouse Blog: A Ruby DSL for Signal Processing](http://www.talkhouse.com/ruby-dsl.html)
+[Talkhouse](http://www.talkhouse.com)
