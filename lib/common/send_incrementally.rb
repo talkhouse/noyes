@@ -53,7 +53,7 @@ def send_incremental_features file, to_server, from_server, bits, freqinfo
     stats[:process_time] += Time.new - process_time_start
     to_server.write TCEPSTRA
     to_server.write [data.size].pack('N')
-    print '.'
+    # print '.'
     data.each {|cmn| to_server.write cmn.pack('g*')} 
     to_server.flush
   end
@@ -75,7 +75,7 @@ def send_incremental_pcm file, to_server, from_server, depth, rate
     to_server.write TA16_16
     to_server.write [chunk.size/2].pack('N')
     to_server.write chunk
-    print '.'
+    # print '.'
     to_server.flush
     chunk = raw.slice! 0, 1024
   end

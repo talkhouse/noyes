@@ -1,3 +1,5 @@
+require 'stringio'
+
 # Convert audio file into an IO object with features.
 def file2fstream file, format = FEAT8M16R
   to_server = StringIO.new 'wb'

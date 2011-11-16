@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# vim: set filetype=ruby :
+ROOT = File.dirname(File.dirname(__FILE__))
+VERSION_FILE = "#{ROOT}/VERSION"
+$: << "#{ROOT}/lib" << "#{ROOT}/ship"
+
+require 'trollop'
+require 'noyes_c'
+include NoyesC
+
+options = Trollop::options do
+  version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010 Talkhouse"
+  banner <<DOC'Usage: noyes [options] file1 file2 ...'
+Converts files from audio to raw features.  Supports format that your
+version of SOX supports.
+DOC
+  opt :force, 'Force creation'
+  opt :verbose, 'Verbose mode'
+end
+
+# Make sure were not overwritting anything unless force flag is used.
+mfcc_files = ARGV.map {|audio_file| audio_file.sub /\.\w+$/, '.mfcc'}
+unless options[:force]
+  mfcc_file = mfcc_files.detect {|mfcc_file| File.exists? mfcc_file}
+  if mfcc_file
+    puts "#{mfcc_file} already exists.  Quitting. Use -f to force."
+    exit 9
+  end
+end
+  
+ARGV.zip(mfcc_files).each do |audio_file, mfcc_file|
+  observations = file2features audio_file
+  puts mfcc_file if options[:verbose]
+  open(mfcc_file, 'wb') {|f| f.puts observations}
+end
