@@ -16,10 +16,14 @@ version of SOX supports.
 DOC
   opt :force, 'Force creation'
   opt :verbose, 'Verbose mode'
+  opt :pattern, 'Files matching pattern.', :type => :strings, :multi => true
 end
 
+patterns = options[:pattern].flatten
+pattern_files = patterns.inject [] {|memo, pattern| memo | Dir[pattern]}
+audio_files = ARGV | pattern_files
 # Make sure were not overwritting anything unless force flag is used.
-mfcc_files = ARGV.map {|audio_file| audio_file.sub /\.\w+$/, '.mfcc'}
+mfcc_files = audio_files.map {|audio_file| audio_file.sub /\.\w+$/, '.mfcc'}
 unless options[:force]
   mfcc_file = mfcc_files.detect {|mfcc_file| File.exists? mfcc_file}
   if mfcc_file
@@ -28,8 +32,12 @@ unless options[:force]
   end
 end
   
-ARGV.zip(mfcc_files).each do |audio_file, mfcc_file|
+audio_files.zip(mfcc_files).each do |audio_file, mfcc_file|
   observations = file2features audio_file
   puts mfcc_file if options[:verbose]
-  open(mfcc_file, 'wb') {|f| f.puts observations}
+  open(mfcc_file, 'wb') do |f|
+    f.print [observations.size, 100000].pack 'N*'
+    f.print [0x009c, 0x2306].pack 'n*'
+    f.puts observations.flatten.pack 'g*'
+  end
 end
