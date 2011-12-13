@@ -1,4 +1,4 @@
-# 1.1.0    August 3, 2010
+# 1.1.1    August 3, 2010
 
 Added new command line option '--pattern' to bin/noyes.  It allows
 more flexibility than the usual glob patterns as it uses Ruby's 'Dir'.
