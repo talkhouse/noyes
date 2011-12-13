@@ -1,3 +1,12 @@
+# 1.1.0    August 3, 2010
+
+Added new command line option '--pattern' to bin/noyes.  It allows
+more flexibility than the usual glob patterns as it uses Ruby's 'Dir'.
+The bin/noyes command now converts files into htk format but with
+sphinx style mfcc features.
+
+Licensing was changed back to BSD to be more friendly.  See COPYING.
+
 # 1.0.0    August 3, 2010
 
 * Numerous refinements to the API, bug fixes, and additional documentation.
