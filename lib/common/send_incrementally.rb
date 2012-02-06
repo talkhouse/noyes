@@ -61,7 +61,10 @@ def send_incremental_features file, to_server, from_server, bits, freqinfo
   to_server.write TBYE
   to_server.flush
   latency_start = Time.new
-  stats[:transcript] = from_server ? from_server.read : ""
+  if from_server
+    size = from_server.recv(4).unpack('N')[0]
+    stats[:transcript] = from_server.recv size
+  end
   stats[:latency] = Time.new - latency_start
   stats
 end

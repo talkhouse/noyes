@@ -10,7 +10,7 @@ options = Trollop::options do
   version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010 Talkhouse"
   banner 'Usage: nrec [options] file1 file2 ...'
   opt :implementation, "ruby, c, or java", :default => 'ruby'
-  opt :address, "address", :default => '174.129.244.159'
+  opt :address, "address", :default => 'localhost'
   opt :file, "Output file (overrides default TCP/IP)", :type => :string
   opt :port, "port", :default => 2348
   opt :bits, "bit depth", :default => 16
@@ -133,8 +133,8 @@ ARGV.each do |file|
   puts "recognizing file #{file}" if options[:verbose]
   result = recognize file, options
   if options[:verbose]
-    puts "\n#{result}"
+    puts "#{result.inspect}"
   else
-    puts "\n#{result[:transcript]}"
+    puts "#{result[:transcript]}"
   end
 end
