@@ -1,6 +1,7 @@
 require 'rake/clean'
 require 'rake/testtask' 
 require 'fileutils'
+include Rake::DSL
 
 CLEAN.include 'lib/**/*.o', 'build'
 CLOBBER.include 'pkg', 'ship', 'noyes.gemspec', 'lib/cext/*.bundle'
