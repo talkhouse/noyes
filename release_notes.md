@@ -1,3 +1,11 @@
+# 1.2.0 February 16, 2012
+
+Replace nrec with nfront.  The new nfront command is designed to work the skrym
+recognizer.  The protocol is simple and can be easily incorporated into other
+recognizers such as Sphinx or HTK. The mfccs it generates are compatible with
+those used in Sphinx recognizers.  There are some minor difference with HTK,
+however given suitable models htk recognizers work with them as well.
+
 # 1.1.1    August 3, 2010
 
 Added new command line option '--pattern' to bin/noyes.  It allows
