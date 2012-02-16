@@ -8,7 +8,7 @@ require 'trollop'
 
 options = Trollop::options do
   version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010 Talkhouse"
-  banner 'Usage: nrec [options] file1 file2 ...'
+  banner 'Usage: nfront [options] file1 file2 ...'
   opt :implementation, "ruby, c, or java", :default => 'ruby'
   opt :address, "address", :default => 'localhost'
   opt :file, "Output file (overrides default TCP/IP)", :type => :string
