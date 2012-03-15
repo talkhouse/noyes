@@ -57,70 +57,56 @@ decisions for their applications.
 
 Lets start with some basic input and output using minimal syntax:
 
-```ruby
-  output = filter << input
-```
+    output = filter << input
 
 If we’re willing to reuse variables we can use the filter operator, which
 conveniently, looks like a filter:
 
-```ruby
-  data >>= filter
-```
+    data >>= filter
 
 Not only is this simple and concise, but it ends up being very readable, since
 the different filters will line up perfectly to form a neat table, and there is
 plenty of space for descriptive names.
 
-```ruby
-  data >>= hamming_windower
-  data >>= power_spectrum_filter
-  data >>= mel_filter
-  data >>= log_compressor
-  data >>= discrete_cosine_transform
-```
+    data >>= hamming_windower
+    data >>= power_spectrum_filter
+    data >>= mel_filter
+    data >>= log_compressor
+    data >>= discrete_cosine_transform
 
 Signal processing applications, in the general case, aren’t necessarily a
 simple chain of routines. In general, they’re a directed graph of routines.
 It’s possible represent a graph using just a handful of operators.
 
-```ruby
-  a | b  # Filter a and b in parallel
-  a & b  # Filter a and b in series
-```
+    a | b  # Filter a and b in parallel
+    a & b  # Filter a and b in series
 
 It’s possible to make arbitrarily complex combinations by grouping these
 together with parenthesis. The idea behind this notation was suggested to me by
 Bhiksha Raj. He noted that a notation similar to Bachus Naur Form would be
 sufficient to represent these graph structures.
 
-```ruby
-  a | b  # Filter a and b in parallel
-  new_filter = a & b & (c|d) & (e|f) & g # Creates the following graph:
-```
+    a | b  # Filter a and b in parallel
+    new_filter = a & b & (c|d) & (e|f) & g # Creates the following graph:
 
-#                                        +-+   +-+
-#                                     ---|c|---|e|---
-#                                    /   +-+   +-+   \
-#                                   |                 |
-#                       +-+        +-+                v               +-+
-#    new_filter = ----->|a|------->|b|------------------------------->|g|
-#                       +-+        +-+                ^               +-+
-#                                   |                 |
-#                                    \   +-+   +-+    /
-#                                     ---|d|---|f|----
+                                        +-+   +-+
+                                     ---|c|---|e|---
+                                    /   +-+   +-+   \
+                                   |                 |
+                       +-+        +-+                v               +-+
+    new_filter = ----->|a|------->|b|------------------------------->|g|
+                       +-+        +-+                ^               +-+
+                                   |                 |
+                                    \   +-+   +-+    /
+                                     ---|d|---|f|----
 
 We can then use the new filter like this:
 
-```ruby
-  data_out = new_filter << data_in 
-```
+    data_out = new_filter << data_in 
 
 Or alternatively,
 
-```ruby
-  data >>= new_filter
-```
+    data >>= new_filter
 
 Even if you initially need just a simple chain for a particular program you
 might find your needs change. Consider the following example. I once built a
@@ -161,14 +147,12 @@ complete segment. So it may return nil. In that case there is no point in
 passing nil to the next processor. It’s convenient to have general purpose flow
 control to return to the top of the loop.
 
-```ruby
-  pcm.each_slice 1230 do |data|
-  data >>= preemphasizer
-  data >>= segmenter
-  next unless data
-  data >>= hamming_windower
-  ...
-```
+    pcm.each_slice 1230 do |data|
+    data >>= preemphasizer
+    data >>= segmenter
+    next unless data
+    data >>= hamming_windower
+    ...
 
 I once implemented a library similar to Noyes using an external DSL. It was
 almost as expressive as this one, but it had the limitation that I had to stuff
