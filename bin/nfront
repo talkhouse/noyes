@@ -7,7 +7,7 @@ $: << "#{ROOT}/lib" << "#{ROOT}/ship"
 require 'trollop'
 
 options = Trollop::options do
-  version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010 Talkhouse"
+  version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010-2012 Talkhouse"
   banner 'Usage: nfront [options] file1 file2 ...'
   opt :implementation, "ruby, c, or java", :default => 'ruby'
   opt :address, "address", :default => 'localhost'

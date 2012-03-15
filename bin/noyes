@@ -9,7 +9,7 @@ require 'noyes_c'
 include NoyesC
 
 options = Trollop::options do
-  version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010 Talkhouse"
+  version "Noyes #{IO.read(VERSION_FILE).strip} (c) 2010-2012 Talkhouse"
   banner <<DOC'Usage: noyes [options] file1 file2 ...'
 Converts files from audio to raw features.  Supports format that your
 version of SOX supports.
