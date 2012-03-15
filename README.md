@@ -68,11 +68,13 @@ Not only is this simple and concise, but it ends up being very readable, since
 the different filters will line up perfectly to form a neat table, and there is
 plenty of space for descriptive names.
 
+```ruby
   data >>= hamming_windower
   data >>= power_spectrum_filter
   data >>= mel_filter
   data >>= log_compressor
   data >>= discrete_cosine_transform
+```
 
 Signal processing applications, in the general case, aren’t necessarily a
 simple chain of routines. In general, they’re a directed graph of routines.
